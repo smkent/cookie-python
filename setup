@@ -1,0 +1,11 @@
+#!/bin/sh
+cd "$(dirname "${0}")"
+set -ex
+export PIPENV_VENV_IN_PROJECT=1
+if [ "${#}" -eq 0 ] && [ ! -d ".venv" ]; then
+    pipenv --three
+fi
+pipenv "${@-install}"
+if [ "${1-install}" = "install" ]; then
+    .venv/bin/python setup.py develop --script-dir=bin/
+fi
