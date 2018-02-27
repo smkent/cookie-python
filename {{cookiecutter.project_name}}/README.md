@@ -6,7 +6,7 @@
 make
 ```
 
-## Test code style
+## Run unit tests and test code style
 ```sh
 make test
 ```

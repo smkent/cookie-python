@@ -9,4 +9,5 @@ install:
 .PHONY: test
 test:
 	$(PIPENV) install --dev
+	$(VENV)/bin/pytest
 	$(VENV)/bin/flake8 --exclude='./.*' -- .
