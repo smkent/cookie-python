@@ -7,6 +7,5 @@ url = "https://pypi.python.org/simple"
 
 [dev-packages]
 flake8 = "*"
-mock = "*"
 pytest = "*"
 pytest-cov = "*"
