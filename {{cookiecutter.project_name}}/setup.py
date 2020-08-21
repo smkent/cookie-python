@@ -7,7 +7,7 @@ setup(
     install_requires=[],
     entry_points={
         'console_scripts': [
-            '{{cookiecutter.project_name}} = {{cookiecutter.project_slug}}.main:main'
+            '{{cookiecutter.project_name}} = {{cookiecutter.project_slug}}.main:main',
         ]
     },
 )
