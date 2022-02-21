@@ -1,2 +1,2 @@
-def main():
-    print('Main executable')
+def main() -> None:
+    print("Main executable")
