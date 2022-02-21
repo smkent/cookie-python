@@ -1,12 +1,11 @@
 PIPENV=./pipenv
 BLACK_ARGS=-l 79
 VENV=.venv
-PYTHON_VERSION=$(shell python3 --version 2>&1 | grep -oe '[0-9]\+\.[0-9]\+')
 SOURCE_DIRS=tests/ {{cookiecutter.project_slug}}/
 
 .PHONY: install
 install:
-	$(PIPENV) install --python $(PYTHON_VERSION)
+	$(PIPENV) install
 	$(VENV)/bin/python setup.py develop --script-dir=bin/
 
 .PHONY: lock
@@ -19,7 +18,7 @@ update:
 
 .PHONY: testdeps
 testdeps:
-	$(PIPENV) install --python $(PYTHON_VERSION) --dev
+	$(PIPENV) install --dev
 
 .PHONY: test-full
 test-full: testdeps test
