@@ -1,7 +1,7 @@
 PIPENV=./pipenv
 BLACK_ARGS=-l 79
 VENV=.venv
-PYTHON_VERSION=$(shell python --version 2>&1 | grep -oe '[0-9]\+\.[0-9]\+')
+PYTHON_VERSION=$(shell python3 --version 2>&1 | grep -oe '[0-9]\+\.[0-9]\+')
 SOURCE_DIRS=tests/ {{cookiecutter.project_slug}}/
 
 .PHONY: install
@@ -19,7 +19,7 @@ update:
 
 .PHONY: testdeps
 testdeps:
-	$(PIPENV) install --dev
+	$(PIPENV) install --python $(PYTHON_VERSION) --dev
 
 .PHONY: test-full
 test-full: testdeps test
