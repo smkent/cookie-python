@@ -1,0 +1,32 @@
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "{{ cookiecutter.project_name }}"
+version = "0.0.0"
+description = ""
+authors = ["{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+flake8 = "*"
+isort = "*"
+mypy = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-sugar = "*"
+tox = "*"
+
+[tool.poetry.scripts]
+{{ cookiecutter.project_name }} = "{{ cookiecutter.project_slug }}.main:main"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+
+# vim: ft=cfg
