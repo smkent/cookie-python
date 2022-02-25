@@ -4,7 +4,14 @@ import subprocess
 for call in (
     ["git", "init", "."],
     ["git", "add", "."],
-    ["git", "commit", "-m", "Create {{ cookiecutter.project_name }}"],
+    [
+        "git",
+        "commit",
+        "--author",
+        "{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>",
+        "-m",
+        "Create {{ cookiecutter.project_name }}",
+    ],
 ):
     subprocess.check_call(call)
 
