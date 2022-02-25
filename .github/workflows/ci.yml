@@ -25,12 +25,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: 🐍 Install Poetry
+      - name: ✨ Install Poetry
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: ${{ matrix.poetry-version }}
 
-      - name: 🛠 Build
+      - name: 🐍 Install dependencies
         run: poetry install
 
       - name: 🔥 Test
