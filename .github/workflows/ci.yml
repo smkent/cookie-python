@@ -40,7 +40,7 @@ jobs:
         if: env.ENABLE_PYPI_PUBLISH
         run: poetry build
 
-      - name: Try other emojis ☢  🔼 📊 
+      - name: Try other emojis ☢️  🔼 📊 
         run: echo test
 
 concurrency:
