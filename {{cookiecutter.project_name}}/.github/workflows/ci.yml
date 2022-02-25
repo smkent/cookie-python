@@ -47,7 +47,7 @@ jobs:
 
       - name: 📦 Build package
         if: env.ENABLE_PYPI_PUBLISH
-        run: make dist
+        run: poetry build
 
       - name: 🔼 Publish to Test PyPI
         uses: pypa/gh-action-pypi-publish@master
