@@ -6,7 +6,13 @@ import yaml
 
 
 def test_bake_project(cookies: Any) -> None:
-    result = cookies.bake(extra_context=dict(project_name="test-baked-cookie"))
+    result = cookies.bake(
+        extra_context=dict(
+            author_name="Ness",
+            author_email="pk-fire@onett.example.com",
+            project_name="test-baked-cookie",
+        )
+    )
 
     assert result.exit_code == 0
     assert not result.exception
@@ -36,7 +42,10 @@ def test_bake_project(cookies: Any) -> None:
     )
     assert data["jobs"]["build-test-publish"]["env"]["ENABLE_COVERAGE"] is True
 
+    # Install rendered project
+    subprocess.check_call(["poetry", "install"], cwd=result.project_path)
+
     # Run rendered project's tests
     subprocess.check_call(
-        ["make", "update", "all", "dist"], cwd=result.project_path
+        ["poetry", "run", "poe", "test"], cwd=result.project_path
     )

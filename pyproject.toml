@@ -13,11 +13,12 @@ python = "^3.8"
 poetry-dynamic-versioning = "^0.13.1"
 
 [tool.poetry.dev-dependencies]
-build = "*"
 black = "*"
+build = "*"
 flake8 = "*"
 isort = "*"
 mypy = "*"
+poethepoet = "^0.12.3"
 pytest = "*"
 pytest-cookies = "*"
 pytest-cov = "*"
@@ -30,6 +31,18 @@ types-PyYAML = "*"
 enable = true
 vcs = "git"
 style = "semver"
+
+[tool.poe.tasks]
+lint = ["isort_lint", "black_lint"]
+black_lint = { cmd = "black -l 79 -- tests/ hooks/" }
+isort_lint = { cmd = "isort -- tests/ hooks/" }
+
+test = ["flake8", "isort", "black", "mypy", "pytest"]
+black = { cmd = "black -l 79 --check --diff --color -- tests/ hooks/" }
+isort = { cmd = "isort --check-only -- tests/ hooks/" }
+flake8 = { cmd = "flake8" }
+mypy = { cmd = "mypy" }
+pytest = { cmd = "pytest" }
 
 [tool.isort]
 atomic = true
@@ -46,6 +59,7 @@ show_error_codes = true
 warn_unused_ignores = true
 
 [tool.pytest.ini_options]
+testpaths = ["tests"]
 
 [tool.tox]
 legacy_tox_ini = """

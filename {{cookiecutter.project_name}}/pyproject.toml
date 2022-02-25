@@ -16,6 +16,7 @@ black = "*"
 flake8 = "*"
 isort = "*"
 mypy = "*"
+poethepoet = "^0.12.3"
 pytest = "*"
 pytest-cov = "*"
 pytest-sugar = "*"
@@ -28,6 +29,18 @@ tox = "*"
 enable = true
 vcs = "git"
 style = "semver"
+
+[tool.poe.tasks]
+lint = ["isort_lint", "black_lint"]
+black_lint = { cmd = "black -l 79 -- tests/ {{ cookiecutter.project_slug }}/" }
+isort_lint = { cmd = "isort -- tests/ {{ cookiecutter.project_slug }}/" }
+
+test = ["flake8", "isort", "black", "mypy", "pytest"]
+black = { cmd = "black -l 79 --check --diff --color -- tests/ {{ cookiecutter.project_slug }}/" }
+isort = { cmd = "isort --check-only -- tests/ {{ cookiecutter.project_slug }}/" }
+flake8 = { cmd = "flake8" }
+mypy = { cmd = "mypy" }
+pytest = { cmd = "pytest" }
 
 [tool.isort]
 atomic = true
