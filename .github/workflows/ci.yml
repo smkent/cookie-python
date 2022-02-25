@@ -36,6 +36,10 @@ jobs:
       - name: 🔥 Test
         run: poetry run tox
 
+      - name: 📦 Build package
+        if: env.ENABLE_PYPI_PUBLISH
+        run: poetry build
+
 concurrency:
   group: ci-tests-${{ github.ref }}-1
   cancel-in-progress: true
