@@ -43,6 +43,9 @@ warn_return_any = true
 show_error_codes = true
 warn_unused_ignores = true
 
+[tool.pytest.ini_options]
+addopts = "--cov"
+
 [tool.tox]
 legacy_tox_ini = """
 [tox]
