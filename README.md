@@ -9,17 +9,20 @@ A template for new Python projects, with:
 * flake8
 * GitHub Actions support
 
-## Create a new project from template
+## Usage
+
+Create a new project from template:
 
 ```
 pip install cookiecutter
 cookiecutter https://github.com/smkent/cookie-python
 ```
 
-## Test template rendering and run rendered project tests
-```sh
-make
-make test
-```
+## Development
+
+* Setup: `make`
+* Test template rendering and run rendered project tests: `make test`
+* Update or install new dependencies: `make update`
+* Fix linting errors: `make lint`
 
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter

@@ -1,12 +1,8 @@
 # {{cookiecutter.project_name}}
 
-## Repository setup
+## Development
 
-```sh
-make
-```
-
-## Run unit tests and test code style
-```sh
-make test
-```
+* Setup: `make`
+* Test: `make test`
+* Update or install new dependencies: `make update`
+* Fix linting errors: `make lint`
