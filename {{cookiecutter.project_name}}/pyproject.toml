@@ -67,20 +67,10 @@ isolated_build = True
 
 [testenv]
 deps =
-    black
-    flake8
-    isort
-    mypy
-    pytest
-    pytest-cov
-    pytest-sugar
+    poetry
 commands =
-    flake8 -- .
-    isort --quiet --check-only -- tests/ {{ cookiecutter.project_slug }}/
-    black -l 79 -q --check --diff --color -- tests/ {{ cookiecutter.project_slug }}/
-    mypy
-    pytest
-allowlist_externals = python
+    poetry install
+    poetry run poe test
 
 [gh-actions]
 python =

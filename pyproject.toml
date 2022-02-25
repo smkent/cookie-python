@@ -3,10 +3,13 @@ requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "cookie_python"
+name = "cookie-python"
 version = "0.0.1"
 description = ""
 authors = ["Stephen Kent <smkent@smkent.net>"]
+packages = [
+    { include = "{{cookiecutter.project_name}}" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -69,20 +72,10 @@ isolated_build = True
 
 [testenv]
 deps =
-    black
-    flake8
-    isort
-    mypy
-    pytest
-    pytest-cov
-    pytest-sugar
+    poetry
 commands =
-    flake8 -- .
-    isort --quiet --check-only -- tests/ hooks/
-    black -l 79 -q --check --diff --color -- tests/ hooks/
-    mypy
-    pytest
-allowlist_externals = python
+    poetry install
+    poetry run poe test
 
 [gh-actions]
 python =

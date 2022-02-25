@@ -37,7 +37,7 @@ jobs:
         run: poetry install
 
       - name: 🔥 Test
-        run: poetry run poe test
+        run: poetry run tox
 
       - name: 📊 Upload coverage to Codecov
         uses: codecov/codecov-action@v2
