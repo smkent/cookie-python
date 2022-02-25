@@ -11,6 +11,9 @@ def test_bake_project(cookies: Any) -> None:
             author_name="Ness",
             author_email="pk-fire@onett.example.com",
             project_name="test-baked-cookie",
+            project_description=(
+                'This is a test project called "test-baked-cookie"'
+            ),
         )
     )
 

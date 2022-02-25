@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "{{ cookiecutter.project_name }}"
 version = "0.0.0"
-description = ""
+description = "{{ cookiecutter.project_description|replace('"', '\\\"') }}"
 license = "GPL-3.0-or-later"
 authors = ["{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>"]
 readme = "README.md"
