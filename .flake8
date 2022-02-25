@@ -1,0 +1,4 @@
+[flake8]
+exclude = ./.* ./{{cookiecutter.project_name}}
+
+# vim: ft=cfg

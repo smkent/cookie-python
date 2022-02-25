@@ -1,4 +1,6 @@
 {
+    "author_name": "",
+    "author_email": "",
     "project_name": "",
     "project_slug": "{{ cookiecutter.project_name|lower|replace('-', '_') }}",
     "enable_coverage": "yes",

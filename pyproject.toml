@@ -1,0 +1,85 @@
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "cookie-python"
+version = "0.0.1"
+description = ""
+authors = ["Stephen Kent <smkent@smkent.net>"]
+packages = [
+    { include = "{{cookiecutter.project_name}}" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+poetry-dynamic-versioning = "^0.13.1"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+build = "*"
+flake8 = "*"
+isort = "*"
+mypy = "*"
+poethepoet = "^0.12.3"
+pytest = "*"
+pytest-cookies = "*"
+pytest-cov = "*"
+pytest-sugar = "*"
+pyyaml = "*"
+tox = "*"
+types-PyYAML = "*"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+
+[tool.poe.tasks]
+lint = ["isort_lint", "black_lint"]
+black_lint = { cmd = "black -l 79 -- tests/ hooks/" }
+isort_lint = { cmd = "isort -- tests/ hooks/" }
+
+test = ["flake8", "isort", "black", "mypy", "pytest"]
+black = { cmd = "black -l 79 --check --diff --color -- tests/ hooks/" }
+isort = { cmd = "isort --check-only -- tests/ hooks/" }
+flake8 = { cmd = "flake8" }
+mypy = { cmd = "mypy" }
+pytest = { cmd = "pytest" }
+
+[tool.isort]
+atomic = true
+profile = "black"
+line_length = 79
+
+[tool.mypy]
+files = ["tests"]
+disallow_untyped_defs = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+show_error_codes = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py38
+isolated_build = True
+
+[testenv]
+deps =
+    poetry
+commands =
+    poetry install
+    poetry run poe test
+
+[gh-actions]
+python =
+    3.8: py38
+"""
+
+# vim: ft=cfg
