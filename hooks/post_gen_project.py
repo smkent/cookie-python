@@ -1,19 +1,27 @@
+import os
 import subprocess
 
 # Create empty git repository and add generated files
+environ = os.environ.copy()
+environ.update(
+    dict(
+        GIT_AUTHOR_NAME="{{ cookiecutter.author_name }}",
+        GIT_AUTHOR_EMAIL="{{ cookiecutter.author_email }}",
+        GIT_COMMITTER_NAME="{{ cookiecutter.author_name }}",
+        GIT_COMMITTER_EMAIL="{{ cookiecutter.author_email }}",
+    )
+)
 for call in (
     ["git", "init", "."],
     ["git", "add", "."],
     [
         "git",
         "commit",
-        "--author",
-        "{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>",
         "-m",
         "Create {{ cookiecutter.project_name }}",
     ],
 ):
-    subprocess.check_call(call)
+    subprocess.run(call, env=environ).check_returncode()
 
 print(
     """
