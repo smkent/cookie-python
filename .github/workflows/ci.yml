@@ -3,7 +3,6 @@ name: CI
 
 on:
   push:
-  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -37,7 +36,6 @@ jobs:
         run: poetry run tox
 
       - name: 📦 Build package
-        if: env.ENABLE_PYPI_PUBLISH
         run: poetry build
 
 concurrency:
