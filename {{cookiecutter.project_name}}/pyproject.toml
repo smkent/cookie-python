@@ -10,6 +10,7 @@ license = "GPL-3.0-or-later"
 authors = ["{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>"]
 readme = "README.md"
 classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]

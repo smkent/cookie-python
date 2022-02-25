@@ -10,6 +10,7 @@ license = "GPL-3.0-or-later"
 authors = ["Stephen Kent <smkent@smkent.net>"]
 readme = "README.md"
 classifiers = [
+    "Development Status :: 3 - Alpha",
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Code Generators",
     "Topic :: Software Development :: Libraries :: Python Modules",
