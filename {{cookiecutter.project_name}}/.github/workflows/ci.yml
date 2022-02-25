@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENABLE_PYPI_PUBLISH: {{ "true" if cookiecutter.enable_pypi_publish|lower == "yes" else "false" }}
+      ENABLE_TEST_PYPI_PUBLISH: {{ "true" if cookiecutter.enable_pypi_publish|lower == "yes" else "false" }}
       ENABLE_COVERAGE: {{ "true" if cookiecutter.enable_coverage|lower == "yes" else "false" }}
 
     strategy:
@@ -46,7 +47,7 @@ jobs:
 
       - name: 🔼 Publish to Test PyPI
         uses: pypa/gh-action-pypi-publish@master
-        if: env.ENABLE_PYPI_PUBLISH
+        if: env.ENABLE_TEST_PYPI_PUBLISH
         with:
           password: ${{ "{{" }} secrets.TEST_PYPI_API_TOKEN }}
           repository_url: https://test.pypi.org/legacy/

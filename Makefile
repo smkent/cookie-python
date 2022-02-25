@@ -1,6 +1,6 @@
 PIPENV=./pipenv
 BLACK_ARGS=-l 79
-SOURCE_DIRS=tests/
+SOURCE_DIRS=tests/ hooks/
 
 .PHONY: all
 all: rm sync
