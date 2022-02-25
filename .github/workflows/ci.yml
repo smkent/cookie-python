@@ -36,7 +36,6 @@ jobs:
         run: poetry run tox
 
       - name: 📦 Build package
-        if: env.ENABLE_PYPI_PUBLISH
         run: poetry build
 
 concurrency:
