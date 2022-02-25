@@ -1,3 +1,7 @@
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "cookie_python"
 version = "0.0.1"
@@ -6,7 +10,7 @@ authors = ["Stephen Kent <smkent@smkent.net>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-setuptools_scm = "*"
+poetry-dynamic-versioning = "^0.13.1"
 
 [tool.poetry.dev-dependencies]
 build = "*"
@@ -14,19 +18,13 @@ black = "*"
 flake8 = "*"
 isort = "*"
 mypy = "*"
-pipenv-setup = "*"
 pytest = "*"
 pytest-cookies = "*"
 pytest-cov = "*"
 pytest-sugar = "*"
 pyyaml = "*"
 tox = "*"
-tox-pipenv = "*"
 types-PyYAML = "*"
-
-[build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
-build-backend = "poetry.core.masonry.api"
 
 [tool.poetry-dynamic-versioning]
 enable = true
