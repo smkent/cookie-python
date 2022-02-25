@@ -19,6 +19,7 @@ cookiecutter https://github.com/smkent/cookie-python
 ## Test template rendering and run rendered project tests
 ```sh
 make
+make test
 ```
 
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
