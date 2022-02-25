@@ -10,6 +10,9 @@ jobs:
   build-test-publish:
     name: "Python ${{ "{{" }} matrix.python-version }}"
     runs-on: ubuntu-latest
+    env:
+      ENABLE_PYPI_PUBLISH: {{ "true" if cookiecutter.enable_pypi_publish|lower == "yes" else "false" }}
+      ENABLE_COVERAGE: {{ "true" if cookiecutter.enable_coverage|lower == "yes" else "false" }}
 
     strategy:
       matrix:
@@ -33,24 +36,30 @@ jobs:
 
       - name: 📊 Upload coverage to Codecov
         uses: codecov/codecov-action@v2
+        if: env.ENABLE_COVERAGE
         with:
           fail_ci_if_error: true
 
       - name: 📦 Build package
+        if: env.ENABLE_PYPI_PUBLISH
         run: make dist
 
-      # - name: 🔼 Upload to Test PyPI
-      #   uses: pypa/gh-action-pypi-publish@master
-      #   with:
-      #     password: ${{ "{{" }} secrets.TEST_PYPI_API_TOKEN }}
-      #     repository_url: https://test.pypi.org/legacy/
-      #     skip_existing: true
+      - name: 🔼 Publish to Test PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        if: env.ENABLE_PYPI_PUBLISH
+        with:
+          password: ${{ "{{" }} secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
+          skip_existing: true
 
-      # - name: ☢ Upload to PyPI
-      #   if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-      #   uses: pypa/gh-action-pypi-publish@master
-      #   with:
-      #     password: ${{ "{{" }} secrets.PYPI_API_TOKEN }}
+      - name: ☢ Publish to PyPI
+        if: |
+          env.ENABLE_PYPI_PUBLISH &&
+          github.event_name == 'push' &&
+          startsWith(github.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ "{{" }} secrets.PYPI_API_TOKEN }}
 
 concurrency:
   group: ci-tests-${{ "{{" }} github.ref }}-1
