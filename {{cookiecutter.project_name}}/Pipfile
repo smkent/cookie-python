@@ -4,12 +4,17 @@ name = "pypi"
 url = "https://pypi.python.org/simple"
 
 [packages]
+setuptools_scm = "*"
 
 [dev-packages]
+build = "*"
 black = "*"
 flake8 = "*"
 isort = "*"
 mypy = "*"
+pipenv-setup = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-sugar = "*"
+tox = "*"
+tox-pipenv = "*"
