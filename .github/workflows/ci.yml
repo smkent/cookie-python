@@ -40,9 +40,6 @@ jobs:
         if: env.ENABLE_PYPI_PUBLISH
         run: poetry build
 
-      - name: Try other emojis ☢️  🔼 📊 
-        run: echo test
-
 concurrency:
   group: ci-tests-${{ github.ref }}-1
   cancel-in-progress: true
