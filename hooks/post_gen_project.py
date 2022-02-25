@@ -1,5 +1,11 @@
 import os
+import shutil
 import subprocess
+
+TEMPLATE_ONLY_DATA = "cookiecutter_template_data"
+
+# Remove template-only data files
+shutil.rmtree(os.path.join(os.getcwd(), TEMPLATE_ONLY_DATA))
 
 # Create empty git repository and add generated files
 environ = os.environ.copy()
