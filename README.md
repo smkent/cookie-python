@@ -8,6 +8,7 @@ A template for new Python projects, with:
 * black
 * flake8
 * GitHub Actions support
+* Coverage reports with codecov.io
 
 ## Usage
 
