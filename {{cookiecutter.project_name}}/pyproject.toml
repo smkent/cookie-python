@@ -54,7 +54,7 @@ pytest = { cmd = "pytest" }
 source = ["jmapc"]
 
 [tool.coverage.report]
-fail_under = 95
+fail_under = 0
 show_missing = true
 
 [tool.isort]
