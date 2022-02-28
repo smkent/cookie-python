@@ -30,7 +30,6 @@ pytest-sugar = "*"
 tox = "*"
 
 [tool.poetry.scripts]
-{{ cookiecutter.project_name }} = "{{ cookiecutter.project_slug }}.main:main"
 
 [tool.poetry-dynamic-versioning]
 enable = true
@@ -50,6 +49,13 @@ isort = { cmd = "isort --check-only -- tests/ {{ cookiecutter.project_slug }}/" 
 flake8 = { cmd = "flake8" }
 mypy = { cmd = "mypy" }
 pytest = { cmd = "pytest" }
+
+[tool.coverage.run]
+source = ["jmapc"]
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
 
 [tool.isort]
 atomic = true
