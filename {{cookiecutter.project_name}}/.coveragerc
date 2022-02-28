@@ -1,6 +1,0 @@
-[coverage:run]
-source = {{cookiecutter.project_slug}}
-
-[report]
-fail_under = 90
-show_missing = True
