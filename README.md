@@ -1,6 +1,6 @@
 # [Cookiecutter][cookiecutter] template for new Python projects
 
-[![coookie-python][logo]](#)
+[![cookie-python][logo]](#)
 
 A template for new Python projects, with:
 
@@ -28,6 +28,8 @@ Prerequisites: [Poetry][poetry]
 * Setup: `poetry install`
 * Test template rendering and run rendered project tests: `poetry run poe test`
 * Fix linting errors: `poetry run poe lint`
+* Update test expected output files from test results:
+  `poetry run poe updatetests`
 
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 [logo]: https://raw.github.com/smkent/cookie-python/master/img/cookie-python.png

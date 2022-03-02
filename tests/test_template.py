@@ -6,6 +6,8 @@ from typing import Any, Dict
 import pytest
 import yaml
 
+from .readme_utils import ReadmeCases
+
 TEMPLATE_ONLY_DATA = "cookiecutter_template_data"
 
 
@@ -95,6 +97,7 @@ def test_rendered_project(cookies: Any) -> None:
             project_description=(
                 'This is a test project called "test-baked-cookie"'
             ),
+            github_user="ness",
         ),
     )
 
@@ -123,3 +126,35 @@ def test_rendered_project(cookies: Any) -> None:
     subprocess.check_call(
         ["poetry", "run", "poe", "test"], cwd=result.project_path
     )
+
+
+@pytest.mark.parametrize(**ReadmeCases.all_cases().__dict__)
+def test_rendered_readme(
+    cookies: Any,
+    github_user: str,
+    enable_coverage: bool,
+    enable_pypi_publish: bool,
+    expected_content_file: str,
+    opt_update_expected_outputs: bool,
+) -> None:
+    result = _bake(
+        cookies,
+        extra_context=dict(
+            author_name="Ness",
+            author_email="pk-fire@onett.example.com",
+            project_name="test-baked-cookie",
+            project_description=(
+                'This is a test project called "test-baked-cookie"'
+            ),
+            github_user=github_user,
+            enable_coverage=("yes" if enable_coverage else "no"),
+            enable_pypi_publish=("yes" if enable_pypi_publish else "no"),
+        ),
+    )
+
+    readme = open(os.path.join(result.project_path, "README.md"), "r").read()
+    if opt_update_expected_outputs:
+        with open(expected_content_file, "w") as f:
+            f.write(readme)
+
+    assert readme == open(expected_content_file, "r").read()
