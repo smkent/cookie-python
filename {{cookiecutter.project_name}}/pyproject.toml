@@ -8,7 +8,8 @@ version = "0.0.0"
 description = "{{ cookiecutter.project_description|replace('"', '\\\"') }}"
 license = "GPL-3.0-or-later"
 authors = ["{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>"]
-readme = "README.md"
+readme = "README.md"{% if cookiecutter.github_user %}
+repository = "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name }}"{% endif %}
 classifiers = [
     "Development Status :: 1 - Planning",
     "Operating System :: OS Independent",

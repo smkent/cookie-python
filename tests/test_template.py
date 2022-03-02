@@ -97,6 +97,7 @@ def test_rendered_project(cookies: Any) -> None:
             project_description=(
                 'This is a test project called "test-baked-cookie"'
             ),
+            github_user="ness",
         ),
     )
 
