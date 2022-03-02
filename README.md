@@ -1,6 +1,6 @@
 # [Cookiecutter][cookiecutter] template for new Python projects
 
-[![coookie-python][logo]](#)
+[![cookie-python][logo]](#)
 
 A template for new Python projects, with:
 
