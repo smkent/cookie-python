@@ -1,5 +1,7 @@
 # [Cookiecutter][cookiecutter] template for new Python projects
 
+[![coookie-python][logo]](#)
+
 A template for new Python projects, with:
 
 * poetry
@@ -28,4 +30,5 @@ Prerequisites: [Poetry][poetry]
 * Fix linting errors: `poetry run poe lint`
 
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
+[logo]: https://raw.github.com/smkent/cookie-python/master/img/cookie-python.png
 [poetry]: https://python-poetry.org/docs/#installation
