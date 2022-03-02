@@ -59,6 +59,8 @@ flake8 = { cmd = "flake8" }
 mypy = { cmd = "mypy" }
 pytest = { cmd = "pytest" }
 
+updatetests = { cmd = "pytest --update-expected-outputs" }
+
 [tool.isort]
 atomic = true
 profile = "black"
