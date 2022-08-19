@@ -27,17 +27,19 @@ jobs:
           - "1.1.14"
 
     steps:
-      - uses: actions/checkout@v3
+      - name: 💾 Check out repository
+        uses: actions/checkout@v3
 
       - name: ✨ Install Poetry
         run: pip install poetry==${{ "{{" }} matrix.poetry-version }}
 
-      - uses: actions/setup-python@v4
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ "{{" }} matrix.python-version }}
           cache: poetry
 
-      - name: 🐍 Install dependencies
+      - name: 🛠️ Install dependencies
         run: |
           pip install poetry-dynamic-versioning
           poetry install
