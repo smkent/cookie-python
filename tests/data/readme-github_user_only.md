@@ -1,6 +1,6 @@
 # test-baked-cookie: This is a test project called "test-baked-cookie"
 
-[![Build](https://img.shields.io/github/checks-status/ness/test-baked-cookie/master?label=build)][gh-actions]
+[![Build](https://img.shields.io/github/checks-status/ness/test-baked-cookie/main?label=build)][gh-actions]
 [![GitHub stars](https://img.shields.io/github/stars/ness/test-baked-cookie?style=social)][repo]
 
 ## Development
@@ -18,6 +18,6 @@ Created from [smkent/cookie-python][cookie-python] using
 
 [cookie-python]: https://github.com/smkent/cookie-python
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
-[gh-actions]: https://github.com/ness/test-baked-cookie/actions?query=branch%3Amaster
+[gh-actions]: https://github.com/ness/test-baked-cookie/actions?query=branch%3Amain
 [poetry]: https://python-poetry.org/docs/#installation
 [repo]: https://github.com/ness/test-baked-cookie

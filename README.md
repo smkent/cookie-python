@@ -1,6 +1,6 @@
 # [Cookiecutter][cookiecutter] template for new Python projects
 
-[![Build](https://img.shields.io/github/checks-status/smkent/cookie-python/master?label=build)][gh-actions]
+[![Build](https://img.shields.io/github/checks-status/smkent/cookie-python/main?label=build)][gh-actions]
 [![GitHub stars](https://img.shields.io/github/stars/smkent/cookie-python?style=social)][repo]
 
 [![cookie-python][logo]](#)
@@ -35,7 +35,7 @@ Prerequisites: [Poetry][poetry]
   `poetry run poe updatetests`
 
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
-[gh-actions]: https://github.com/smkent/cookie-python/actions?query=branch%3Amaster
-[logo]: https://raw.github.com/smkent/cookie-python/master/img/cookie-python.png
+[gh-actions]: https://github.com/smkent/cookie-python/actions?query=branch%3Amain
+[logo]: https://raw.github.com/smkent/cookie-python/main/img/cookie-python.png
 [poetry]: https://python-poetry.org/docs/#installation
 [repo]: https://github.com/smkent/cookie-python
