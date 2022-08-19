@@ -2,7 +2,12 @@
 name: CI
 
 on:
+  pull_request:
   push:
+    branches:
+      - main
+    tags:
+      - '*'
   workflow_dispatch:
 
 jobs:
@@ -15,29 +20,28 @@ jobs:
         python-version:
           - "3.10"
         poetry-version:
-          - "1.1.11"
+          - "1.1.14"
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
+      - name: 💾 Check out repository
+        uses: actions/checkout@v3
 
       - name: ✨ Install Poetry
-        uses: abatilo/actions-poetry@v2.0.0
-        with:
-          poetry-version: ${{ matrix.poetry-version }}
+        run: pip install poetry==${{ matrix.poetry-version }}
 
-      - name: 🐍 Install dependencies
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: poetry
+
+      - name: 🛠️ Install dependencies
         run: |
           pip install poetry-dynamic-versioning
           poetry install
 
       - name: 🔥 Test
-        run: poetry run tox
-
-      - name: 📦 Build package
-        run: poetry build
+        run: poetry run poe test
 
 concurrency:
   group: ci-tests-${{ github.ref }}-1
