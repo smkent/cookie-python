@@ -54,7 +54,7 @@ isort_lint = { cmd = "isort -- tests/ hooks/" }
 
 test = ["flake8", "isort", "black", "mypy", "pytest"]
 black = { cmd = "black -l 79 --check --diff --color -- tests/ hooks/" }
-isort = { cmd = "isort --check-only -- tests/ hooks/" }
+isort = { cmd = "isort --check-only --diff -- tests/ hooks/" }
 flake8 = { cmd = "flake8" }
 mypy = { cmd = "mypy" }
 pytest = { cmd = "pytest" }
