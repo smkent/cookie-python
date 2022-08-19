@@ -39,7 +39,7 @@ jobs:
           poetry install
 
       - name: 🔥 Test
-        run: poetry run tox
+        run: poetry run poe test
 
       - name: 📦 Build package
         run: poetry build
