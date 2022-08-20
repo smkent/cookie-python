@@ -101,23 +101,26 @@ def test_rendered_project(cookies: Any) -> None:
         ),
     )
 
-    # Validate CI configuration
-    data = yaml.safe_load(
+    # Validate CI/CD configuration
+    ci_data = yaml.safe_load(
         open(
             os.path.join(
-                result.project_path,
-                ".github",
-                "workflows",
-                "ci.yml",
+                result.project_path, ".github", "workflows", "ci.yml"
             ),
             "r",
         )
     )
-    assert (
-        data["jobs"]["build-test-publish"]["env"]["ENABLE_PYPI_PUBLISH"]
-        is False
+    cd_data = yaml.safe_load(
+        open(
+            os.path.join(
+                result.project_path, ".github", "workflows", "cd.yml"
+            ),
+            "r",
+        )
     )
-    assert data["jobs"]["build-test-publish"]["env"]["ENABLE_COVERAGE"] is True
+    assert ci_data["env"]["ENABLE_COVERAGE"] is True
+    assert cd_data["env"]["ENABLE_PYPI_PUBLISH"] is False
+    assert cd_data["env"]["ENABLE_TEST_PYPI_PUBLISH"] is False
 
     # Install rendered project
     subprocess.check_call(["poetry", "install"], cwd=result.project_path)
