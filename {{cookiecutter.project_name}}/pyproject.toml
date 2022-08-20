@@ -28,6 +28,7 @@ mypy = "*"
 poethepoet = "^0.12.3"
 pytest = "*"
 pytest-cov = "*"
+pytest-github-actions-annotate-failures = "*"
 pytest-sugar = "*"
 tox = "*"
 
