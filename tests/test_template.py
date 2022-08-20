@@ -87,19 +87,29 @@ def test_project_license(cookies: Any, project_license: str) -> None:
     assert license_data == expected_license_data
 
 
-def test_rendered_project(cookies: Any) -> None:
-    result = _bake(
-        cookies,
-        extra_context=dict(
-            author_name="Ness",
-            author_email="pk-fire@onett.example.com",
-            project_name="test-baked-cookie",
-            project_description=(
-                'This is a test project called "test-baked-cookie"'
-            ),
-            github_user="ness",
+@pytest.mark.parametrize(
+    "enable_coverage", [True, False], ids=["coverage", "no coverage"]
+)
+@pytest.mark.parametrize(
+    "enable_pypi_publish", [True, False], ids=["pypi", "no pypi"]
+)
+def test_rendered_project(
+    cookies: Any, enable_coverage: bool, enable_pypi_publish: bool
+) -> None:
+    extra_context = dict(
+        author_name="Ness",
+        author_email="pk-fire@onett.example.com",
+        project_name="test-baked-cookie",
+        project_description=(
+            'This is a test project called "test-baked-cookie"'
         ),
+        github_user="ness",
     )
+    if not enable_coverage:
+        extra_context["enable_coverage"] = "no"
+    if enable_pypi_publish:
+        extra_context["enable_pypi_publish"] = "yes"
+    result = _bake(cookies, extra_context=extra_context)
 
     # Validate CI/CD configuration
     ci_data = yaml.safe_load(
@@ -118,9 +128,9 @@ def test_rendered_project(cookies: Any) -> None:
             "r",
         )
     )
-    assert ci_data["env"]["ENABLE_COVERAGE"] is True
-    assert cd_data["env"]["ENABLE_PYPI_PUBLISH"] is False
-    assert cd_data["env"]["ENABLE_TEST_PYPI_PUBLISH"] is False
+    assert ci_data["env"]["ENABLE_COVERAGE"] == enable_coverage
+    assert cd_data["env"]["ENABLE_PYPI_PUBLISH"] == enable_pypi_publish
+    assert cd_data["env"]["ENABLE_TEST_PYPI_PUBLISH"] == enable_pypi_publish
 
     # Install rendered project
     subprocess.check_call(["poetry", "install"], cwd=result.project_path)
