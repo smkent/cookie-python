@@ -47,6 +47,12 @@ jobs:
       - name: 🔥 Test
         run: poetry run poe test
 
+      - name: 🚒 Create test summary
+        uses: test-summary/action@v1
+        if: success() || failure()
+        with:
+          paths: tests/pytest.xml
+
       - name: 📊 Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         if: env.ENABLE_COVERAGE

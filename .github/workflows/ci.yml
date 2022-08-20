@@ -43,6 +43,12 @@ jobs:
       - name: 🔥 Test
         run: poetry run poe test
 
+      - name: 🚒 Create test summary
+        uses: test-summary/action@v1
+        if: success() || failure()
+        with:
+          paths: tests/pytest.xml
+
 concurrency:
   group: ci-tests-${{ github.ref }}-1
   cancel-in-progress: true
