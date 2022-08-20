@@ -45,7 +45,7 @@ jobs:
 
       - name: 📊 Upload coverage to Codecov
         uses: codecov/codecov-action@v2
-        if: env.ENABLE_COVERAGE
+        if: ${{ env.ENABLE_COVERAGE == 'true' }}
         with:
           fail_ci_if_error: true
 
