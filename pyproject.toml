@@ -28,6 +28,7 @@ poetry-dynamic-versioning = "^0.13.1"
 [tool.poetry.dev-dependencies]
 black = "*"
 build = "*"
+cruft = "*"
 flake8 = "*"
 isort = "*"
 mypy = "*"
