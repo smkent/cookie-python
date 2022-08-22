@@ -31,10 +31,11 @@ build = "*"
 flake8 = "*"
 isort = "*"
 mypy = "*"
-poethepoet = "^0.12.3"
+poethepoet = "*"
 pytest = "*"
 pytest-cookies = "*"
 pytest-cov = "*"
+pytest-github-actions-annotate-failures = "*"
 pytest-sugar = "*"
 pyyaml = "*"
 tox = "*"
@@ -77,6 +78,7 @@ warn_unused_ignores = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = "--junitxml=tests/pytest.xml"
 
 [tool.tox]
 legacy_tox_ini = """
