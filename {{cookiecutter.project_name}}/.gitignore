@@ -1,7 +1,6 @@
 *.egg-info/
 *.pyc
 .coverage
-.cruft.json
 .pytest_cache/
 .tox/
 .venv/
