@@ -132,6 +132,14 @@ def test_rendered_project(
     assert cd_data["env"]["ENABLE_PYPI_PUBLISH"] == enable_pypi_publish
     assert cd_data["env"]["ENABLE_TEST_PYPI_PUBLISH"] == enable_pypi_publish
 
+    assert not (
+        subprocess.check_output(
+            ["git", "status", "--porcelain=v1"], cwd=result.project_path
+        )
+        .decode("utf-8")
+        .strip()
+    ), "Untracked files present in template-rendered project"
+
     # Install rendered project
     subprocess.check_call(["poetry", "install"], cwd=result.project_path)
 
