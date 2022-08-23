@@ -12,14 +12,23 @@ A template for new Python projects, with:
 * mypy
 * black
 * flake8
+* [cruft][cruft]
 * GitHub Actions support
 * Coverage reports with codecov.io
 
-## Usage
+## New project creation
 
-Create a new project from template:
+### With [cruft][cruft] via script
 
+```python
+pip install poetry
+poetry install
+poetry run new-cookie <path>  # or poetry run cruft create
 ```
+
+### With cookiecutter directly
+
+```python
 pip install cookiecutter
 cookiecutter https://github.com/smkent/cookie-python
 ```
@@ -35,6 +44,7 @@ Prerequisites: [Poetry][poetry]
   `poetry run poe updatetests`
 
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
+[cruft]: https://github.com/cruft/cruft
 [gh-actions]: https://github.com/smkent/cookie-python/actions?query=branch%3Amain
 [logo]: https://raw.github.com/smkent/cookie-python/main/img/cookie-python.png
 [poetry]: https://python-poetry.org/docs/#installation

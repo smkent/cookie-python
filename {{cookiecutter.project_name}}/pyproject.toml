@@ -22,6 +22,7 @@ python = "^3.8"
 
 [tool.poetry.dev-dependencies]
 black = "*"
+cruft = "*"
 flake8 = "*"
 isort = "*"
 mypy = "*"
@@ -59,6 +60,9 @@ source = ["{{ cookiecutter.project_slug }}"]
 [tool.coverage.report]
 fail_under = 0
 show_missing = true
+
+[tool.cruft]
+skip = [".git"]
 
 [tool.isort]
 atomic = true
