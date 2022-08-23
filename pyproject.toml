@@ -42,6 +42,9 @@ pyyaml = "*"
 tox = "*"
 types-PyYAML = "*"
 
+[tool.poetry.scripts]
+new-cookie = "cookie_python.main:main"
+
 [tool.poetry-dynamic-versioning]
 enable = true
 vcs = "git"
@@ -51,17 +54,19 @@ style = "semver"
 lt = ["lint", "test"]
 
 lint = ["isort_lint", "black_lint"]
-black_lint = { cmd = "black -l 79 -- tests/ hooks/" }
-isort_lint = { cmd = "isort -- tests/ hooks/" }
+black_lint = { cmd = "black -l 79 -- cookie_python/ tests/ hooks/" }
+isort_lint = { cmd = "isort -- cookie_python/ tests/ hooks/" }
 
 test = ["flake8", "isort", "black", "mypy", "pytest"]
-black = { cmd = "black -l 79 --check --diff --color -- tests/ hooks/" }
-isort = { cmd = "isort --check-only --diff -- tests/ hooks/" }
+black = { cmd = "black -l 79 --check --diff --color -- cookie_python/ tests/ hooks/" }
+isort = { cmd = "isort --check-only --diff -- cookie_python/ tests/ hooks/" }
 flake8 = { cmd = "flake8" }
 mypy = { cmd = "mypy" }
 pytest = { cmd = "pytest" }
 
 updatetests = { cmd = "pytest --update-expected-outputs" }
+
+create = { cmd = "new-cookie", help = "Create new project from template" }
 
 [tool.isort]
 atomic = true
