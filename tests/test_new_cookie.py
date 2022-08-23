@@ -23,9 +23,18 @@ def test_new_cookie_create(temp_dir: str) -> None:
         "--local",
         temp_dir,
         "--",
+        "-d",
         "-y",
         "--extra-context",
-        json.dumps({"project_name": "unit-test-1"}),
+        json.dumps(
+            {
+                "author_email": "ness@onett.example",
+                "author_name": "Ness",
+                "github_user": "ness.unittest.example",
+                "project_description": "Unit test project",
+                "project_name": "unit-test-1",
+            }
+        ),
     ]
     with mock.patch.object(sys, "argv", testargs):
         main()
