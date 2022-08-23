@@ -62,6 +62,32 @@ def locate_new_project(parent_dir: str) -> str:
     raise Exception("Unable to locate newly-created project directory")
 
 
+def commit_cruft_json(project_dir: str) -> None:
+    new_project_dir = locate_new_project(project_dir)
+    subprocess.check_call(["git", "add", ".cruft.json"], cwd=new_project_dir)
+    author_name, author_email = (
+        subprocess.check_output(
+            ["git", "log", "-n", "1", "--pretty=%an|%ae"], cwd=new_project_dir
+        )
+        .decode("utf-8")
+        .split("|", 1)
+    )
+    environ = os.environ.copy()
+    environ.update(
+        dict(
+            GIT_AUTHOR_NAME=author_name,
+            GIT_AUTHOR_EMAIL=author_email,
+            GIT_COMMITTER_NAME=author_name,
+            GIT_COMMITTER_EMAIL=author_email,
+        )
+    )
+    subprocess.check_call(
+        ["git", "commit", "--amend", "--no-edit"],
+        cwd=new_project_dir,
+        env=environ,
+    )
+
+
 def main() -> None:
     args, more_args = parse_args()
     template_path = (
@@ -74,9 +100,4 @@ def main() -> None:
         + more_args
         + [template_path]
     )
-    new_project_dir = locate_new_project(args.project_dir)
-    print(new_project_dir)
-    subprocess.check_call(["git", "add", ".cruft.json"], cwd=new_project_dir)
-    subprocess.check_call(
-        ["git", "commit", "--amend", "--no-edit"], cwd=new_project_dir
-    )
+    commit_cruft_json(args.project_dir)
