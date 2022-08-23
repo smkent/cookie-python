@@ -18,7 +18,7 @@ A template for new Python projects, with:
 
 ## New project creation
 
-### With cruft-managed helper
+### With [cruft][cruft] via script
 
 ```python
 pip install poetry
