@@ -11,7 +11,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: ✨ Install poetry
+    - name: ✨ Install Poetry
       shell: bash
       run: |
         pip install \
