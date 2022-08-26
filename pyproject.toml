@@ -70,7 +70,7 @@ updatetests = { cmd = "pytest --update-expected-outputs" }
 create = { cmd = "new-cookie", help = "Create new project from template" }
 
 [tool.flake8]
-exclude = "./.*"
+exclude = "./.*,./{{cookiecutter.project_name}}"
 
 [tool.isort]
 atomic = true
