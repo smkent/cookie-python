@@ -87,7 +87,7 @@ addopts = """\
     --cov \
     --cov-append \
     --cov-report term \
-    --cov-report xml:coverage.xml \
+    --cov-report xml:.coverage.xml \
     --junitxml=tests/pytest.xml \
 """
 
