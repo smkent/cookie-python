@@ -24,6 +24,7 @@ python = "^3.8"
 black = "*"
 cruft = "*"
 flake8 = "*"
+flake8-pyproject = "*"
 isort = "*"
 mypy = "*"
 poethepoet = "*"
@@ -63,6 +64,9 @@ show_missing = true
 
 [tool.cruft]
 skip = [".git"]
+
+[tool.flake8]
+exclude = "./.*"
 
 [tool.isort]
 atomic = true
