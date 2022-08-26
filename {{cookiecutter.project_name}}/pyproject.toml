@@ -49,6 +49,26 @@ flake8 = { cmd = "flake8", help = "Check code style with flake8" }
 mypy = { cmd = "mypy", help = "Check types with mypy" }
 pytest = { cmd = "pytest", help = "Run unit tests with pytest" }
 
+[tool.poe.tasks.cookie]
+shell = """
+    set -e
+    git checkout -b update-cookie
+    git reset --hard origin/main
+    before_ref=$(jq -r .commit .cruft.json)
+    cruft update -y
+    after_ref=$(jq -r .commit .cruft.json)
+    poetry lock --no-update
+    git add .cruft.json poetry.lock
+    (
+        echo "Apply updates from upstream project template"
+        echo ""
+        echo "Applied upstream commits:"
+        echo ""
+        echo "https://github.com/smkent/cookie-python/compare/${before_ref}...${after_ref}"
+    ) | git commit -F -
+"""
+help = "Apply upstream project template updates"
+
 [tool.poe.tasks.black]
 cmd = "black -l 79 --check --diff --color -- ${PROJECT_CODE_DIRS}"
 help = "Check code formatting with black"
