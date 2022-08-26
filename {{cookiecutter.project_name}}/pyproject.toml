@@ -41,19 +41,41 @@ enable = true
 vcs = "git"
 style = "semver"
 
+[tool.poe.env]
+PROJECT_CODE_DIRS="{{ cookiecutter.project_slug }}/ tests/"
+
 [tool.poe.tasks]
-lt = ["lint", "test"]
+flake8 = { cmd = "flake8", help = "Check code style with flake8" }
+mypy = { cmd = "mypy", help = "Check types with mypy" }
+pytest = { cmd = "pytest", help = "Run unit tests with pytest" }
 
-lint = ["isort_lint", "black_lint"]
-black_lint = { cmd = "black -l 79 -- tests/ {{ cookiecutter.project_slug }}/" }
-isort_lint = { cmd = "isort -- tests/ {{ cookiecutter.project_slug }}/" }
+[tool.poe.tasks.black]
+cmd = "black -l 79 --check --diff --color -- ${PROJECT_CODE_DIRS}"
+help = "Check code formatting with black"
 
-test = ["flake8", "isort", "black", "mypy", "pytest"]
-black = { cmd = "black -l 79 --check --diff --color -- tests/ {{ cookiecutter.project_slug }}/" }
-isort = { cmd = "isort --check-only --diff -- tests/ {{ cookiecutter.project_slug }}/" }
-flake8 = { cmd = "flake8" }
-mypy = { cmd = "mypy" }
-pytest = { cmd = "pytest" }
+[tool.poe.tasks.black_lint]
+cmd = "black -l 79 -- ${PROJECT_CODE_DIRS}"
+help = "Reformat code with black"
+
+[tool.poe.tasks.isort]
+cmd = "isort --check-only -- ${PROJECT_CODE_DIRS}"
+help = "Check imports order with isort"
+
+[tool.poe.tasks.isort_lint]
+cmd = "isort -- ${PROJECT_CODE_DIRS}"
+help = "Reformat code with black"
+
+[tool.poe.tasks.lt]
+sequence = ["lint", "test"]
+help = "Run all linters and all tests"
+
+[tool.poe.tasks.lint]
+sequence = ["isort_lint", "black_lint"]
+help = "Run linters"
+
+[tool.poe.tasks.test]
+sequence = ["flake8", "isort", "black", "mypy", "pytest"]
+help = "Run all tests"
 
 [tool.coverage.run]
 source = ["{{ cookiecutter.project_slug }}"]
