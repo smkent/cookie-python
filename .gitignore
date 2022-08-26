@@ -3,6 +3,6 @@
 .tox/
 .venv/
 .coverage
-coverage.xml
+.coverage.xml
 dist/
 tests/pytest.xml

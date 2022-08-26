@@ -30,6 +30,7 @@ black = "*"
 build = "*"
 cruft = "*"
 flake8 = "*"
+flake8-pyproject = "*"
 isort = "*"
 mypy = "*"
 poethepoet = "*"
@@ -68,6 +69,9 @@ updatetests = { cmd = "pytest --update-expected-outputs" }
 
 create = { cmd = "new-cookie", help = "Create new project from template" }
 
+[tool.flake8]
+exclude = "./.*,./{{cookiecutter.project_name}}"
+
 [tool.isort]
 atomic = true
 profile = "black"
@@ -75,6 +79,7 @@ line_length = 79
 
 [tool.mypy]
 files = ["tests"]
+mypy_path = "types"
 disallow_untyped_defs = true
 no_implicit_optional = true
 check_untyped_defs = true

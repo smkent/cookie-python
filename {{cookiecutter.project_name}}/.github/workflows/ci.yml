@@ -47,6 +47,7 @@ jobs:
         if: ${{ "{{" }} env.ENABLE_COVERAGE == 'true' }}
         with:
           fail_ci_if_error: true
+          files: ./.coverage.xml
 
 concurrency:
   group: workflow-ci-${{ "{{" }} github.ref }}-1
