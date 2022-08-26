@@ -78,7 +78,7 @@ cmd = "black -l 79 -- ${PROJECT_CODE_DIRS}"
 help = "Reformat code with black"
 
 [tool.poe.tasks.isort]
-cmd = "isort --check-only -- ${PROJECT_CODE_DIRS}"
+cmd = "isort --check-only --diff -- ${PROJECT_CODE_DIRS}"
 help = "Check imports order with isort"
 
 [tool.poe.tasks.isort_lint]
