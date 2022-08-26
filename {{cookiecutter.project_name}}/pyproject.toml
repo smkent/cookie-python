@@ -61,9 +61,9 @@ shell = """
     git add .cruft.json poetry.lock
     (
         echo "Apply updates from upstream project template"
-        echo ""
+        echo
         echo "Applied upstream commits:"
-        echo ""
+        echo
         echo "https://github.com/smkent/cookie-python/compare/${before_ref}...${after_ref}"
     ) | git commit -F -
 """
