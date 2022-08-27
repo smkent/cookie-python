@@ -53,15 +53,17 @@ def test_project_license(cookies: Any, project_license: str) -> None:
 
     print(result.project_path)
     print(os.listdir(result.project_path))
-    license_data = open(os.path.join(result.project_path, "LICENSE")).read()
-    expected_license_data = open(
+    with open(os.path.join(result.project_path, "LICENSE")) as f:
+        license_data = f.read()
+    with open(
         os.path.join(
             "{{cookiecutter.project_name}}",
             TEMPLATE_ONLY_DATA,
             "licenses",
             project_license,
         )
-    ).read()
+    ) as f:
+        expected_license_data = f.read()
 
     if project_license in ("MIT", "BSD-3-Clause"):
         # Compare copyright line separately
@@ -112,22 +114,14 @@ def test_rendered_project(
     result = _bake(cookies, extra_context=extra_context)
 
     # Validate CI/CD configuration
-    ci_data = yaml.safe_load(
-        open(
-            os.path.join(
-                result.project_path, ".github", "workflows", "ci.yml"
-            ),
-            "r",
-        )
-    )
-    cd_data = yaml.safe_load(
-        open(
-            os.path.join(
-                result.project_path, ".github", "workflows", "cd.yml"
-            ),
-            "r",
-        )
-    )
+    with open(
+        os.path.join(result.project_path, ".github", "workflows", "ci.yml")
+    ) as f:
+        ci_data = yaml.safe_load(f.read())
+    with open(
+        os.path.join(result.project_path, ".github", "workflows", "cd.yml")
+    ) as f:
+        cd_data = yaml.safe_load(f.read())
     assert ci_data["env"]["ENABLE_COVERAGE"] == enable_coverage
     assert cd_data["env"]["ENABLE_PYPI_PUBLISH"] == enable_pypi_publish
     assert cd_data["env"]["ENABLE_TEST_PYPI_PUBLISH"] == enable_pypi_publish
@@ -173,9 +167,11 @@ def test_rendered_readme(
         ),
     )
 
-    readme = open(os.path.join(result.project_path, "README.md"), "r").read()
+    with open(os.path.join(result.project_path, "README.md"), "r") as f:
+        readme = f.read()
     if opt_update_expected_outputs:
         with open(expected_content_file, "w") as f:
             f.write(readme)
 
-    assert readme == open(expected_content_file, "r").read()
+    with open(expected_content_file, "r") as f:
+        assert readme == f.read()
