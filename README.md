@@ -7,14 +7,15 @@
 
 A template for new Python projects, with:
 
-* poetry (with [poetry-dynamic-versioning][poetry-dynamic-versioning])
-* pytest
-* mypy
-* black
-* flake8 (with [bugbear][flake8-bugbear] and [pep8-naming][pep8-naming])
+* [poetry][poetry] (with [poetry-dynamic-versioning][poetry-dynamic-versioning])
+* [pytest][pytest]
+* [mypy][mypy]
+* [black][black]
+* [flake8][flake8] (with [bugbear][flake8-bugbear] and
+  [pep8-naming][pep8-naming])
 * [cruft][cruft]
 * GitHub Actions support
-* Coverage reports with codecov.io
+* Coverage reports with [codecov.io][codecov]
 
 ## New project creation
 
@@ -26,7 +27,7 @@ poetry install
 poetry run new-cookie <path>  # or poetry run cruft create
 ```
 
-### With cookiecutter directly
+### With [cookiecutter][cookiecutter] directly
 
 ```python
 pip install cookiecutter
@@ -35,7 +36,7 @@ cookiecutter https://github.com/smkent/cookie-python
 
 ## Development
 
-Prerequisites: [Poetry][poetry]
+Prerequisites: [Poetry][poetry-installation]
 
 * Setup: `poetry install`
 * Test template rendering and run rendered project tests: `poetry run poe test`
@@ -43,12 +44,18 @@ Prerequisites: [Poetry][poetry]
 * Update test expected output files from test results:
   `poetry run poe updatetests`
 
+[black]: https://github.com/psf/black
+[codecov]: https://codecov.io
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 [cruft]: https://github.com/cruft/cruft
+[flake8]: https://github.com/pycqa/flake8
 [flake8-bugbear]: https://github.com/PyCQA/flake8-bugbear
 [gh-actions]: https://github.com/smkent/cookie-python/actions?query=branch%3Amain
 [logo]: https://raw.github.com/smkent/cookie-python/main/img/cookie-python.png
+[mypy]: https://github.com/python/mypy
 [pep8-naming]: https://github.com/PyCQA/pep8-naming
-[poetry]: https://python-poetry.org/docs/#installation
 [poetry-dynamic-versioning]: https://github.com/mtkennerly/poetry-dynamic-versioning
+[poetry-installation]: https://python-poetry.org/docs/#installation
+[poetry]: https://python-poetry.org/
+[pytest]: https://docs.pytest.org
 [repo]: https://github.com/smkent/cookie-python
