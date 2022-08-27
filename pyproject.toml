@@ -26,13 +26,16 @@ python = "^3.8"
 poetry-dynamic-versioning = "^0.13.1"
 
 [tool.poetry.dev-dependencies]
+bandit = "*"
 black = "*"
 build = "*"
 cruft = "*"
 flake8 = "*"
+flake8-bugbear = "*"
 flake8-pyproject = "*"
 isort = "*"
 mypy = "*"
+pep8-naming = "*"
 poethepoet = "*"
 pytest = "*"
 pytest-cookies = "*"
@@ -59,6 +62,10 @@ flake8 = { cmd = "flake8", help = "Check code style with flake8" }
 mypy = { cmd = "mypy", help = "Check types with mypy" }
 pytest = { cmd = "pytest", help = "Run unit tests with pytest" }
 
+[tool.poe.tasks.bandit]
+cmd = "bandit -c pyproject.toml -q -r jmapc/ examples/"
+help = "Perform security analysis with bandit"
+
 [tool.poe.tasks.black]
 cmd = "black -l 79 --check --diff --color -- ${PROJECT_CODE_DIRS}"
 help = "Check code formatting with black"
@@ -84,7 +91,7 @@ sequence = ["isort_lint", "black_lint"]
 help = "Run linters"
 
 [tool.poe.tasks.test]
-sequence = ["flake8", "isort", "black", "mypy", "pytest"]
+sequence = ["flake8", "isort", "black", "mypy", "bandit", "pytest"]
 help = "Run all tests"
 
 [tool.poe.tasks.create]
@@ -94,6 +101,9 @@ help = "Create new project from cookie-python template"
 [tool.poe.tasks.updatetests]
 cmd = "pytest --update-expected-outputs"
 help = "Update test expected output files from test results"
+
+[tool.bandit]
+skips = ["B101"]  # assert_used
 
 [tool.flake8]
 exclude = "./.*,./{{cookiecutter.project_name}}"
