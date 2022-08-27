@@ -13,6 +13,7 @@ A template for new Python projects, with:
 * [black][black]
 * [flake8][flake8] (with [bugbear][flake8-bugbear] and
   [pep8-naming][pep8-naming])
+* [bandit][bandit]
 * [cruft][cruft]
 * GitHub Actions support
 * Coverage reports with [codecov.io][codecov]
@@ -44,6 +45,7 @@ Prerequisites: [Poetry][poetry-installation]
 * Update test expected output files from test results:
   `poetry run poe updatetests`
 
+[bandit]: https://github.com/PyCQA/bandit
 [black]: https://github.com/psf/black
 [codecov]: https://codecov.io
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
