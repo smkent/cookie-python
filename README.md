@@ -11,8 +11,8 @@ A template for new Python projects, with:
 * [pytest][pytest]
 * [mypy][mypy]
 * [black][black]
-* [flake8][flake8] (with [bugbear][flake8-bugbear] and
-  [pep8-naming][pep8-naming])
+* [flake8][flake8] (with [bugbear][flake8-bugbear], [simplify][flake8-simplify],
+  and [pep8-naming][pep8-naming])
 * [bandit][bandit]
 * [cruft][cruft]
 * GitHub Actions support
@@ -52,6 +52,7 @@ Prerequisites: [Poetry][poetry-installation]
 [cruft]: https://github.com/cruft/cruft
 [flake8]: https://github.com/pycqa/flake8
 [flake8-bugbear]: https://github.com/PyCQA/flake8-bugbear
+[flake8-simplify]: https://github.com/MartinThoma/flake8-simplify
 [gh-actions]: https://github.com/smkent/cookie-python/actions?query=branch%3Amain
 [logo]: https://raw.github.com/smkent/cookie-python/main/img/cookie-python.png
 [mypy]: https://github.com/python/mypy
