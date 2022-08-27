@@ -125,7 +125,7 @@ warn_unused_ignores = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--junitxml=tests/pytest.xml"
+addopts = "--junitxml=.pytest_results.xml"
 
 [tool.tox]
 legacy_tox_ini = """
