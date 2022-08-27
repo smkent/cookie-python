@@ -7,7 +7,7 @@
 
 A template for new Python projects, with:
 
-* poetry
+* poetry (with [poetry-dynamic-versioning][poetry-dynamic-versioning])
 * pytest
 * mypy
 * black
@@ -50,4 +50,5 @@ Prerequisites: [Poetry][poetry]
 [logo]: https://raw.github.com/smkent/cookie-python/main/img/cookie-python.png
 [pep8-naming]: https://github.com/PyCQA/pep8-naming
 [poetry]: https://python-poetry.org/docs/#installation
+[poetry-dynamic-versioning]: https://github.com/mtkennerly/poetry-dynamic-versioning
 [repo]: https://github.com/smkent/cookie-python
