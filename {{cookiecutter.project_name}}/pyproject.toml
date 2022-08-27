@@ -58,9 +58,9 @@ shell = """
     set -e
     git checkout -b update-cookie
     git reset --hard origin/main
-    before_ref=$(jq -r .commit .cruft.json)
+    before_ref=$(python -c 'import json; print(json.load(open(".cruft.json"))["commit"])')
     cruft update -y
-    after_ref=$(jq -r .commit .cruft.json)
+    after_ref=$(python -c 'import json; print(json.load(open(".cruft.json"))["commit"])')
     poetry lock --no-update
     git add .cruft.json poetry.lock
     (
