@@ -11,7 +11,7 @@ A template for new Python projects, with:
 * pytest
 * mypy
 * black
-* flake8
+* flake8 (with [bugbear][flake8-bugbear])
 * [cruft][cruft]
 * GitHub Actions support
 * Coverage reports with codecov.io
@@ -45,6 +45,7 @@ Prerequisites: [Poetry][poetry]
 
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 [cruft]: https://github.com/cruft/cruft
+[flake8-bugbear]: https://github.com/PyCQA/flake8-bugbear
 [gh-actions]: https://github.com/smkent/cookie-python/actions?query=branch%3Amain
 [logo]: https://raw.github.com/smkent/cookie-python/main/img/cookie-python.png
 [poetry]: https://python-poetry.org/docs/#installation
