@@ -17,6 +17,7 @@ runs:
         python3 -m pip install \
             poetry==${{ inputs.poetry_version }}.* \
             poetry-dynamic-versioning
+        python3 -m pip install --upgrade requests
 
     - name: 🐍 Set up Python
       uses: actions/setup-python@v4
