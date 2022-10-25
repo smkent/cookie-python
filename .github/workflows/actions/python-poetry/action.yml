@@ -28,5 +28,5 @@ runs:
       shell: bash
       run: |
         poetry install
-            [ "$(poetry version -s)" != "0.0.0" ] \
-                || { echo "Versioning broken"; exit 1; }
+        [ "$(poetry version -s)" != "0.0.0" ] \
+            || { echo "Versioning broken"; exit 1; }
