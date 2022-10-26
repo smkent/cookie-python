@@ -8,9 +8,6 @@ inputs:
     description: "Poetry version to install"
     required: true
 
-env:
-  PYTHON_KEYRING_BACKEND: "keyring.backends.null.Keyring"
-
 runs:
   using: composite
   steps:
