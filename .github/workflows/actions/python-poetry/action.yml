@@ -8,13 +8,14 @@ inputs:
     description: "Poetry version to install"
     required: true
 
+env:
+  PYTHON_KEYRING_BACKEND: "keyring.backends.null.Keyring"
+
 runs:
   using: composite
   steps:
     - name: ✨ Install Poetry
       shell: bash
-      env:
-        PYTHON_KEYRING_BACKEND: "keyring.backends.null.Keyring"
       run: |
         python3 -m pip install \
             "poetry==${{ inputs.poetry_version }}.*" \
