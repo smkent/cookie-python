@@ -26,7 +26,7 @@ python = "^3.8"
 poetry-dynamic-versioning = "^0.13.1"
 
 [tool.poetry.dev-dependencies]
-bandit = "*"
+bandit = {extras = ["toml"], version = "*"}
 black = "*"
 build = "*"
 cruft = "*"
