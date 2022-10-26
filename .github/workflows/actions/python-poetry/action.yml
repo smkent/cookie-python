@@ -28,6 +28,8 @@ runs:
 
     - name: 🛠️ Install project dependencies
       shell: bash
+      env:
+        PYTHON_KEYRING_BACKEND: "keyring.backends.null.Keyring"
       run: |
         poetry install
 
