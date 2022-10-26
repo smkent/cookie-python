@@ -13,10 +13,6 @@ runs:
   steps:
     - name: ✨ Install Poetry
       shell: bash
-      env:
-        # https://github.com/python-poetry/poetry/issues/1917
-        # https://github.com/actions/runner-images/issues/6185
-        PYTHON_KEYRING_BACKEND: "keyring.backends.null.Keyring"
       run: |
         python3 -m pip install \
             "poetry==${{ "{{" }} inputs.poetry_version }}.*" \
@@ -31,6 +27,10 @@ runs:
 
     - name: 🛠️ Install project dependencies
       shell: bash
+      env:
+        # https://github.com/python-poetry/poetry/issues/1917
+        # https://github.com/actions/runner-images/issues/6185
+        PYTHON_KEYRING_BACKEND: "keyring.backends.null.Keyring"
       run: |
         poetry install
         [ "$(poetry version -s)" != "0.0.0" ] \
