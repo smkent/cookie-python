@@ -38,6 +38,10 @@ jobs:
           poetry_version: ${{ matrix.poetry-version }}
 
       - name: 🔥 Test
+        env:
+          # https://github.com/python-poetry/poetry/issues/1917
+          # https://github.com/actions/runner-images/issues/6185
+          PYTHON_KEYRING_BACKEND: "keyring.backends.null.Keyring"
         run: poetry run poe test
 
       - name: 🚒 Create test summary
