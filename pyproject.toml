@@ -56,9 +56,6 @@ enable = true
 vcs = "git"
 style = "semver"
 
-[tool.poe.env]
-PROJECT_CODE_DIRS="cookie_python/ hooks/ tests/"
-
 [tool.poe.tasks.lint]
 cmd = "pre-commit run --all-files --show-diff-on-failure"
 help = "Check all files"
