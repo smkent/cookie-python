@@ -19,6 +19,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
+pre-commit = "*"
 
 [tool.poetry.dev-dependencies]
 bandit = {extras = ["toml"], version = "*"}
