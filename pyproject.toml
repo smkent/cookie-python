@@ -67,6 +67,14 @@ help = "Run unit tests with pytest"
 sequence = ["lint", "pytest"]
 help = "Run all tests"
 
+[tool.poe.tasks.create]
+cmd = "new-cookie"
+help = "Create new project from cookie-python template"
+
+[tool.poe.tasks.updatetests]
+cmd = "pytest --update-expected-outputs"
+help = "Update test expected output files from test results"
+
 [tool.bandit]
 skips = [
     "B101",  # assert_used
