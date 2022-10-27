@@ -20,6 +20,7 @@ runs:
 
     - name: 🐍 Set up Python
       uses: actions/setup-python@v4
+      id: setuppy
       with:
         python-version: ${{ "{{" }} inputs.python_version }}
         cache: poetry
