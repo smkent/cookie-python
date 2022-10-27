@@ -18,19 +18,35 @@ A template for new Python projects, with:
 * GitHub Actions support
 * Coverage reports with [codecov.io][codecov]
 
+## Poetry installation
+
+Via [`pipx`][pipx]:
+
+```console
+pip install pipx
+pipx install poetry
+pipx inject poetry poetry-dynamic-versioning poetry-pre-commit-plugin
+```
+
+Via `pip`:
+
+```console
+pip install poetry
+poetry self add poetry-dynamic-versioning poetry-pre-commit-plugin
+```
+
 ## New project creation
 
 ### With [cruft][cruft] via script
 
-```python
-pip install poetry
+```console
 poetry install
 poetry run new-cookie <path>  # or poetry run cruft create
 ```
 
 ### With [cookiecutter][cookiecutter] directly
 
-```python
+```console
 pip install cookiecutter
 cookiecutter https://github.com/smkent/cookie-python
 ```
@@ -50,13 +66,14 @@ Prerequisites: [Poetry][poetry-installation]
 [codecov]: https://codecov.io
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 [cruft]: https://github.com/cruft/cruft
-[flake8]: https://github.com/pycqa/flake8
 [flake8-bugbear]: https://github.com/PyCQA/flake8-bugbear
 [flake8-simplify]: https://github.com/MartinThoma/flake8-simplify
+[flake8]: https://github.com/pycqa/flake8
 [gh-actions]: https://github.com/smkent/cookie-python/actions?query=branch%3Amain
 [logo]: https://raw.github.com/smkent/cookie-python/main/img/cookie-python.png
 [mypy]: https://github.com/python/mypy
 [pep8-naming]: https://github.com/PyCQA/pep8-naming
+[pipx]: https://pypa.github.io/pipx/
 [poetry-dynamic-versioning]: https://github.com/mtkennerly/poetry-dynamic-versioning
 [poetry-installation]: https://python-poetry.org/docs/#installation
 [poetry]: https://python-poetry.org/

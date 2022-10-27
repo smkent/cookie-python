@@ -9,11 +9,29 @@
 {% endif %}
 ## Development
 
-Prerequisites: [Poetry][poetry]
+### [Poetry][poetry] installation
+
+Via [`pipx`][pipx]:
+
+```console
+pip install pipx
+pipx install poetry
+pipx inject poetry poetry-dynamic-versioning poetry-pre-commit-plugin
+```
+
+Via `pip`:
+
+```console
+pip install poetry
+poetry self add poetry-dynamic-versioning poetry-pre-commit-plugin
+```
+
+### Development tasks
 
 * Setup: `poetry install`
-* Run all tests: `poetry run poe test`
-* Fix linting errors: `poetry run poe lint`
+* Run static checks: `poetry run poe lint` or
+  `poetry run pre-commit run --all-files`
+* Run static checks and tests: `poetry run poe test`
 
 ---
 
@@ -25,6 +43,7 @@ Created from [smkent/cookie-python][cookie-python] using
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 {%- if cookiecutter.github_user %}
 [gh-actions]: https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name }}/actions?query=branch%3Amain{% endif %}
+[pipx]: https://pypa.github.io/pipx/
 [poetry]: https://python-poetry.org/docs/#installation
 {%- if cookiecutter.enable_pypi_publish == "yes" %}
 [pypi]: https://pypi.org/project/{{ cookiecutter.project_name }}/{% endif %}

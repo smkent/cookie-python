@@ -15,11 +15,12 @@ runs:
       shell: bash
       run: |
         python3 -m pip install \
-            "poetry==${{ inputs.poetry_version }}.*" \
-            "poetry-dynamic-versioning<=0.17.1"
+            poetry==${{ inputs.poetry_version }}.* \
+            poetry-dynamic-versioning
 
     - name: 🐍 Set up Python
       uses: actions/setup-python@v4
+      id: setuppy
       with:
         python-version: ${{ inputs.python_version }}
         cache: poetry
@@ -28,5 +29,11 @@ runs:
       shell: bash
       run: |
         poetry install
-        [ "$(poetry version -s)" != "0.0.0" ] \
-            || { echo "Versioning broken"; exit 1; }
+
+    - name: 🪝 Cache pre-commit hooks
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pre-commit
+        key: "pre-commit-${{ runner.os }}-python\
+          -${{ steps.setuppy.outputs.python-version }}\
+          -${{ hashFiles('.pre-commit-config.yaml') }}"
