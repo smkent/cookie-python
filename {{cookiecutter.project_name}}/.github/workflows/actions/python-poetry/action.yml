@@ -16,7 +16,8 @@ runs:
       run: |
         python3 -m pip install \
             "poetry==${{ "{{" }} inputs.poetry_version }}.*" \
-            "poetry-dynamic-versioning<=0.17.1"
+            "poetry-dynamic-versioning"
+        python3 -m pip install --upgrade requests
 
     - name: 🐍 Set up Python
       uses: actions/setup-python@v4
@@ -27,6 +28,10 @@ runs:
 
     - name: 🛠️ Install project dependencies
       shell: bash
+      env:
+        # https://github.com/python-poetry/poetry/issues/1917
+        # https://github.com/actions/runner-images/issues/6185
+        PYTHON_KEYRING_BACKEND: "keyring.backends.null.Keyring"
       run: |
         poetry install
         [ "$(poetry version -s)" != "0.0.0" ] \
