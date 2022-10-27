@@ -53,11 +53,29 @@ cookiecutter https://github.com/smkent/cookie-python
 
 ## Development
 
-Prerequisites: [Poetry][poetry-installation]
+### [Poetry][poetry] installation
+
+Via [`pipx`][pipx]:
+
+```console
+pip install pipx
+pipx install poetry
+pipx inject poetry poetry-dynamic-versioning poetry-pre-commit-plugin
+```
+
+Via `pip`:
+
+```console
+pip install poetry
+poetry self add poetry-dynamic-versioning poetry-pre-commit-plugin
+```
+
+### Development tasks
 
 * Setup: `poetry install`
-* Test template rendering and run rendered project tests: `poetry run poe test`
-* Fix linting errors: `poetry run poe lint`
+* Run static checks: `poetry run poe lint` or
+  `poetry run pre-commit run --all-files`
+* Run static checks and tests: `poetry run poe test`
 * Update test expected output files from test results:
   `poetry run poe updatetests`
 
