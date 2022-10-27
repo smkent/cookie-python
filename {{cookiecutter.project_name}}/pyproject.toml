@@ -60,6 +60,9 @@ help = "Run all tests"
 [tool.bandit]
 skips = ["B101"]  # assert_used
 
+[tool.black]
+line-length = 79
+
 [tool.coverage.run]
 source = ["{{ cookiecutter.project_slug }}"]
 
