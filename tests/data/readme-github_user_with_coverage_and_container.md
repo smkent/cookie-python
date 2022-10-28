@@ -13,7 +13,7 @@ version: "3.7"
 
 services:
   test-baked-cookie:
-    image: ghcr.io/nesstest-baked-cookie:latest
+    image: ghcr.io/ness/test-baked-cookie:latest
     restart: unless-stopped
 ```
 
