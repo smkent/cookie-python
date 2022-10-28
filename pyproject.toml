@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "cookie-python"
-version = "0.0.1"
+version = "0.1.2-post.141+d24fca9"
 description = ""
 license = "MIT"
 authors = ["Stephen Kent <smkent@smkent.net>"]
@@ -25,6 +25,7 @@ packages = [
 python = "^3.8"
 poetry-dynamic-versioning = "^0.13.1"
 pre-commit = "*"
+pyyaml = "*"
 
 [tool.poetry.dev-dependencies]
 bandit = {extras = ["toml"], version = "*"}
@@ -44,14 +45,13 @@ pytest-cookies = "*"
 pytest-cov = "*"
 pytest-github-actions-annotate-failures = "*"
 pytest-sugar = "*"
-pyyaml = "*"
 types-PyYAML = "*"
 
 [tool.poetry.scripts]
 new-cookie = "cookie_python.main:main"
 
 [tool.poetry-dynamic-versioning]
-enable = true
+enable = false
 vcs = "git"
 style = "semver"
 

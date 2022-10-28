@@ -3,6 +3,31 @@
 [![PyPI](https://img.shields.io/pypi/v/test-baked-cookie)][pypi]
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/test-baked-cookie)][pypi]
 
+## Installation and usage with Docker
+
+Example `docker-compose.yaml`:
+
+```yaml
+version: "3.7"
+
+services:
+  test-baked-cookie:
+    image: ghcr.io/test-baked-cookie:latest
+    restart: unless-stopped
+```
+
+Start the container by running:
+
+```console
+docker-compose up -d
+```
+
+Debugging information can be viewed in the container log:
+
+```console
+docker-compose logs -f
+```
+
 ## Installation from PyPI
 
 [test-baked-cookie is available on PyPI][pypi]:

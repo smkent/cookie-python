@@ -47,7 +47,11 @@ def test_new_cookie_create(temp_dir: str) -> None:
         .decode("utf-8")
         .strip()
     ), "Untracked files present in template-rendered project"
-    subprocess.check_call(["poetry", "install"], cwd=project_dir)
+
     subprocess.check_call(
         ["poetry", "run", "cruft", "diff", "--exit-code"], cwd=project_dir
     )
+    # Install rendered project
+    subprocess.check_call(["poetry", "install"], cwd=project_dir)
+    # Run rendered project's tests
+    subprocess.check_call(["poetry", "run", "poe", "test"], cwd=project_dir)

@@ -1,13 +1,34 @@
+import itertools
 import os
 import shutil
 import subprocess
 from typing import Dict, List
+
+import yaml
 
 TEMPLATE_ONLY_DATA = "cookiecutter_template_data"
 
 
 def _run(call: List[str], env: Dict[str, str]) -> None:
     subprocess.run(call, env=env).check_returncode()
+
+
+# Remove files and directories for deselected features
+with open(
+    os.path.join(os.getcwd(), TEMPLATE_ONLY_DATA, "feature_paths.yml")
+) as f:
+    feature_paths = yaml.safe_load(f.read())
+for rm_path in itertools.chain.from_iterable(
+    [
+        feature_data["paths"]
+        for _, feature_data in feature_paths.items()
+        if not feature_data["enabled"]
+    ]
+):
+    full_rm_path = os.path.join(os.getcwd(), rm_path)
+    shutil.rmtree(full_rm_path) if os.path.isdir(full_rm_path) else os.remove(
+        full_rm_path
+    )
 
 
 # Remove template-only data files

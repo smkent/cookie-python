@@ -1,14 +1,29 @@
 # test-baked-cookie: This is a test project called "test-baked-cookie"
 
-[![PyPI](https://img.shields.io/pypi/v/test-baked-cookie)][pypi]
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/test-baked-cookie)][pypi]
 
-## Installation from PyPI
+## Installation and usage with Docker
 
-[test-baked-cookie is available on PyPI][pypi]:
+Example `docker-compose.yaml`:
+
+```yaml
+version: "3.7"
+
+services:
+  test-baked-cookie:
+    image: ghcr.io/test-baked-cookie:latest
+    restart: unless-stopped
+```
+
+Start the container by running:
 
 ```console
-pip install test-baked-cookie
+docker-compose up -d
+```
+
+Debugging information can be viewed in the container log:
+
+```console
+docker-compose logs -f
 ```
 
 ## Development
@@ -46,4 +61,3 @@ Created from [smkent/cookie-python][cookie-python] using
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 [pipx]: https://pypa.github.io/pipx/
 [poetry]: https://python-poetry.org/docs/#installation
-[pypi]: https://pypi.org/project/test-baked-cookie/
