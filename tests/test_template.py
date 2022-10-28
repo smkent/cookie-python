@@ -95,8 +95,16 @@ def test_project_license(cookies: Any, project_license: str) -> None:
 @pytest.mark.parametrize(
     "enable_pypi_publish", [True, False], ids=["pypi", "no pypi"]
 )
+@pytest.mark.parametrize(
+    "enable_container_publish",
+    [True, False],
+    ids=["container", "no container"],
+)
 def test_rendered_project(
-    cookies: Any, enable_coverage: bool, enable_pypi_publish: bool
+    cookies: Any,
+    enable_coverage: bool,
+    enable_pypi_publish: bool,
+    enable_container_publish: bool,
 ) -> None:
     extra_context = dict(
         author_name="Ness",
@@ -133,14 +141,6 @@ def test_rendered_project(
         .decode("utf-8")
         .strip()
     ), "Untracked files present in template-rendered project"
-
-    # Install rendered project
-    subprocess.check_call(["poetry", "install"], cwd=result.project_path)
-
-    # Run rendered project's tests
-    subprocess.check_call(
-        ["poetry", "run", "poe", "test"], cwd=result.project_path
-    )
 
 
 @pytest.mark.parametrize(**ReadmeCases.all_cases().__dict__)

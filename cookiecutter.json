@@ -12,6 +12,7 @@
     ],
     "enable_coverage": "yes",
     "enable_pypi_publish": "no",
+    "enable_container_publish": "no",
     "author_name": "",
     "author_email": "",
     "github_user": ""

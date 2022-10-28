@@ -1,0 +1,8 @@
+container_publish:
+  enabled: {{ cookiecutter.enable_container_publish|lower == 'yes' }}
+  paths:
+    - ".dockerignore"
+    - ".github/workflows/container.yml"
+    - "Dockerfile"
+    - "docker"
+    - "docker-compose.yaml"

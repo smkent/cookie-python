@@ -7,6 +7,39 @@
 [![GitHub stars](https://img.shields.io/github/stars/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name }}?style=social)][repo]
 {% endif %}{% if cookiecutter.enable_pypi_publish == "yes" and not cookiecutter.github_user %}
 {% endif %}
+{% if cookiecutter.enable_container_publish == "yes" %}## Installation and usage with Docker
+
+Example `docker-compose.yaml`:
+
+```yaml
+version: "3.7"
+
+services:
+  {{ cookiecutter.project_name }}:
+    image: ghcr.io/{{ cookiecutter.github_user }}{{ cookiecutter.project_name }}:latest
+    restart: unless-stopped
+```
+
+Start the container by running:
+
+```console
+docker-compose up -d
+```
+
+Debugging information can be viewed in the container log:
+
+```console
+docker-compose logs -f
+```{% endif %}
+{% if cookiecutter.enable_pypi_publish == "yes" %}
+## Installation from PyPI
+
+[{{ cookiecutter.project_name }} is available on PyPI][pypi]:
+
+```console
+pip install {{ cookiecutter.project_name }}
+```
+{% endif %}
 ## Development
 
 ### [Poetry][poetry] installation
