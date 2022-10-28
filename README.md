@@ -9,6 +9,7 @@ A template for new Python projects, with:
 
 * [poetry][poetry] (with [poetry-dynamic-versioning][poetry-dynamic-versioning])
 * [pytest][pytest]
+* [pre-commit][pre-commit]
 * [mypy][mypy]
 * [black][black]
 * [flake8][flake8] (with [bugbear][flake8-bugbear], [simplify][flake8-simplify],
@@ -95,5 +96,6 @@ poetry self add poetry-dynamic-versioning poetry-pre-commit-plugin
 [poetry-dynamic-versioning]: https://github.com/mtkennerly/poetry-dynamic-versioning
 [poetry-installation]: https://python-poetry.org/docs/#installation
 [poetry]: https://python-poetry.org/
+[pre-commit]: https://pre-commit.com/
 [pytest]: https://docs.pytest.org
 [repo]: https://github.com/smkent/cookie-python
