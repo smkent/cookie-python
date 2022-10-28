@@ -16,7 +16,7 @@ version: "3.7"
 
 services:
   {{ cookiecutter.project_name }}:
-    image: ghcr.io/{{ cookiecutter.github_user }}{{ cookiecutter.project_name }}:latest
+    image: ghcr.io/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name }}:latest
     restart: unless-stopped
 ```
 
