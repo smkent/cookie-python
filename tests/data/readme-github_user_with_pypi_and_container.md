@@ -3,33 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/test-baked-cookie)][pypi]
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/test-baked-cookie)][pypi]
 [![Build](https://img.shields.io/github/checks-status/ness/test-baked-cookie/main?label=build)][gh-actions]
-[![codecov](https://codecov.io/gh/ness/test-baked-cookie/branch/main/graph/badge.svg)][codecov]
 [![GitHub stars](https://img.shields.io/github/stars/ness/test-baked-cookie?style=social)][repo]
-
-## Installation and usage with Docker
-
-Example `docker-compose.yaml`:
-
-```yaml
-version: "3.7"
-
-services:
-  test-baked-cookie:
-    image: ghcr.io/nesstest-baked-cookie:latest
-    restart: unless-stopped
-```
-
-Start the container by running:
-
-```console
-docker-compose up -d
-```
-
-Debugging information can be viewed in the container log:
-
-```console
-docker-compose logs -f
-```
 
 ## Installation from PyPI
 
@@ -70,7 +44,6 @@ poetry self add poetry-dynamic-versioning poetry-pre-commit-plugin
 Created from [smkent/cookie-python][cookie-python] using
 [cookiecutter][cookiecutter]
 
-[codecov]: https://codecov.io/gh/ness/test-baked-cookie
 [cookie-python]: https://github.com/smkent/cookie-python
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 [gh-actions]: https://github.com/ness/test-baked-cookie/actions?query=branch%3Amain

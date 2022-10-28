@@ -149,6 +149,7 @@ def test_rendered_readme(
     github_user: str,
     enable_coverage: bool,
     enable_pypi_publish: bool,
+    enable_container_publish: bool,
     expected_content_file: str,
     opt_update_expected_outputs: bool,
 ) -> None:
@@ -164,6 +165,9 @@ def test_rendered_readme(
             github_user=github_user,
             enable_coverage=("yes" if enable_coverage else "no"),
             enable_pypi_publish=("yes" if enable_pypi_publish else "no"),
+            enable_container_publish=(
+                "yes" if enable_container_publish else "no"
+            ),
         ),
     )
 

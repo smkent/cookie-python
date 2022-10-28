@@ -5,9 +5,9 @@
 [![Build](https://img.shields.io/github/checks-status/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name }}/main?label=build)][gh-actions]{% if cookiecutter.enable_coverage == "yes" %}
 [![codecov](https://codecov.io/gh/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name }}/branch/main/graph/badge.svg)][codecov]{% endif %}
 [![GitHub stars](https://img.shields.io/github/stars/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name }}?style=social)][repo]
-{% endif %}{% if cookiecutter.enable_pypi_publish == "yes" and not cookiecutter.github_user %}
-{% endif %}
-{% if cookiecutter.enable_container_publish == "yes" %}## Installation and usage with Docker
+{% endif %}{% if (cookiecutter.enable_container_publish == "yes" or cookiecutter.enable_pypi_publish == "yes") and not cookiecutter.github_user %}
+{% endif %}{% if cookiecutter.enable_container_publish == "yes" %}
+## Installation and usage with Docker
 
 Example `docker-compose.yaml`:
 
@@ -30,8 +30,8 @@ Debugging information can be viewed in the container log:
 
 ```console
 docker-compose logs -f
-```{% endif %}
-{% if cookiecutter.enable_pypi_publish == "yes" %}
+```
+{% endif %}{% if cookiecutter.enable_pypi_publish == "yes" %}
 ## Installation from PyPI
 
 [{{ cookiecutter.project_name }} is available on PyPI][pypi]:

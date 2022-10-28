@@ -1,7 +1,5 @@
 # test-baked-cookie: This is a test project called "test-baked-cookie"
 
-[![PyPI](https://img.shields.io/pypi/v/test-baked-cookie)][pypi]
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/test-baked-cookie)][pypi]
 [![Build](https://img.shields.io/github/checks-status/ness/test-baked-cookie/main?label=build)][gh-actions]
 [![codecov](https://codecov.io/gh/ness/test-baked-cookie/branch/main/graph/badge.svg)][codecov]
 [![GitHub stars](https://img.shields.io/github/stars/ness/test-baked-cookie?style=social)][repo]
@@ -29,14 +27,6 @@ Debugging information can be viewed in the container log:
 
 ```console
 docker-compose logs -f
-```
-
-## Installation from PyPI
-
-[test-baked-cookie is available on PyPI][pypi]:
-
-```console
-pip install test-baked-cookie
 ```
 
 ## Development
@@ -76,5 +66,4 @@ Created from [smkent/cookie-python][cookie-python] using
 [gh-actions]: https://github.com/ness/test-baked-cookie/actions?query=branch%3Amain
 [pipx]: https://pypa.github.io/pipx/
 [poetry]: https://python-poetry.org/docs/#installation
-[pypi]: https://pypi.org/project/test-baked-cookie/
 [repo]: https://github.com/ness/test-baked-cookie
