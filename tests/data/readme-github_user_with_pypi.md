@@ -5,6 +5,14 @@
 [![Build](https://img.shields.io/github/checks-status/ness/test-baked-cookie/main?label=build)][gh-actions]
 [![GitHub stars](https://img.shields.io/github/stars/ness/test-baked-cookie?style=social)][repo]
 
+## Installation from PyPI
+
+[test-baked-cookie is available on PyPI][pypi]:
+
+```console
+pip install test-baked-cookie
+```
+
 ## Development
 
 ### [Poetry][poetry] installation

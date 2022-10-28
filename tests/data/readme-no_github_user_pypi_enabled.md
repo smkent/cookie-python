@@ -3,6 +3,14 @@
 [![PyPI](https://img.shields.io/pypi/v/test-baked-cookie)][pypi]
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/test-baked-cookie)][pypi]
 
+## Installation from PyPI
+
+[test-baked-cookie is available on PyPI][pypi]:
+
+```console
+pip install test-baked-cookie
+```
+
 ## Development
 
 ### [Poetry][poetry] installation

@@ -6,6 +6,14 @@
 [![codecov](https://codecov.io/gh/ness/test-baked-cookie/branch/main/graph/badge.svg)][codecov]
 [![GitHub stars](https://img.shields.io/github/stars/ness/test-baked-cookie?style=social)][repo]
 
+## Installation from PyPI
+
+[test-baked-cookie is available on PyPI][pypi]:
+
+```console
+pip install test-baked-cookie
+```
+
 ## Development
 
 ### [Poetry][poetry] installation
