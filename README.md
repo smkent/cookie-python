@@ -52,26 +52,7 @@ pip install cookiecutter
 cookiecutter https://github.com/smkent/cookie-python
 ```
 
-## Development
-
-### [Poetry][poetry] installation
-
-Via [`pipx`][pipx]:
-
-```console
-pip install pipx
-pipx install poetry
-pipx inject poetry poetry-dynamic-versioning poetry-pre-commit-plugin
-```
-
-Via `pip`:
-
-```console
-pip install poetry
-poetry self add poetry-dynamic-versioning poetry-pre-commit-plugin
-```
-
-### Development tasks
+## Development tasks
 
 * Setup: `poetry install`
 * Run static checks: `poetry run poe lint` or
