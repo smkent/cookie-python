@@ -19,7 +19,6 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-pre-commit = "*"
 
 [tool.poetry.dev-dependencies]
 bandit = {extras = ["toml"], version = "*"}
@@ -33,6 +32,7 @@ isort = "*"
 mypy = "*"
 pep8-naming = "*"
 poethepoet = "*"
+pre-commit = "*"
 py = "1.11.0"  # https://github.com/Teemu/pytest-sugar/issues/241
 pytest = "*"
 pytest-cov = "*"
