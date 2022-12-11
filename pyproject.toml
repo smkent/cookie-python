@@ -23,7 +23,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-poetry-dynamic-versioning = "^0.13.1"
+poetry-dynamic-versioning = "*"
 pyyaml = "*"
 
 [tool.poetry.dev-dependencies]
