@@ -1,0 +1,21 @@
+{
+  "template": "https://github.com/smkent/cookie-python",
+  "commit": "757202d63c5e720d55fbd434d89ab8f45cd0c6bb",
+  "context": {
+    "cookiecutter": {
+      "project_name": "Cookiecutter template for new Python projects",
+      "project_slug": "cookie_python",
+      "project_description": "A template for new Python projects",
+      "project_license": "MIT",
+      "enable_coverage": "yes",
+      "enable_pypi_publish": "no",
+      "enable_container_publish": "no",
+      "author_name": "Stephen Kent",
+      "author_email": "smkent@smkent.net",
+      "github_user": "smkent",
+      "_template": "https://github.com/smkent/cookie-python"
+    }
+  },
+  "directory": null,
+  "checkout": null
+}

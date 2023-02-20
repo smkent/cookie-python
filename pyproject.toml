@@ -86,6 +86,9 @@ skips = [
 [tool.black]
 line-length = 79
 
+[tool.cruft]
+skip = [".git"]
+
 [tool.flake8]
 exclude = "./.*,./{{cookiecutter.project_name}}"
 
