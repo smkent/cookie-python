@@ -138,7 +138,6 @@ class ReadmeCases:
                 enable_container_publish=True,
             ),
         ]:
-
             ids.append(case.id)
             argvalues.append(
                 [
