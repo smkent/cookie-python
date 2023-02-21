@@ -2,19 +2,9 @@ import json
 import os
 import subprocess
 import sys
-import tempfile
-from typing import Iterable
 from unittest import mock
 
-import pytest
-
-from cookie_python.main import main
-
-
-@pytest.fixture
-def temp_dir() -> Iterable[str]:
-    with tempfile.TemporaryDirectory() as td:
-        yield os.path.join(td)
+from cookie_python.new import main
 
 
 def test_new_cookie_create(temp_dir: str) -> None:

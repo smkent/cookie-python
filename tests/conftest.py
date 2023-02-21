@@ -1,3 +1,7 @@
+import os
+from tempfile import TemporaryDirectory
+from typing import Iterator
+
 import pytest
 
 
@@ -16,3 +20,9 @@ def opt_update_expected_outputs(request: pytest.FixtureRequest) -> bool:
     value = request.config.getoption("--update-expected-outputs")
     assert isinstance(value, bool)
     return value
+
+
+@pytest.fixture
+def temp_dir() -> Iterator[str]:
+    with TemporaryDirectory(prefix="cookie-python.unittest.") as td:
+        yield os.path.join(td)

@@ -48,7 +48,8 @@ pytest-sugar = "*"
 types-PyYAML = "*"
 
 [tool.poetry.scripts]
-new-cookie = "cookie_python.main:main"
+new-cookie = "cookie_python.new:main"
+manage-cookie = "cookie_python.manage.main:main"
 
 [tool.poetry-dynamic-versioning]
 enable = false
