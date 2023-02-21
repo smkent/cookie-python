@@ -42,7 +42,7 @@ def release_patch_version(repo: RepoSandbox) -> None:
         repo.logger.success(f"Would release new version {new_tag}")
         return None
     repo.run(["gh", "release", "create", new_tag, "--generate-notes"])
-    repo.logger.success(f"Releasing new version {new_tag}")
+    repo.logger.success(f"Released new version {new_tag}")
     return None
 
 
