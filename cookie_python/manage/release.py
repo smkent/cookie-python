@@ -22,7 +22,7 @@ def release_patch_version(repo: RepoSandbox) -> None:
             latest_tag = tag
             break
     if not latest_tag:
-        print("Unable to find latest version")
+        repo.logger.warning("Unable to find latest version")
         return None
     check_refs = ["origin/main", latest_tag]
     refs = []
@@ -33,15 +33,16 @@ def release_patch_version(repo: RepoSandbox) -> None:
             .strip()
         )
     if len(refs) == len(check_refs) and len(set(refs)) == 1:
-        print(f"No new changes since latest release {latest_tag}")
+        repo.logger.info(f"No new changes since latest release {latest_tag}")
         return None
     sv = semver.VersionInfo.parse(latest_tag.lstrip("v"))
     next_patch_ver = sv.bump_patch()
     new_tag = f"v{next_patch_ver}"
     if repo.dry_run:
-        print(f"Would release new version {new_tag}")
+        repo.logger.success(f"Would release new version {new_tag}")
         return None
     repo.run(["gh", "release", "create", new_tag, "--generate-notes"])
+    repo.logger.success(f"Releasing new version {new_tag}")
     return None
 
 

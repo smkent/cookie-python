@@ -11,6 +11,8 @@ from pathlib import Path
 from types import TracebackType
 from typing import Any, Optional
 
+import loguru
+
 
 class RepoSandbox:
     def __init__(self, repo: str, dry_run: bool = False) -> None:
@@ -29,6 +31,10 @@ class RepoSandbox:
         exc_tb: Optional[TracebackType] = None,
     ) -> None:
         self._stack.close()
+
+    @cached_property
+    def logger(self) -> "loguru.Logger":
+        return loguru.logger.bind(repo=self.repo)
 
     @cached_property
     def tempdir(self) -> Path:
@@ -73,7 +79,7 @@ class RepoSandbox:
 
     def shell(self) -> None:
         if sys.__stdin__.isatty():
-            print('Starting shell. Run "exit 1" to abort.')
+            self.logger.info('Starting shell. Run "exit 1" to abort.')
             self.run([os.environ.get("SHELL", "/bin/bash")])
 
     def commit_changes(self, message: str) -> None:
@@ -104,12 +110,13 @@ class RepoSandbox:
         try:
             self.run(["poetry", "run", "poe", "test"])
         except subprocess.CalledProcessError as e:
-            print(e)
-            print("Resolve errors and exit shell to continue")
+            self.logger.error(str(e))
+            self.logger.error("Resolve errors and exit shell to continue")
             self.shell()
 
     def open_pr(self, message: str) -> None:
         if self.dry_run:
+            self.logger.success("Would open PR")
             return
         self.run(["git", "push", "origin", self.branch])
         commit_title, _, *commit_body = message.splitlines()
@@ -129,3 +136,4 @@ class RepoSandbox:
             ],
             input=os.linesep.join(commit_body).encode("utf-8"),
         )
+        self.logger.success("Opened PR")

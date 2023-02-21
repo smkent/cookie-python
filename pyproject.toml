@@ -23,6 +23,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
+loguru = "*"
 poetry-dynamic-versioning = "*"
 pyyaml = "*"
 semver = "*"

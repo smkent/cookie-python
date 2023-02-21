@@ -38,8 +38,10 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
         )
         if rej_files or conflicts:
             if try_count == 0:
-                print(f">>> Conflicts found: {rej_files}")
-                print("Resolve conflicts and exit shell to continue")
+                repo.logger.error(f"Conflicts found: {rej_files}")
+                repo.logger.error(
+                    "Resolve conflicts and exit shell to continue"
+                )
                 repo.shell()
                 continue
             raise Exception(f"Unresolved conflicts: {rej_files}")
@@ -102,6 +104,7 @@ def update_dependencies(repo: RepoSandbox) -> Optional[str]:
 def update_action(args: Namespace) -> None:
     for repo_url in args.repo:
         with RepoSandbox(repo_url, args.dry_run) as repo:
+            repo.logger.info("Starting update")
             actions = []
             msg_body = ""
             cruft_msg = update_cruft(repo)
@@ -113,7 +116,10 @@ def update_action(args: Namespace) -> None:
                 msg_body += deps_msg
                 actions.append("dependencies")
             if not msg_body:
-                return None
-            message = f"Update {', '.join(actions)}\n\n{msg_body}"
+                repo.logger.info("Already up to date")
+                continue
+            actions_str = ", ".join(actions)
+            message = f"Update {actions_str}\n\n{msg_body}"
+            repo.logger.info(f"Updated {actions_str}")
             repo.commit_changes(message)
             repo.open_pr(message)
