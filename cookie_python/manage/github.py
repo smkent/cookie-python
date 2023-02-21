@@ -1,8 +1,10 @@
 import contextlib
 import os
 from functools import cached_property, lru_cache
+from typing import Optional
 
 from github import Github
+from github.PullRequest import PullRequest
 from github.Repository import Repository
 
 
@@ -22,3 +24,16 @@ class GithubRepo:
             with contextlib.suppress(IndexError):
                 search = os.path.splitext(search.split(":")[1])[0]
         return self._gh.get_repo(search)
+
+    def find_pr(
+        self, repo: Repository, head: str, base: str = "main"
+    ) -> Optional[PullRequest]:
+        pulls = [
+            pr
+            for pr in repo.get_pulls(head=f"{self.username}:{head}", base=base)
+        ]
+        if not pulls:
+            return None
+        if len(pulls) > 1:
+            raise Exception(f"Multiple PRs found matching {head}")
+        return pulls[0]

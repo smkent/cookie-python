@@ -115,41 +115,15 @@ class RepoSandbox:
             self.logger.error("Resolve errors and exit shell to continue")
             self.shell()
 
-    def find_existing_pr(self) -> Optional[str]:
-        with contextlib.suppress(
-            subprocess.CalledProcessError, json.JSONDecodeError, TypeError
-        ):
-            for pr in json.loads(
-                self.run(
-                    [
-                        "gh",
-                        "pr",
-                        "list",
-                        "-H",
-                        self.branch,
-                        "-B",
-                        "main",
-                        "--json",
-                        ",".join(("url", "headRefName", "baseRefName")),
-                    ],
-                    capture_output=True,
-                    check=True,
-                ).stdout.decode()
-            ):
-                pr_url = str(pr.pop("url"))
-                if pr == {"headRefName": self.branch, "baseRefName": "main"}:
-                    return pr_url
-        return None
-
     def close_existing_pr(self) -> None:
         # Locate existing PR
-        pr_url = self.find_existing_pr()
-        if pr_url:
+        pr = self.gh.find_pr(self.repo, self.branch)
+        if pr:
             if self.dry_run:
-                self.logger.info(f"Would close existing PR {pr_url}")
+                self.logger.info(f"Would close existing PR {pr.url}")
             else:
-                self.run(["gh", "pr", "close", pr_url])
-                self.logger.info(f"Closed existing PR {pr_url}")
+                pr.edit(state="closed")
+                self.logger.info(f"Closed existing PR {pr.url}")
         if self.dry_run:
             return
         # Delete existing branch
@@ -168,21 +142,10 @@ class RepoSandbox:
             return
         self.run(["git", "push", "origin", self.branch])
         commit_title, _, *commit_body = message.splitlines()
-        pr_url = self.run(
-            [
-                "gh",
-                "pr",
-                "create",
-                "--title",
-                commit_title.strip(),
-                "--body-file",
-                "-",
-                "--base",
-                "main",
-                "--head",
-                self.branch,
-            ],
-            input=os.linesep.join(commit_body).encode("utf-8"),
-            capture_output=True,
-        ).stdout.decode()
-        self.logger.success(f"Opened PR {pr_url}")
+        pr = self.repo.create_pull(
+            base="main",
+            head=self.branch,
+            title=commit_title.strip(),
+            body=os.linesep.join(commit_body),
+        )
+        self.logger.success(f"Opened PR {pr.url}")
