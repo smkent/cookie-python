@@ -30,8 +30,10 @@ def environ() -> Iterator[None]:
         yield
 
 
-@pytest.fixture
-def new_cookie(environ: None, temp_dir: str) -> Iterator[Path]:
+@pytest.fixture(params=["@"])
+def new_cookie(
+    request: pytest.FixtureRequest, environ: None, temp_dir: str
+) -> Iterator[Path]:
     project_name = "unit-test-1"
     testargs = [
         "new-cookie",
@@ -51,7 +53,7 @@ def new_cookie(environ: None, temp_dir: str) -> Iterator[Path]:
             }
         ),
         "-c",
-        "f2f7eddb101275f2909525e579e0ed6f3b5305fa",
+        request.param,
     ]
     with patch.object(sys, "argv", testargs):
         new_cookie_main()
@@ -65,6 +67,12 @@ def new_cookie(environ: None, temp_dir: str) -> Iterator[Path]:
     yield project_dir
 
 
+@pytest.mark.parametrize(
+    "new_cookie",
+    ("@", "f2f7eddb101275f2909525e579e0ed6f3b5305fa"),
+    ids=["no_updates", "updates"],
+    indirect=True,
+)
 def test_manage_cookie_update(new_cookie: str) -> None:
     testargs = ["manage-cookie", "update", str(new_cookie), "-p"]
     with patch.object(sys, "argv", testargs):
