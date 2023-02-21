@@ -39,6 +39,23 @@ class RepoSandbox:
         return GithubRepo()
 
     @cached_property
+    def latest_release(self) -> str:
+        return self.repo.get_latest_release().title
+
+    def create_release(self, tag: str) -> None:
+        print(f"Should create release {tag}")
+        # PyGithub's repository create_tag_and_release() doesn't support
+        # generate_release_notes
+        self.repo._requester.requestJsonAndCheck(  # type: ignore
+            "POST",
+            f"/repos/{self.repo.full_name}/releases",
+            input={
+                "tag_name": tag,
+                "generate_release_notes": True,
+            },
+        )
+
+    @cached_property
     def logger(self) -> "loguru.Logger":
         return loguru.logger.bind(repo=self.repo.full_name)
 

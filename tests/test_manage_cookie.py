@@ -79,6 +79,7 @@ def mock_pygithub(new_cookie: Path) -> Iterator[MagicMock]:
                     )
                 ],
             ),
+            get_latest_release=lambda: SimpleNamespace(title="v1.1.38"),
         )
         yield obj
 

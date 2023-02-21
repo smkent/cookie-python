@@ -6,25 +6,10 @@ from .repo import RepoSandbox
 
 
 def release_patch_version(repo: RepoSandbox) -> None:
-    releases = (
-        repo.run(
-            ["gh", "release", "list"],
-            capture_output=True,
-            check=True,
-        )
-        .stdout.decode("utf-8")
-        .splitlines()
-    )
-    latest_tag = None
-    for line in releases:
-        tag, status, *_ = line.split()
-        if status.lower() == "latest":
-            latest_tag = tag
-            break
-    if not latest_tag:
-        repo.logger.warning("Unable to find latest version")
-        return None
-    check_refs = ["origin/main", latest_tag]
+    if not repo.latest_release:
+        repo.logger.warning("Unable to find latest release version")
+        return
+    check_refs = ["origin/main", repo.latest_release]
     refs = []
     for ref in check_refs:
         refs.append(
@@ -33,17 +18,18 @@ def release_patch_version(repo: RepoSandbox) -> None:
             .strip()
         )
     if len(refs) == len(check_refs) and len(set(refs)) == 1:
-        repo.logger.info(f"No new changes since latest release {latest_tag}")
-        return None
-    sv = semver.VersionInfo.parse(latest_tag.lstrip("v"))
+        repo.logger.info(
+            f"No new changes since latest release {repo.latest_release}"
+        )
+        return
+    sv = semver.VersionInfo.parse(repo.latest_release.lstrip("v"))
     next_patch_ver = sv.bump_patch()
     new_tag = f"v{next_patch_ver}"
     if repo.dry_run:
         repo.logger.success(f"Would release new version {new_tag}")
-        return None
-    repo.run(["gh", "release", "create", new_tag, "--generate-notes"])
+        return
+    repo.create_release(new_tag)
     repo.logger.success(f"Released new version {new_tag}")
-    return None
 
 
 def release_action(args: Namespace) -> None:
