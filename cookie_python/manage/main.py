@@ -12,7 +12,7 @@ A = TypeVar("A", bound=Callable[[str, argparse.Namespace], None])
 
 
 class Action(str, Enum):
-    UPDATE = "update", "test"
+    UPDATE = "update", "Update repository cruft and dependencies"
 
     def __new__(cls, value: str, description: str = "") -> Action:
         obj = str.__new__(cls, value)
@@ -23,10 +23,10 @@ class Action(str, Enum):
 
 class ManageCookie:
     def __init__(self) -> None:
-        self.args = self.parse_args()
-        print(self.args)
+        self.args = self._parse_args()
 
-    def parse_args(self) -> argparse.Namespace:
+    @staticmethod
+    def _parse_args() -> argparse.Namespace:
         ap = argparse.ArgumentParser()
         ap.add_argument(
             "action",
@@ -47,13 +47,10 @@ class ManageCookie:
 
     def run(self) -> None:
         for repo in self.args.repo:
-            with RepoSandbox(repo) as rs:
-                print(f"In the sandbox for {repo}")
-                print(rs.tempdir)
-                print(rs)
+            with RepoSandbox(repo):
+                pass
 
-    @staticmethod
-    def main() -> None:
-        print("manage cookie main")
-        mc = ManageCookie()
-        mc.run()
+
+def main() -> None:
+    mc = ManageCookie()
+    mc.run()
