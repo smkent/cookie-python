@@ -61,25 +61,23 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
     range_prefix = None
     if cruft_repo.startswith("https://github.com"):
         range_prefix = f"{cruft_repo}/compare/"
-    repo.run(
-        [
-            "git",
-            "remote",
-            "add",
-            "cookie_log",
-            "https://github.com/smkent/cookie-python",
-        ]
-    )
-    repo.run(["git", "fetch", "cookie_log"])
+    if Path(cruft_repo).is_dir():
+        template_repo_path = Path(cruft_repo)
+    else:
+        template_repo_path = repo.tempdir / "cookie_repo"
+        repo.run(
+            ["git", "clone", cruft_repo, template_repo_path], cwd=repo.tempdir
+        )
+        print(template_repo_path)
+    compare_cmd = [
+        "git",
+        "log",
+        "--oneline",
+        "--graph",
+        f"{before_ref}...{after_ref}",
+    ]
     graph_output = repo.run(
-        [
-            "git",
-            "log",
-            "--oneline",
-            "--graph",
-            f"{before_ref}...{after_ref}",
-        ],
-        capture_output=True,
+        compare_cmd, cwd=template_repo_path, capture_output=True, check=True
     ).stdout.decode()
     return (
         "Applied updates from upstream project template commits:\n\n"
