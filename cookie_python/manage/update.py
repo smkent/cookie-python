@@ -117,7 +117,7 @@ def update_action(args: Namespace) -> None:
                 actions.append("dependencies")
             if not msg_body:
                 repo.logger.info("Already up to date")
-                return None
+                continue
             actions_str = ", ".join(actions)
             message = f"Update {actions_str}\n\n{msg_body}"
             repo.logger.info(f"Updated {actions_str}")
