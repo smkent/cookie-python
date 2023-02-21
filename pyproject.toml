@@ -25,6 +25,7 @@ packages = [
 python = "^3.8"
 poetry-dynamic-versioning = "*"
 pyyaml = "*"
+semver = "*"
 
 [tool.poetry.dev-dependencies]
 bandit = {extras = ["toml"], version = "*"}
