@@ -13,11 +13,13 @@ from typing import Any, Optional
 
 import loguru
 
+from .github import GithubRepo
+
 
 class RepoSandbox:
     def __init__(self, repo: str, dry_run: bool = False) -> None:
         self._stack = contextlib.ExitStack()
-        self.repo = repo
+        self.repo = self.gh.find_repo(repo)
         self.branch = "update-cookie"
         self.dry_run = dry_run
 
@@ -33,8 +35,12 @@ class RepoSandbox:
         self._stack.close()
 
     @cached_property
+    def gh(self) -> GithubRepo:
+        return GithubRepo()
+
+    @cached_property
     def logger(self) -> "loguru.Logger":
-        return loguru.logger.bind(repo=self.repo)
+        return loguru.logger.bind(repo=self.repo.full_name)
 
     @cached_property
     def tempdir(self) -> Path:
@@ -47,7 +53,9 @@ class RepoSandbox:
     @cached_property
     def clone_path(self) -> Path:
         subprocess.run(
-            ["git", "clone", self.repo, "repo"], cwd=self.tempdir, check=True
+            ["git", "clone", self.repo.ssh_url, "repo"],
+            cwd=self.tempdir,
+            check=True,
         )
         clone_path = self.tempdir / "repo"
         for cmd in (
