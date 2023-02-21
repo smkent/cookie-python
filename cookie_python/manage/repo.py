@@ -160,7 +160,7 @@ class RepoSandbox:
             return
         self.run(["git", "push", "origin", self.branch])
         commit_title, _, *commit_body = message.splitlines()
-        self.run(
+        pr_url = self.run(
             [
                 "gh",
                 "pr",
@@ -175,5 +175,6 @@ class RepoSandbox:
                 self.branch,
             ],
             input=os.linesep.join(commit_body).encode("utf-8"),
-        )
-        self.logger.success("Opened PR")
+            capture_output=True,
+        ).stdout.decode()
+        self.logger.success(f"Opened PR {pr_url}")
