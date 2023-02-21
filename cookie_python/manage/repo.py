@@ -3,6 +3,7 @@ from __future__ import annotations
 import contextlib
 import os
 import subprocess
+import sys
 import tempfile
 from functools import cached_property, partial
 from pathlib import Path
@@ -63,8 +64,9 @@ class RepoSandbox:
         return subprocess.run(*popenargs, check=check, **kwargs)
 
     def shell(self) -> None:
-        print('Run "exit 1" to abort')
-        self.run([os.environ.get("SHELL", "/bin/bash")])
+        if sys.__stdin__.isatty():
+            print('Starting shell. Run "exit 1" to abort.')
+            self.run([os.environ.get("SHELL", "/bin/bash")])
 
     def commit_changes(self, message: str) -> None:
         self.run(["git", "add", "--", "."])
