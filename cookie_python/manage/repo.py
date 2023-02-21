@@ -101,7 +101,6 @@ class RepoSandbox:
                 ]
             )
         self.lint_test()
-        self.logger.info("Committed changes")
 
     def lint_test(self) -> None:
         self.run(["poetry", "run", "poe", "lint"], check=False)
@@ -117,6 +116,7 @@ class RepoSandbox:
 
     def open_pr(self, message: str) -> None:
         if self.dry_run:
+            self.logger.success("Would open PR")
             return
         self.run(["git", "push", "origin", self.branch])
         commit_title, _, *commit_body = message.splitlines()
@@ -136,4 +136,4 @@ class RepoSandbox:
             ],
             input=os.linesep.join(commit_body).encode("utf-8"),
         )
-        self.logger.info("Opened PR")
+        self.logger.success("Opened PR")

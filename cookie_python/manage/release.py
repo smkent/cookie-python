@@ -39,10 +39,10 @@ def release_patch_version(repo: RepoSandbox) -> None:
     next_patch_ver = sv.bump_patch()
     new_tag = f"v{next_patch_ver}"
     if repo.dry_run:
-        repo.logger.info(f"Would release new version {new_tag}")
+        repo.logger.success(f"Would release new version {new_tag}")
         return None
-    repo.logger.info(f"Releasing new version {new_tag}")
     repo.run(["gh", "release", "create", new_tag, "--generate-notes"])
+    repo.logger.success(f"Releasing new version {new_tag}")
     return None
 
 
