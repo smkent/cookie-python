@@ -49,8 +49,7 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
             if try_count == 0:
                 print(f">>> Conflicts found: {rej_files}")
                 print("Resolve conflicts and exit shell to continue")
-                print('Run "exit 1" to abort')
-                repo.run([os.environ.get("SHELL", "/bin/bash")])
+                repo.shell()
                 continue
             raise Exception(f"Unresolved conflicts: {rej_files}")
 

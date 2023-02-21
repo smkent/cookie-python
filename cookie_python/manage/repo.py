@@ -62,6 +62,10 @@ class RepoSandbox:
         kwargs.setdefault("cwd", self.clone_path)
         return subprocess.run(*popenargs, check=check, **kwargs)
 
+    def shell(self) -> None:
+        print('Run "exit 1" to abort')
+        self.run([os.environ.get("SHELL", "/bin/bash")])
+
     def commit_changes(self, message: str) -> None:
         self.run(["git", "add", "--", "."])
         self.run(
@@ -92,8 +96,7 @@ class RepoSandbox:
         except subprocess.CalledProcessError as e:
             print(e)
             print("Resolve errors and exit shell to continue")
-            print('Run "exit 1" to abort')
-            self.run([os.environ.get("SHELL", "/bin/bash")])
+            self.shell()
 
     def open_pr(self, message: str) -> None:
         if self.dry_run:
