@@ -6,7 +6,7 @@ import os
 import subprocess
 import sys
 import tempfile
-from functools import cached_property, partial
+from functools import cached_property
 from pathlib import Path
 from types import TracebackType
 from typing import Any, Optional
@@ -50,18 +50,11 @@ class RepoSandbox:
             ["git", "clone", self.repo, "repo"], cwd=self.tempdir, check=True
         )
         clone_path = self.tempdir / "repo"
-        run = partial(subprocess.run, cwd=clone_path, check=True)
-        if (
-            run(
-                ["git", "ls-remote", "origin", self.branch],
-                capture_output=True,
-            )
-            .stdout.decode()  # type: ignore
-            .strip()
+        for cmd in (
+            ["git", "checkout", "-b", self.branch],
+            ["git", "reset", "--hard", "origin/main"],
         ):
-            raise Exception(f'Branch "{self.branch}" already exists on remote')
-        run(["git", "checkout", "-b", self.branch])
-        run(["git", "reset", "--hard", "origin/main"])
+            subprocess.run(cmd, cwd=clone_path, check=True)
         return clone_path
 
     def cruft_attr(self, attr: str) -> str:
@@ -114,13 +107,60 @@ class RepoSandbox:
             self.logger.error("Resolve errors and exit shell to continue")
             self.shell()
 
+    def find_existing_pr(self) -> Optional[str]:
+        with contextlib.suppress(
+            subprocess.CalledProcessError, json.JSONDecodeError, TypeError
+        ):
+            for pr in json.loads(
+                self.run(
+                    [
+                        "gh",
+                        "pr",
+                        "list",
+                        "-H",
+                        self.branch,
+                        "-B",
+                        "main",
+                        "--json",
+                        ",".join(("url", "headRefName", "baseRefName")),
+                    ],
+                    capture_output=True,
+                    check=True,
+                ).stdout.decode()
+            ):
+                pr_url = str(pr.pop("url"))
+                if pr == {"headRefName": self.branch, "baseRefName": "main"}:
+                    return pr_url
+        return None
+
+    def close_existing_pr(self) -> None:
+        # Locate existing PR
+        pr_url = self.find_existing_pr()
+        if pr_url:
+            if self.dry_run:
+                self.logger.info(f"Would close existing PR {pr_url}")
+            else:
+                self.run(["gh", "pr", "close", pr_url])
+                self.logger.info(f"Closed existing PR {pr_url}")
+        if self.dry_run:
+            return
+        # Delete existing branch
+        delete_result = self.run(
+            ["git", "push", "origin", f":{self.branch}"],
+            capture_output=True,
+            check=False,
+        )
+        if delete_result.returncode == 0:
+            self.logger.info(f"Deleted existing remote branch {self.branch}")
+
     def open_pr(self, message: str) -> None:
+        self.close_existing_pr()
         if self.dry_run:
             self.logger.success("Would open PR")
             return
         self.run(["git", "push", "origin", self.branch])
         commit_title, _, *commit_body = message.splitlines()
-        self.run(
+        pr_url = self.run(
             [
                 "gh",
                 "pr",
@@ -135,5 +175,6 @@ class RepoSandbox:
                 self.branch,
             ],
             input=os.linesep.join(commit_body).encode("utf-8"),
-        )
-        self.logger.success("Opened PR")
+            capture_output=True,
+        ).stdout.decode()
+        self.logger.success(f"Opened PR {pr_url}")
