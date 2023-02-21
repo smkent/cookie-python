@@ -2,7 +2,7 @@
 name: Test
 
 env:
-  ENABLE_COVERAGE: false
+  ENABLE_COVERAGE: true
 
 on:
   pull_request:
