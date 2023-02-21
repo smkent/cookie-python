@@ -2,10 +2,9 @@ import json
 import os
 import subprocess
 import sys
-import textwrap
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any, Dict, Iterable, Iterator, Tuple
+from typing import Iterable, Iterator
 from unittest.mock import MagicMock, patch
 
 import github
@@ -95,26 +94,6 @@ def new_cookie_with_lock(new_cookie: Path, temp_dir: str) -> Iterator[Path]:
     yield new_cookie
 
 
-@pytest.fixture
-def run_or_mock() -> Iterator[Dict[Tuple[str, ...], str]]:
-    real_run = subprocess.run
-    mocked_commands: Dict[Tuple[str, ...], str] = {}
-
-    def _run(*args: Any, **kwargs: Any) -> Any:
-        cmd = args[0]
-        cmd_tuple = tuple(cmd)
-        while cmd_tuple:
-            if cmd_tuple in mocked_commands:
-                return SimpleNamespace(
-                    stdout=mocked_commands[cmd_tuple].encode()
-                )
-            cmd_tuple = cmd_tuple[:-1]
-        return real_run(*args, **kwargs)
-
-    with patch.object(subprocess, "run", _run):
-        yield mocked_commands
-
-
 def _manage_cookie(argv: Iterable[str]) -> None:
     with patch.object(sys, "argv", argv):
         manage_cookie_main()
@@ -133,18 +112,7 @@ def test_manage_cookie_update(new_cookie_with_lock: str) -> None:
 
 
 @pytest.mark.parametrize("add_commit", (True, False))
-def test_manage_cookie_release(
-    new_cookie: str, run_or_mock: Dict[Tuple[str, ...], str], add_commit: bool
-) -> None:
-    run_or_mock[("gh", "release", "list")] = textwrap.dedent(
-        """
-        TITLE       TYPE         TAG NAME  PUBLISHED
-        v1.1.38     Latest       v1.1.38   in a galaxy far, far away
-        v0.21.87                 v0.21.87  about a long time ago
-        v0.0.1                   v0.0.1    about never ago
-        """
-    ).strip()
-    run_or_mock[("gh",)] = ""  # Prevent any actual gh invocations
+def test_manage_cookie_release(new_cookie: str, add_commit: bool) -> None:
     subprocess.run(["git", "tag", "v1.1.38", "@"], cwd=new_cookie, check=True)
     if add_commit:
         subprocess.run(
