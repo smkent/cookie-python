@@ -86,6 +86,15 @@ skips = [
 [tool.black]
 line-length = 79
 
+[tool.coverage.run]
+source = ["cookie_python"]
+omit = ["/etc/*", "/tmp/*"]
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+omit = ["/etc/*", "/tmp/*"]
+
 [tool.cruft]
 skip = [".git"]
 
@@ -109,6 +118,12 @@ warn_unused_ignores = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--junitxml=.pytest_results.xml"
+addopts = """\
+    --cov \
+    --cov-append \
+    --cov-report term \
+    --cov-report xml:.pytest_coverage.xml \
+    --junitxml=.pytest_results.xml \
+"""
 
 # vim: ft=cfg
