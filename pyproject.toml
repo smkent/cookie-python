@@ -25,6 +25,7 @@ packages = [
 python = "^3.8"
 loguru = "*"
 poetry-dynamic-versioning = "*"
+pygithub = "*"
 pyyaml = "*"
 semver = "*"
 
