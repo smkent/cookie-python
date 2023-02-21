@@ -31,8 +31,14 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument(
         "action",
-        type=lambda value: Action(str(value)),
+        type=Action,
         choices=list(Action),
+        metavar="|".join([a.value for a in Action]),
+        help="Action to perform ("
+        + ", ".join(
+            [f"{a.value}: {a.description}" for a in Action]  # type: ignore
+        )
+        + ")",
     )
     ap.add_argument("repo", nargs="+", help="Repository URL")
     ap.add_argument(
