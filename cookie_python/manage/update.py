@@ -1,4 +1,3 @@
-import json
 import os
 from argparse import Namespace
 from pathlib import Path
@@ -7,21 +6,13 @@ from typing import Optional
 from .repo import RepoSandbox
 
 
-def cruft_attr(path: str, attr: str) -> str:
-    with open(Path(path, ".cruft.json")) as f:
-        cruft = json.load(f)
-    value = cruft[attr]
-    assert isinstance(value, str)
-    return value
-
-
 def update_cruft(repo: RepoSandbox) -> Optional[str]:
-    before_ref = cruft_attr(str(repo.clone_path), "commit")
+    before_ref = repo.cruft_attr("commit")
     repo.run(["poetry", "env", "remove", "--all"], check=False)
     repo.run(["poetry", "env", "use", "/usr/bin/python3"])
     repo.run(["poetry", "install"])
     repo.run(["poetry", "run", "cruft", "update", "-y"])
-    after_ref = cruft_attr(str(repo.clone_path), "commit")
+    after_ref = repo.cruft_attr("commit")
     if before_ref == after_ref:
         return None
     for try_count in range(1):
@@ -53,7 +44,7 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
                 continue
             raise Exception(f"Unresolved conflicts: {rej_files}")
 
-    cruft_repo = cruft_attr(str(repo.clone_path), "template")
+    cruft_repo = repo.cruft_attr("template")
     range_prefix = None
     if cruft_repo.startswith("https://github.com"):
         range_prefix = f"{cruft_repo}/compare/"

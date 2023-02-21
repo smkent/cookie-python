@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import contextlib
+import json
 import os
 import subprocess
 import sys
@@ -56,6 +57,13 @@ class RepoSandbox:
         run(["git", "checkout", "-b", self.branch])
         run(["git", "reset", "--hard", "origin/main"])
         return clone_path
+
+    def cruft_attr(self, attr: str) -> str:
+        with open(self.clone_path / ".cruft.json") as f:
+            cruft = json.load(f)
+        value = cruft[attr]
+        assert isinstance(value, str)
+        return value
 
     def run(
         self, *popenargs: Any, check: bool = True, **kwargs: Any
