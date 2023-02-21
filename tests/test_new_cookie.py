@@ -8,7 +8,7 @@ from unittest import mock
 
 import pytest
 
-from cookie_python.main import main
+from cookie_python.new import main
 
 
 @pytest.fixture
