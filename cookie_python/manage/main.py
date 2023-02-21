@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from enum import Enum
+from pathlib import Path
 from typing import Callable, Optional
+
+from loguru import logger
 
 from .release import release_action
 from .update import update_action
@@ -33,7 +37,22 @@ class Action(str, Enum):
         return obj
 
 
+def configure_logging() -> None:
+    logger.remove()
+    logger.add(
+        sys.stderr,
+        colorize=True,
+        format=(
+            f"<b>[{Path(sys.argv[0]).name}]</b>"
+            " <light-blue>{time:YYYY-MM-DD HH:mm:ss}</light-blue>"
+            " <light-magenta>{extra[repo]}</light-magenta>"
+            " <level>{message}</level>"
+        ),
+    )
+
+
 def main() -> None:
+    configure_logging()
     ap = argparse.ArgumentParser()
     ap.add_argument(
         "action",
