@@ -3,7 +3,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import Iterator
+from typing import Iterable, Iterator
 from unittest.mock import patch
 
 import pytest
@@ -71,6 +71,11 @@ def new_cookie_with_lock(new_cookie: Path, temp_dir: str) -> Iterator[Path]:
     yield new_cookie
 
 
+def _manage_cookie(argv: Iterable[str]) -> None:
+    with patch.object(sys, "argv", argv):
+        manage_cookie_main()
+
+
 @pytest.mark.parametrize(
     "new_cookie",
     ("@", "f2f7eddb101275f2909525e579e0ed6f3b5305fa"),
@@ -78,6 +83,6 @@ def new_cookie_with_lock(new_cookie: Path, temp_dir: str) -> Iterator[Path]:
     indirect=True,
 )
 def test_manage_cookie_update(new_cookie_with_lock: str) -> None:
-    testargs = ["manage-cookie", "update", str(new_cookie_with_lock), "-p"]
-    with patch.object(sys, "argv", testargs):
-        manage_cookie_main()
+    _manage_cookie(
+        ["manage-cookie", "update", str(new_cookie_with_lock), "-p"]
+    )
