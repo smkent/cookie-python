@@ -6,7 +6,7 @@ import os
 import subprocess
 import sys
 import tempfile
-from functools import cached_property, partial
+from functools import cached_property
 from pathlib import Path
 from types import TracebackType
 from typing import Any, Optional
@@ -50,18 +50,11 @@ class RepoSandbox:
             ["git", "clone", self.repo, "repo"], cwd=self.tempdir, check=True
         )
         clone_path = self.tempdir / "repo"
-        run = partial(subprocess.run, cwd=clone_path, check=True)
-        if (
-            run(
-                ["git", "ls-remote", "origin", self.branch],
-                capture_output=True,
-            )
-            .stdout.decode()  # type: ignore
-            .strip()
+        for cmd in (
+            ["git", "checkout", "-b", self.branch],
+            ["git", "reset", "--hard", "origin/main"],
         ):
-            raise Exception(f'Branch "{self.branch}" already exists on remote')
-        run(["git", "checkout", "-b", self.branch])
-        run(["git", "reset", "--hard", "origin/main"])
+            subprocess.run(cmd, cwd=clone_path, check=True)
         return clone_path
 
     def cruft_attr(self, attr: str) -> str:
