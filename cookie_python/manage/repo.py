@@ -13,11 +13,13 @@ from typing import Any, Optional
 
 import loguru
 
+from .github import GithubRepo
+
 
 class RepoSandbox:
     def __init__(self, repo: str, dry_run: bool = False) -> None:
         self._stack = contextlib.ExitStack()
-        self.repo = repo
+        self.repo = self.gh.find_repo(repo)
         self.branch = "update-cookie"
         self.dry_run = dry_run
 
@@ -33,8 +35,29 @@ class RepoSandbox:
         self._stack.close()
 
     @cached_property
+    def gh(self) -> GithubRepo:
+        return GithubRepo()
+
+    @cached_property
+    def latest_release(self) -> str:
+        return self.repo.get_latest_release().title
+
+    def create_release(self, tag: str) -> None:
+        print(f"Should create release {tag}")
+        # PyGithub's repository create_tag_and_release() doesn't support
+        # generate_release_notes
+        self.repo._requester.requestJsonAndCheck(  # type: ignore
+            "POST",
+            f"/repos/{self.repo.full_name}/releases",
+            input={
+                "tag_name": tag,
+                "generate_release_notes": True,
+            },
+        )
+
+    @cached_property
     def logger(self) -> "loguru.Logger":
-        return loguru.logger.bind(repo=self.repo)
+        return loguru.logger.bind(repo=self.repo.full_name)
 
     @cached_property
     def tempdir(self) -> Path:
@@ -47,7 +70,9 @@ class RepoSandbox:
     @cached_property
     def clone_path(self) -> Path:
         subprocess.run(
-            ["git", "clone", self.repo, "repo"], cwd=self.tempdir, check=True
+            ["git", "clone", self.repo.ssh_url, "repo"],
+            cwd=self.tempdir,
+            check=True,
         )
         clone_path = self.tempdir / "repo"
         for cmd in (
@@ -107,41 +132,15 @@ class RepoSandbox:
             self.logger.error("Resolve errors and exit shell to continue")
             self.shell()
 
-    def find_existing_pr(self) -> Optional[str]:
-        with contextlib.suppress(
-            subprocess.CalledProcessError, json.JSONDecodeError, TypeError
-        ):
-            for pr in json.loads(
-                self.run(
-                    [
-                        "gh",
-                        "pr",
-                        "list",
-                        "-H",
-                        self.branch,
-                        "-B",
-                        "main",
-                        "--json",
-                        ",".join(("url", "headRefName", "baseRefName")),
-                    ],
-                    capture_output=True,
-                    check=True,
-                ).stdout.decode()
-            ):
-                pr_url = str(pr.pop("url"))
-                if pr == {"headRefName": self.branch, "baseRefName": "main"}:
-                    return pr_url
-        return None
-
     def close_existing_pr(self) -> None:
         # Locate existing PR
-        pr_url = self.find_existing_pr()
-        if pr_url:
+        pr = self.gh.find_pr(self.repo, self.branch)
+        if pr:
             if self.dry_run:
-                self.logger.info(f"Would close existing PR {pr_url}")
+                self.logger.info(f"Would close existing PR {pr.url}")
             else:
-                self.run(["gh", "pr", "close", pr_url])
-                self.logger.info(f"Closed existing PR {pr_url}")
+                pr.edit(state="closed")
+                self.logger.info(f"Closed existing PR {pr.url}")
         if self.dry_run:
             return
         # Delete existing branch
@@ -160,21 +159,10 @@ class RepoSandbox:
             return
         self.run(["git", "push", "origin", self.branch])
         commit_title, _, *commit_body = message.splitlines()
-        pr_url = self.run(
-            [
-                "gh",
-                "pr",
-                "create",
-                "--title",
-                commit_title.strip(),
-                "--body-file",
-                "-",
-                "--base",
-                "main",
-                "--head",
-                self.branch,
-            ],
-            input=os.linesep.join(commit_body).encode("utf-8"),
-            capture_output=True,
-        ).stdout.decode()
-        self.logger.success(f"Opened PR {pr_url}")
+        pr = self.repo.create_pull(
+            base="main",
+            head=self.branch,
+            title=commit_title.strip(),
+            body=os.linesep.join(commit_body),
+        )
+        self.logger.success(f"Opened PR {pr.url}")

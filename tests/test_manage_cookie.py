@@ -2,12 +2,12 @@ import json
 import os
 import subprocess
 import sys
-import textwrap
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any, Dict, Iterable, Iterator, Tuple
-from unittest.mock import patch
+from typing import Iterable, Iterator
+from unittest.mock import MagicMock, patch
 
+import github
 import pytest
 
 from cookie_python.manage.main import main as manage_cookie_main
@@ -27,6 +27,7 @@ def environ() -> Iterator[None]:
             GIT_AUTHOR_EMAIL=AUTHOR_EMAIL,
             GIT_COMMITTER_NAME=AUTHOR_NAME,
             GIT_COMMITTER_EMAIL=AUTHOR_EMAIL,
+            GITHUB_API_TOKEN="unittest_token",
         )
     )
     with patch.dict(os.environ, env):
@@ -62,6 +63,26 @@ def new_cookie(
     yield Path(temp_dir) / PROJECT_NAME
 
 
+@pytest.fixture(autouse=True)
+def mock_pygithub(new_cookie: Path) -> Iterator[MagicMock]:
+    with patch.object(github, "Github") as obj:
+        gh = obj.return_value
+        gh.get_repo.return_value = SimpleNamespace(
+            name=PROJECT_NAME,
+            full_name=f"{AUTHOR_NAME}/{PROJECT_NAME}",
+            ssh_url=str(new_cookie),
+            get_pulls=MagicMock(
+                return_value=[
+                    SimpleNamespace(
+                        url="https://unittest.example.com/repo/pulls/1138"
+                    )
+                ],
+            ),
+            get_latest_release=lambda: SimpleNamespace(title="v1.1.38"),
+        )
+        yield obj
+
+
 @pytest.fixture
 def new_cookie_with_lock(new_cookie: Path, temp_dir: str) -> Iterator[Path]:
     for cmd in (
@@ -71,26 +92,6 @@ def new_cookie_with_lock(new_cookie: Path, temp_dir: str) -> Iterator[Path]:
     ):
         subprocess.run(cmd, cwd=new_cookie, check=True)
     yield new_cookie
-
-
-@pytest.fixture
-def run_or_mock() -> Iterator[Dict[Tuple[str, ...], str]]:
-    real_run = subprocess.run
-    mocked_commands: Dict[Tuple[str, ...], str] = {}
-
-    def _run(*args: Any, **kwargs: Any) -> Any:
-        cmd = args[0]
-        cmd_tuple = tuple(cmd)
-        while cmd_tuple:
-            if cmd_tuple in mocked_commands:
-                return SimpleNamespace(
-                    stdout=mocked_commands[cmd_tuple].encode()
-                )
-            cmd_tuple = cmd_tuple[:-1]
-        return real_run(*args, **kwargs)
-
-    with patch.object(subprocess, "run", _run):
-        yield mocked_commands
 
 
 def _manage_cookie(argv: Iterable[str]) -> None:
@@ -111,18 +112,7 @@ def test_manage_cookie_update(new_cookie_with_lock: str) -> None:
 
 
 @pytest.mark.parametrize("add_commit", (True, False))
-def test_manage_cookie_release(
-    new_cookie: str, run_or_mock: Dict[Tuple[str, ...], str], add_commit: bool
-) -> None:
-    run_or_mock[("gh", "release", "list")] = textwrap.dedent(
-        """
-        TITLE       TYPE         TAG NAME  PUBLISHED
-        v1.1.38     Latest       v1.1.38   in a galaxy far, far away
-        v0.21.87                 v0.21.87  about a long time ago
-        v0.0.1                   v0.0.1    about never ago
-        """
-    ).strip()
-    run_or_mock[("gh",)] = ""  # Prevent any actual gh invocations
+def test_manage_cookie_release(new_cookie: str, add_commit: bool) -> None:
     subprocess.run(["git", "tag", "v1.1.38", "@"], cwd=new_cookie, check=True)
     if add_commit:
         subprocess.run(
