@@ -17,7 +17,7 @@ class Action(str, Enum):
     RELEASE = (
         "release",
         release_action,
-        "Release a new point version",
+        "Release a new patch version",
     )
 
     def __new__(
