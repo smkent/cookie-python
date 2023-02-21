@@ -13,6 +13,7 @@ from cookie_python.new import main as new_cookie_main
 
 AUTHOR_NAME = "Ness"
 AUTHOR_EMAIL = "ness@onett.example"
+PROJECT_NAME = "unit-test-1"
 
 
 @pytest.fixture
@@ -34,7 +35,6 @@ def environ() -> Iterator[None]:
 def new_cookie(
     request: pytest.FixtureRequest, environ: None, temp_dir: str
 ) -> Iterator[Path]:
-    project_name = "unit-test-1"
     testargs = [
         "new-cookie",
         "--local",
@@ -49,7 +49,7 @@ def new_cookie(
                 "author_name": AUTHOR_NAME,
                 "github_user": "ness.unittest.example",
                 "project_description": "Unit test project",
-                "project_name": project_name,
+                "project_name": PROJECT_NAME,
             }
         ),
         "-c",
@@ -57,14 +57,18 @@ def new_cookie(
     ]
     with patch.object(sys, "argv", testargs):
         new_cookie_main()
-    project_dir = Path(temp_dir) / project_name
+    yield Path(temp_dir) / PROJECT_NAME
+
+
+@pytest.fixture
+def new_cookie_with_lock(new_cookie: Path, temp_dir: str) -> Iterator[Path]:
     for cmd in (
         ["poetry", "lock", "--no-update"],
         ["git", "add", "poetry.lock"],
         ["git", "commit", "-m", "Create `poetry.lock`"],
     ):
-        subprocess.run(cmd, cwd=project_dir, check=True)
-    yield project_dir
+        subprocess.run(cmd, cwd=new_cookie, check=True)
+    yield new_cookie
 
 
 @pytest.mark.parametrize(
@@ -73,7 +77,7 @@ def new_cookie(
     ids=["no_updates", "updates"],
     indirect=True,
 )
-def test_manage_cookie_update(new_cookie: str) -> None:
-    testargs = ["manage-cookie", "update", str(new_cookie), "-p"]
+def test_manage_cookie_update(new_cookie_with_lock: str) -> None:
+    testargs = ["manage-cookie", "update", str(new_cookie_with_lock), "-p"]
     with patch.object(sys, "argv", testargs):
         manage_cookie_main()
