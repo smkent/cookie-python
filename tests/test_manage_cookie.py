@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -13,6 +14,8 @@ from cookie_python.new import main as new_cookie_main
 
 @pytest.fixture
 def new_cookie(temp_dir: str) -> Iterator[Path]:
+    author_name = "Ness"
+    author_email = "ness@onett.example"
     project_name = "unit-test-1"
     testargs = [
         "new-cookie",
@@ -24,8 +27,8 @@ def new_cookie(temp_dir: str) -> Iterator[Path]:
         "--extra-context",
         json.dumps(
             {
-                "author_email": "ness@onett.example",
-                "author_name": "Ness",
+                "author_email": author_email,
+                "author_name": author_name,
                 "github_user": "ness.unittest.example",
                 "project_description": "Unit test project",
                 "project_name": project_name,
@@ -37,12 +40,21 @@ def new_cookie(temp_dir: str) -> Iterator[Path]:
     with patch.object(sys, "argv", testargs):
         new_cookie_main()
     project_dir = Path(temp_dir) / project_name
+    environ = os.environ.copy()
+    environ.update(
+        dict(
+            GIT_AUTHOR_NAME=author_name,
+            GIT_AUTHOR_EMAIL=author_email,
+            GIT_COMMITTER_NAME=author_name,
+            GIT_COMMITTER_EMAIL=author_email,
+        )
+    )
     for cmd in (
         ["poetry", "lock", "--no-update"],
         ["git", "add", "poetry.lock"],
         ["git", "commit", "-m", "Create `poetry.lock`"],
     ):
-        subprocess.run(cmd, cwd=project_dir, check=True)
+        subprocess.run(cmd, cwd=project_dir, check=True, env=environ)
     yield project_dir
 
 
