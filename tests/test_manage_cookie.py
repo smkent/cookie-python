@@ -6,8 +6,9 @@ import textwrap
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any, Dict, Iterable, Iterator, Tuple
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
+import github
 import pytest
 
 from cookie_python.manage.main import main as manage_cookie_main
@@ -27,6 +28,7 @@ def environ() -> Iterator[None]:
             GIT_AUTHOR_EMAIL=AUTHOR_EMAIL,
             GIT_COMMITTER_NAME=AUTHOR_NAME,
             GIT_COMMITTER_EMAIL=AUTHOR_EMAIL,
+            GITHUB_API_TOKEN="unittest_token",
         )
     )
     with patch.dict(os.environ, env):
@@ -60,6 +62,25 @@ def new_cookie(
     with patch.object(sys, "argv", testargs):
         new_cookie_main()
     yield Path(temp_dir) / PROJECT_NAME
+
+
+@pytest.fixture(autouse=True)
+def mock_pygithub(new_cookie: Path) -> Iterator[MagicMock]:
+    with patch.object(github, "Github") as obj:
+        gh = obj.return_value
+        gh.get_repo.return_value = SimpleNamespace(
+            name=PROJECT_NAME,
+            full_name=f"{AUTHOR_NAME}/{PROJECT_NAME}",
+            ssh_url=str(new_cookie),
+            get_pulls=MagicMock(
+                return_value=[
+                    SimpleNamespace(
+                        url="https://unittest.example.com/repo/pulls/1138"
+                    )
+                ],
+            ),
+        )
+        yield obj
 
 
 @pytest.fixture

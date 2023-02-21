@@ -3,14 +3,14 @@ import os
 from functools import cached_property, lru_cache
 from typing import Optional
 
-from github import Github
+import github
 from github.PullRequest import PullRequest
 from github.Repository import Repository
 
 
 class GithubRepo:
     def __init__(self) -> None:
-        self._gh = Github(os.environ["GITHUB_ACCESS_TOKEN"])
+        self._gh = github.Github(os.environ["GITHUB_API_TOKEN"])
 
     @cached_property
     def username(self) -> str:
