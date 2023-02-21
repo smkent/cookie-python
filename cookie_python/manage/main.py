@@ -4,6 +4,7 @@ import argparse
 from enum import Enum
 from typing import Callable, Optional
 
+from .release import release_action
 from .update import update_action
 
 
@@ -12,6 +13,11 @@ class Action(str, Enum):
         "update",
         update_action,
         "Update repository cruft and dependencies",
+    )
+    RELEASE = (
+        "release",
+        release_action,
+        "Release a new point version",
     )
 
     def __new__(
