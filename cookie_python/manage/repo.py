@@ -83,8 +83,6 @@ class RepoSandbox:
         self.lint_test()
 
     def lint_test(self) -> None:
-        if not Path(self.clone_path, "poetry.lock").exists():
-            return
         self.run(["poetry", "run", "poe", "lint"], check=False)
         with contextlib.suppress(subprocess.CalledProcessError):
             self.run(["git", "add", "--", "."])

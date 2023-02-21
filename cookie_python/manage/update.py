@@ -17,13 +17,10 @@ def cruft_attr(path: str, attr: str) -> str:
 
 def update_cruft(repo: RepoSandbox) -> Optional[str]:
     before_ref = cruft_attr(str(repo.clone_path), "commit")
-    if Path(repo.clone_path, "poetry.lock").exists():
-        repo.run(["poetry", "env", "remove", "--all"], check=False)
-        repo.run(["poetry", "env", "use", "/usr/bin/python3"])
-        repo.run(["poetry", "install"])
-        repo.run(["poetry", "run", "cruft", "update", "-y"])
-    else:
-        repo.run(["cruft", "update", "-y"])
+    repo.run(["poetry", "env", "remove", "--all"], check=False)
+    repo.run(["poetry", "env", "use", "/usr/bin/python3"])
+    repo.run(["poetry", "install"])
+    repo.run(["poetry", "run", "cruft", "update", "-y"])
     after_ref = cruft_attr(str(repo.clone_path), "commit")
     if before_ref == after_ref:
         return None
@@ -68,7 +65,6 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
         repo.run(
             ["git", "clone", cruft_repo, template_repo_path], cwd=repo.tempdir
         )
-        print(template_repo_path)
     compare_cmd = [
         "git",
         "log",
@@ -87,10 +83,6 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
 
 
 def update_dependencies(repo: RepoSandbox) -> Optional[str]:
-    if not Path(repo.clone_path, "poetry.lock").exists():
-        print("Unknown dependency manager")
-        return None
-
     repo.run(["poetry", "run", "pre-commit", "autoupdate"])
     updates = repo.run(
         ["poetry", "update", "--no-cache"], capture_output=True
