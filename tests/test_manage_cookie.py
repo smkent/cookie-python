@@ -26,7 +26,7 @@ def environ() -> Iterator[None]:
             GIT_COMMITTER_EMAIL=AUTHOR_EMAIL,
         )
     )
-    with patch.object(os, "environ", env):
+    with patch.dict(os.environ, env):
         yield
 
 
