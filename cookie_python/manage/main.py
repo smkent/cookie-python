@@ -4,7 +4,7 @@ import argparse
 import sys
 from enum import Enum
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable
 
 from loguru import logger
 
@@ -28,7 +28,7 @@ class Action(str, Enum):
     def __new__(
         cls,
         value: str,
-        func: Optional[Callable[[argparse.Namespace], None]] = None,
+        func: Callable[[argparse.Namespace], None] | None = None,
         description: str = "",
     ) -> Action:
         obj = str.__new__(cls, value)

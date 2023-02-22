@@ -1,6 +1,6 @@
 {
   "template": ".",
-  "commit": "757202d63c5e720d55fbd434d89ab8f45cd0c6bb",
+  "commit": "c4899ec894c43ac32a763a480b6fb0f209503ede",
   "context": {
     "cookiecutter": {
       "project_name": "Cookiecutter template for new Python projects",
