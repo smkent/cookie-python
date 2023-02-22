@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "cookie-python"
-version = "0.1.2-post.141+d24fca9"
+version = "0.0.0"
 description = ""
 license = "MIT"
 authors = ["Stephen Kent <smkent@smkent.net>"]
