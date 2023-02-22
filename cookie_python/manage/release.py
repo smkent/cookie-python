@@ -1,11 +1,9 @@
-from argparse import Namespace
-
 import semver
 
 from .repo import RepoSandbox
 
 
-def release_patch_version(repo: RepoSandbox) -> None:
+def release_action(repo: RepoSandbox) -> None:
     if not repo.latest_release:
         repo.logger.warning("Unable to find latest release version")
         return
@@ -30,9 +28,3 @@ def release_patch_version(repo: RepoSandbox) -> None:
         return
     repo.create_release(new_tag)
     repo.logger.success(f"Released new version {new_tag}")
-
-
-def release_action(args: Namespace) -> None:
-    for repo_url in args.repo:
-        with RepoSandbox(repo_url, args.dry_run) as repo:
-            release_patch_version(repo)

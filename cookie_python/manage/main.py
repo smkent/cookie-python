@@ -9,6 +9,7 @@ from typing import Callable, Optional
 from loguru import logger
 
 from .release import release_action
+from .repo import RepoSandbox
 from .update import update_action
 
 
@@ -75,4 +76,6 @@ def main() -> None:
         help="Dry run",
     )
     args = ap.parse_args()
-    args.action.func(args)
+    for repo_arg in args.repo:
+        with RepoSandbox(repo_arg, args.dry_run) as repo:
+            args.action.func(repo)
