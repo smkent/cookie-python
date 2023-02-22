@@ -68,11 +68,11 @@ def test_project_license(cookies: Any, project_license: str) -> None:
     if project_license in ("MIT", "BSD-3-Clause"):
         # Compare copyright line separately
         if project_license == "MIT":
-            expected_copyright = "Copyright (c) {0} Ness".format(
+            expected_copyright = "Copyright (c) {} Ness".format(
                 datetime.date.today().year
             )
         elif project_license == "BSD-3-Clause":
-            expected_copyright = "Copyright (c) {0}, Ness".format(
+            expected_copyright = "Copyright (c) {}, Ness".format(
                 datetime.date.today().year
             )
         assert license_data.splitlines()[0] == expected_copyright
@@ -171,11 +171,11 @@ def test_rendered_readme(
         ),
     )
 
-    with open(os.path.join(result.project_path, "README.md"), "r") as f:
+    with open(os.path.join(result.project_path, "README.md")) as f:
         readme = f.read()
     if opt_update_expected_outputs:
         with open(expected_content_file, "w") as f:
             f.write(readme)
 
-    with open(expected_content_file, "r") as f:
+    with open(expected_content_file) as f:
         assert readme == f.read()

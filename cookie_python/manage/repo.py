@@ -9,7 +9,7 @@ import tempfile
 from functools import cached_property
 from pathlib import Path
 from types import TracebackType
-from typing import Any, Optional
+from typing import Any
 
 import loguru
 
@@ -30,9 +30,9 @@ class RepoSandbox:
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]] = None,
-        exc_val: Optional[BaseException] = None,
-        exc_tb: Optional[TracebackType] = None,
+        exc_type: type[BaseException] | None = None,
+        exc_val: BaseException | None = None,
+        exc_tb: TracebackType | None = None,
     ) -> None:
         self._stack.close()
 
@@ -58,7 +58,7 @@ class RepoSandbox:
         )
 
     @cached_property
-    def logger(self) -> "loguru.Logger":
+    def logger(self) -> loguru.Logger:
         return loguru.logger.bind(repo=self.repo.full_name)
 
     @cached_property
