@@ -1,5 +1,5 @@
 {
-  "template": "https://github.com/smkent/cookie-python",
+  "template": ".",
   "commit": "757202d63c5e720d55fbd434d89ab8f45cd0c6bb",
   "context": {
     "cookiecutter": {
@@ -13,7 +13,7 @@
       "author_name": "Stephen Kent",
       "author_email": "smkent@smkent.net",
       "github_user": "smkent",
-      "_template": "https://github.com/smkent/cookie-python"
+      "_template": "."
     }
   },
   "directory": null,
