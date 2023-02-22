@@ -14,6 +14,15 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
     after_ref = repo.cruft_attr("commit")
     if before_ref == after_ref:
         return None
+    git_status = (
+        repo.run(["git", "status", "--porcelain", "--", ":!.cruft.json"])
+        .stdout.decode()
+        .strip()
+        .splitlines()
+    )
+    if not git_status:
+        # Skip updates with no template changes
+        return None
     for try_count in range(1):
         rej_files = [
             fn.strip()
@@ -25,16 +34,7 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
             .stdout.decode()
             .splitlines()
         ]
-        conflicts = any(
-            line.startswith("U")
-            for line in repo.run(
-                ["git", "status", "--porcelain"],
-                capture_output=True,
-                check=True,
-            )
-            .stdout.decode()
-            .splitlines()
-        )
+        conflicts = any(line.startswith("U") for line in git_status)
         if rej_files or conflicts:
             if try_count == 0:
                 repo.logger.error(f"Conflicts found: {rej_files}")
