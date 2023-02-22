@@ -1,25 +1,18 @@
 import os
-from functools import wraps
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Optional
 
 from .repo import RepoSandbox
 
 
-def repo_reset(
-    f: Callable[[RepoSandbox], Optional[Any]]
-) -> Callable[..., Any]:
-    @wraps(f)
-    def _inner(repo: RepoSandbox) -> Optional[Any]:
-        result = f(repo)
-        if result is None:
-            repo.reset()
-        return result
-
-    return _inner
+def reset_cruft_json(repo: RepoSandbox) -> None:
+    repo.run(
+        ["git", "checkout", "--", ".cruft.json"],
+        capture_output=True,
+        check=False,
+    )
 
 
-@repo_reset
 def update_cruft(repo: RepoSandbox) -> Optional[str]:
     before_ref = repo.cruft_attr("commit")
     repo.run(["poetry", "env", "remove", "--all"], check=False)
@@ -41,6 +34,7 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
     )
     if not git_status:
         # Skip updates with no template changes
+        reset_cruft_json(repo)
         return None
     for try_count in range(1):
         rej_files = [
@@ -92,7 +86,6 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
     )
 
 
-@repo_reset
 def update_dependencies(repo: RepoSandbox) -> Optional[str]:
     repo.run(["poetry", "run", "pre-commit", "autoupdate"])
     updates = repo.run(
