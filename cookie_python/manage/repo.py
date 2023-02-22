@@ -167,4 +167,4 @@ class RepoSandbox:
             title=commit_title.strip(),
             body=os.linesep.join(commit_body),
         )
-        self.logger.success(f"Opened PR {pr.url}")
+        self.logger.success(f"Opened PR {pr.html_url}")
