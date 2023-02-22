@@ -1,6 +1,9 @@
 # [Cookiecutter][cookiecutter] template for new Python projects
 
+[![PyPI](https://img.shields.io/pypi/v/cookie-python)][pypi]
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/cookie-python)][pypi]
 [![Build](https://img.shields.io/github/checks-status/smkent/cookie-python/main?label=build)][gh-actions]
+[![codecov](https://codecov.io/gh/smkent/cookie-python/branch/main/graph/badge.svg)][codecov]
 [![GitHub stars](https://img.shields.io/github/stars/smkent/cookie-python?style=social)][repo]
 
 [![cookie-python][logo]](#)
@@ -17,7 +20,7 @@ A template for new Python projects, with:
 * [bandit][bandit]
 * [cruft][cruft]
 * GitHub Actions support
-* Coverage reports with [codecov.io][codecov]
+* Coverage reports with [codecov.io][codecovio]
 
 ## Poetry installation
 
@@ -63,7 +66,8 @@ cookiecutter https://github.com/smkent/cookie-python
 
 [bandit]: https://github.com/PyCQA/bandit
 [black]: https://github.com/psf/black
-[codecov]: https://codecov.io
+[codecov]: https://codecov.io/gh/smkent/cookie-python
+[codecovio]: https://codecov.io
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 [cruft]: https://github.com/cruft/cruft
 [flake8-bugbear]: https://github.com/PyCQA/flake8-bugbear
@@ -78,5 +82,6 @@ cookiecutter https://github.com/smkent/cookie-python
 [poetry-installation]: https://python-poetry.org/docs/#installation
 [poetry]: https://python-poetry.org/
 [pre-commit]: https://pre-commit.com/
+[pypi]: https://pypi.org/project/cookie-python/
 [pytest]: https://docs.pytest.org
 [repo]: https://github.com/smkent/cookie-python
