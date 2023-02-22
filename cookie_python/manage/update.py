@@ -26,6 +26,7 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
     )
     if not git_status:
         # Skip updates with no template changes
+        repo.reset()
         return None
     for try_count in range(1):
         rej_files = [

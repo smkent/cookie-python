@@ -95,6 +95,9 @@ class RepoSandbox:
         kwargs.setdefault("cwd", self.clone_path)
         return subprocess.run(*popenargs, check=check, **kwargs)
 
+    def reset(self) -> None:
+        self.run(["git", "checkout", "--", "."], check=True)
+
     def shell(self) -> None:
         if sys.__stdin__.isatty():
             self.logger.info('Starting shell. Run "exit 1" to abort.')
