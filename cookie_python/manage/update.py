@@ -15,7 +15,11 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
     if before_ref == after_ref:
         return None
     git_status = (
-        repo.run(["git", "status", "--porcelain", "--", ":!.cruft.json"])
+        repo.run(
+            ["git", "status", "--porcelain", "--", ":!.cruft.json"],
+            capture_output=True,
+            check=True,
+        )
         .stdout.decode()
         .strip()
         .splitlines()
