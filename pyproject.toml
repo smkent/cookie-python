@@ -66,6 +66,7 @@ help = "Check all files"
 [tool.poe.tasks.pytest]
 cmd = "pytest"
 help = "Run unit tests with pytest"
+env = { PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring" }
 
 [tool.poe.tasks.test]
 sequence = ["lint", "pytest"]
