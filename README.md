@@ -1,5 +1,7 @@
 # [Cookiecutter][cookiecutter] template for new Python projects
 
+[![PyPI](https://img.shields.io/pypi/v/cookie-python)][pypi]
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/cookie-python)][pypi]
 [![Build](https://img.shields.io/github/checks-status/smkent/cookie-python/main?label=build)][gh-actions]
 [![codecov](https://codecov.io/gh/smkent/cookie-python/branch/main/graph/badge.svg)][codecov]
 [![GitHub stars](https://img.shields.io/github/stars/smkent/cookie-python?style=social)][repo]
@@ -80,5 +82,6 @@ cookiecutter https://github.com/smkent/cookie-python
 [poetry-installation]: https://python-poetry.org/docs/#installation
 [poetry]: https://python-poetry.org/
 [pre-commit]: https://pre-commit.com/
+[pypi]: https://pypi.org/project/cookie-python/
 [pytest]: https://docs.pytest.org
 [repo]: https://github.com/smkent/cookie-python
