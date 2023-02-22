@@ -95,6 +95,10 @@ class RepoSandbox:
         self, *popenargs: Any, check: bool = True, **kwargs: Any
     ) -> subprocess.CompletedProcess:
         kwargs.setdefault("cwd", self.clone_path)
+        kwargs.setdefault("env", os.environ.copy())
+        kwargs["env"].setdefault(
+            "PYTHON_KEYRING_BACKEND", "keyring.backends.null.Keyring"
+        )
         return subprocess.run(*popenargs, check=check, **kwargs)
 
     def shell(self) -> None:
