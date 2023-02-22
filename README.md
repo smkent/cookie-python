@@ -17,6 +17,7 @@ A template for new Python projects, with:
 * [black][black]
 * [flake8][flake8] (with [bugbear][flake8-bugbear], [simplify][flake8-simplify],
   and [pep8-naming][pep8-naming])
+* [pyupgrade][pyupgrade]
 * [bandit][bandit]
 * [cruft][cruft]
 * GitHub Actions support
@@ -84,4 +85,5 @@ cookiecutter https://github.com/smkent/cookie-python
 [pre-commit]: https://pre-commit.com/
 [pypi]: https://pypi.org/project/cookie-python/
 [pytest]: https://docs.pytest.org
+[pyupgrade]: https://github.com/asottile/pyupgrade
 [repo]: https://github.com/smkent/cookie-python
