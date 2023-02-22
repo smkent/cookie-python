@@ -34,10 +34,6 @@ jobs:
           poetry_version: ${{ env.RELEASE_POETRY_VERSION }}
 
       - name: 🔥 Test
-        env:
-          # https://github.com/python-poetry/poetry/issues/1917
-          # https://github.com/actions/runner-images/issues/6185
-          PYTHON_KEYRING_BACKEND: "keyring.backends.null.Keyring"
         run: poetry run poe test
 
       - name: 🚒 Create test summary
@@ -68,4 +64,4 @@ jobs:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
