@@ -41,6 +41,7 @@ repos:
     rev: v3.3.1
     hooks:
     - id: pyupgrade
+      args: ["--keep-runtime-typing"]
   - repo: local
     hooks:
     - id: mypy
