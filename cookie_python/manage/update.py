@@ -1,10 +1,25 @@
 import os
+from functools import wraps
 from pathlib import Path
-from typing import Optional
+from typing import Any, Callable, Optional
 
 from .repo import RepoSandbox
 
 
+def repo_reset(
+    f: Callable[[RepoSandbox], Optional[Any]]
+) -> Callable[..., Any]:
+    @wraps(f)
+    def _inner(repo: RepoSandbox) -> Optional[Any]:
+        result = f(repo)
+        if result is None:
+            repo.reset()
+        return result
+
+    return _inner
+
+
+@repo_reset
 def update_cruft(repo: RepoSandbox) -> Optional[str]:
     before_ref = repo.cruft_attr("commit")
     repo.run(["poetry", "env", "remove", "--all"], check=False)
@@ -13,6 +28,19 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
     repo.run(["poetry", "run", "cruft", "update", "-y"])
     after_ref = repo.cruft_attr("commit")
     if before_ref == after_ref:
+        return None
+    git_status = (
+        repo.run(
+            ["git", "status", "--porcelain", "--", ":!.cruft.json"],
+            capture_output=True,
+            check=True,
+        )
+        .stdout.decode()
+        .strip()
+        .splitlines()
+    )
+    if not git_status:
+        # Skip updates with no template changes
         return None
     for try_count in range(1):
         rej_files = [
@@ -25,16 +53,7 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
             .stdout.decode()
             .splitlines()
         ]
-        conflicts = any(
-            line.startswith("U")
-            for line in repo.run(
-                ["git", "status", "--porcelain"],
-                capture_output=True,
-                check=True,
-            )
-            .stdout.decode()
-            .splitlines()
-        )
+        conflicts = any(line.startswith("U") for line in git_status)
         if rej_files or conflicts:
             if try_count == 0:
                 repo.logger.error(f"Conflicts found: {rej_files}")
@@ -73,6 +92,7 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
     )
 
 
+@repo_reset
 def update_dependencies(repo: RepoSandbox) -> Optional[str]:
     repo.run(["poetry", "run", "pre-commit", "autoupdate"])
     updates = repo.run(
