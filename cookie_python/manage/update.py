@@ -1,5 +1,4 @@
 import os
-from argparse import Namespace
 from pathlib import Path
 from typing import Optional
 
@@ -101,25 +100,23 @@ def update_dependencies(repo: RepoSandbox) -> Optional[str]:
     )
 
 
-def update_action(args: Namespace) -> None:
-    for repo_url in args.repo:
-        with RepoSandbox(repo_url, args.dry_run) as repo:
-            repo.logger.info("Starting update")
-            actions = []
-            msg_body = ""
-            cruft_msg = update_cruft(repo)
-            if cruft_msg:
-                msg_body += cruft_msg
-                actions.append("project template cruft")
-            deps_msg = update_dependencies(repo)
-            if deps_msg:
-                msg_body += deps_msg
-                actions.append("dependencies")
-            if not msg_body:
-                repo.logger.info("Already up to date")
-                continue
-            actions_str = ", ".join(actions)
-            message = f"Update {actions_str}\n\n{msg_body}"
-            repo.logger.info(f"Updated {actions_str}")
-            repo.commit_changes(message)
-            repo.open_pr(message)
+def update_action(repo: RepoSandbox) -> None:
+    repo.logger.info("Starting update")
+    actions = []
+    msg_body = ""
+    cruft_msg = update_cruft(repo)
+    if cruft_msg:
+        msg_body += cruft_msg
+        actions.append("project template cruft")
+    deps_msg = update_dependencies(repo)
+    if deps_msg:
+        msg_body += deps_msg
+        actions.append("dependencies")
+    if not msg_body:
+        repo.logger.info("Already up to date")
+        return
+    actions_str = ", ".join(actions)
+    message = f"Update {actions_str}\n\n{msg_body}"
+    repo.logger.info(f"Updated {actions_str}")
+    repo.commit_changes(message)
+    repo.open_pr(message)
