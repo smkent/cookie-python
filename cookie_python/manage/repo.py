@@ -17,10 +17,12 @@ from .github import GithubRepo
 
 
 class RepoSandbox:
-    def __init__(self, repo: str, dry_run: bool = False) -> None:
+    def __init__(
+        self, repo: str, dry_run: bool = False, branch: str = "manage-cookie"
+    ) -> None:
         self._stack = contextlib.ExitStack()
         self.repo = self.gh.find_repo(repo)
-        self.branch = "update-cookie"
+        self.branch = branch
         self.dry_run = dry_run
 
     def __enter__(self) -> RepoSandbox:
