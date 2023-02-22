@@ -17,6 +17,7 @@ A template for new Python projects, with:
 * [black][black]
 * [flake8][flake8] (with [bugbear][flake8-bugbear], [simplify][flake8-simplify],
   and [pep8-naming][pep8-naming])
+* [autoflake][autoflake]
 * [pyupgrade][pyupgrade]
 * [bandit][bandit]
 * [cruft][cruft]
@@ -65,6 +66,7 @@ cookiecutter https://github.com/smkent/cookie-python
 * Update test expected output files from test results:
   `poetry run poe updatetests`
 
+[autoflake]: https://github.com/PyCQA/autoflake
 [bandit]: https://github.com/PyCQA/bandit
 [black]: https://github.com/psf/black
 [codecov]: https://codecov.io/gh/smkent/cookie-python
