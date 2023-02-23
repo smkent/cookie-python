@@ -23,6 +23,7 @@ def test_new_cookie_create(temp_dir: str) -> None:
                 "github_user": "ness.unittest.example",
                 "project_description": "Unit test project",
                 "project_name": "unit-test-1",
+                "enable_container_publish": "yes",
             }
         ),
     ]
@@ -45,3 +46,7 @@ def test_new_cookie_create(temp_dir: str) -> None:
     subprocess.check_call(["poetry", "install"], cwd=project_dir)
     # Run rendered project's tests
     subprocess.check_call(["poetry", "run", "poe", "test"], cwd=project_dir)
+    # Build container for rendered project
+    subprocess.check_call(
+        ["docker", "build", ".", "--no-cache"], cwd=project_dir
+    )
