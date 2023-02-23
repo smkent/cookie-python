@@ -64,4 +64,4 @@ jobs:
           tags: ${{ "{{" }} steps.meta.outputs.tags }}
           labels: ${{ "{{" }} steps.meta.outputs.labels }}
           build-args: |
-            "POETRY_DYNAMIC_VERSIONING_BYPASS=${{ env.PROJECT_VERSION }}"
+            "POETRY_DYNAMIC_VERSIONING_BYPASS=${{ "{{" }} env.PROJECT_VERSION }}"
