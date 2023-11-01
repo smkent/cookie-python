@@ -39,9 +39,12 @@ def test_new_cookie_create(temp_dir: str) -> None:
         .strip()
     ), "Untracked files present in template-rendered project"
 
+    # Verify cruft is up to date
+    subprocess.check_call(["poetry", "run", "pip", "install", "toml"])
     subprocess.check_call(
         ["poetry", "run", "cruft", "diff", "--exit-code"], cwd=project_dir
     )
+
     # Install rendered project
     subprocess.check_call(["poetry", "install"], cwd=project_dir)
     # Run rendered project's tests

@@ -48,7 +48,7 @@ class RepoSandbox:
         print(f"Should create release {tag}")
         # PyGithub's repository create_tag_and_release() doesn't support
         # generate_release_notes
-        self.repo._requester.requestJsonAndCheck(  # type: ignore
+        self.repo._requester.requestJsonAndCheck(
             "POST",
             f"/repos/{self.repo.full_name}/releases",
             input={
