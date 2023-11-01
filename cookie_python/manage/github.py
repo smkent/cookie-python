@@ -30,7 +30,9 @@ class GithubRepo:
     ) -> Optional[PullRequest]:
         pulls = [
             pr
-            for pr in repo.get_pulls(head=f"{self.username}:{head}", base=base)
+            for pr in repo.get_pulls(
+                head=f"{self.username}:{head}", base=base  # noqa: E231
+            )
         ]
         if not pulls:
             return None
