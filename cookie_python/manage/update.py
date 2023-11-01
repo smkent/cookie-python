@@ -18,6 +18,7 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
     repo.run(["poetry", "env", "remove", "--all"], check=False)
     repo.run(["poetry", "env", "use", "/usr/bin/python3"])
     repo.run(["poetry", "install"])
+    repo.run(["poetry", "run", "pip", "install", "toml"])
     repo.run(["poetry", "run", "cruft", "update", "-y"])
     after_ref = repo.cruft_attr("commit")
     if before_ref == after_ref:
