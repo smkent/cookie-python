@@ -26,8 +26,10 @@ for rm_path in itertools.chain.from_iterable(
     ]
 ):
     full_rm_path = os.path.join(os.getcwd(), rm_path)
-    shutil.rmtree(full_rm_path) if os.path.isdir(full_rm_path) else os.remove(
-        full_rm_path
+    (
+        shutil.rmtree(full_rm_path)
+        if os.path.isdir(full_rm_path)
+        else os.remove(full_rm_path)
     )
 
 
