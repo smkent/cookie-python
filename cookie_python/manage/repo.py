@@ -70,6 +70,12 @@ class RepoSandbox:
         )
 
     @cached_property
+    def cachedir(self) -> Path:
+        d = self.tempdir / "cache"
+        d.mkdir(exist_ok=True)
+        return d
+
+    @cached_property
     def clone_path(self) -> Path:
         subprocess.run(
             ["git", "clone", self.repo.ssh_url, "repo"],
@@ -99,6 +105,7 @@ class RepoSandbox:
         kwargs["env"].setdefault(
             "PYTHON_KEYRING_BACKEND", "keyring.backends.null.Keyring"
         )
+        kwargs["env"].setdefault("POETRY_CACHE_DIR", self.cachedir)
         return subprocess.run(*popenargs, check=check, **kwargs)
 
     def shell(self) -> None:
