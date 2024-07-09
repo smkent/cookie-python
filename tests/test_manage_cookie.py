@@ -71,6 +71,7 @@ def mock_pygithub(new_cookie: Path) -> Iterator[MagicMock]:
             name=PROJECT_NAME,
             full_name=f"{AUTHOR_NAME}/{PROJECT_NAME}",
             ssh_url=str(new_cookie),
+            html_url=str(new_cookie),
             get_pulls=MagicMock(
                 return_value=[
                     SimpleNamespace(
