@@ -12,6 +12,7 @@ from types import TracebackType
 from typing import Any
 
 import loguru
+from github import GithubException
 
 from .github import GithubRepo
 
@@ -78,12 +79,19 @@ class RepoSandbox:
     @cached_property
     def clone_path(self) -> Path:
         subprocess.run(
-            ["git", "clone", self.repo.ssh_url, "repo"],
+            ["git", "clone", self.repo.html_url, "repo"],
             cwd=self.tempdir,
             check=True,
         )
         clone_path = self.tempdir / "repo"
         for cmd in (
+            [
+                "git",
+                "config",
+                "--local",
+                "remote.origin.pushurl",
+                self.repo.ssh_url,
+            ],
             ["git", "checkout", "-b", self.branch],
             ["git", "reset", "--hard", "origin/main"],
         ):
@@ -154,7 +162,16 @@ class RepoSandbox:
             else:
                 pr.edit(state="closed")
                 self.logger.info(f"Closed existing PR {pr.url}")
+        try:
+            self.repo.get_branch(self.branch)
+        except GithubException as e:
+            if e.status == 404:
+                return
+            raise
         if self.dry_run:
+            self.logger.info(
+                f"Would delete existing remote branch {self.branch}"
+            )
             return
         # Delete existing branch
         delete_result = self.run(
