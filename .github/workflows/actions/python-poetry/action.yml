@@ -20,7 +20,7 @@ runs:
         python3 -m pip install --upgrade requests
 
     - name: 🐍 Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       id: setuppy
       with:
         python-version: ${{ inputs.python_version }}
