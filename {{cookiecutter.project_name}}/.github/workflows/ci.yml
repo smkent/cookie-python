@@ -51,7 +51,7 @@ jobs:
       - name: 📊 Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         env:
-          CODECOV_TOKEN: ${{ "${{" }} secrets.CODECOV_TOKEN }}
+          CODECOV_TOKEN: ${{ "{{" }} secrets.CODECOV_TOKEN }}
         if: ${{ "{{" }} env.ENABLE_COVERAGE == 'true' }}
         with:
           fail_ci_if_error: true
