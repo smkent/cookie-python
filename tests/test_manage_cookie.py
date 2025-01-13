@@ -88,7 +88,7 @@ def mock_pygithub(new_cookie: Path) -> Iterator[MagicMock]:
 @pytest.fixture
 def new_cookie_with_lock(new_cookie: Path, temp_dir: str) -> Iterator[Path]:
     for cmd in (
-        ["poetry", "lock", "--no-update"],
+        ["poetry", "sync"],
         ["git", "add", "poetry.lock"],
         ["git", "commit", "-m", "Create `poetry.lock`"],
     ):

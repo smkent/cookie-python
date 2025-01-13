@@ -1,13 +1,12 @@
 [build-system]
-requires = ["poetry-core>=1.2.0", "poetry-dynamic-versioning"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["poetry-core>=2.0.0,<3.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
 
-[tool.poetry]
+[project]
 name = "{{ cookiecutter.project_name }}"
-version = "0.0.0"
 description = "{{ cookiecutter.project_description|replace('"', '\\\"') }}"
 license = "{{ cookiecutter.project_license }}"
-authors = ["{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>"]
+authors = [ { name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}" } ]
 readme = "README.md"{% if cookiecutter.github_user %}
 repository = "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name }}"{% endif %}
 classifiers = [
@@ -16,11 +15,21 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
+requires-python = ">=3.9"
+dynamic = [ "version" ]
+dependencies = [
+]
 
-[tool.poetry.dependencies]
-python = "^3.8"
+[project.scripts]
 
-[tool.poetry.dev-dependencies]
+[tool.poetry]
+requires-poetry = ">=2.0"
+version = "0.0.0"
+
+[tool.poetry.requires-plugins]
+poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
+
+[tool.poetry.group.dev.dependencies]
 bandit = {extras = ["toml"], version = "*"}
 black = "*"
 cruft = "*"
@@ -37,8 +46,6 @@ pytest = "*"
 pytest-cov = "*"
 pytest-github-actions-annotate-failures = "*"
 pytest-sugar = "*"
-
-[tool.poetry.scripts]
 
 [tool.poetry-dynamic-versioning]
 enable = true

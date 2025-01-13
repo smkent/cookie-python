@@ -1,13 +1,12 @@
 [build-system]
-requires = ["poetry-core>=1.2.0", "poetry-dynamic-versioning"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["poetry-core>=2.0.0,<3.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
 
-[tool.poetry]
+[project]
 name = "cookie-python"
-version = "0.0.0"
 description = ""
 license = "MIT"
-authors = ["Stephen Kent <smkent@smkent.net>"]
+authors = [ { name = "Stephen Kent", email = "smkent@smkent.net" } ]
 readme = "README.md"
 repository = "https://github.com/smkent/cookie-python"
 classifiers = [
@@ -17,19 +16,30 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
+requires-python = ">=3.9"
+dynamic = [ "version" ]
+dependencies = [
+    "loguru",
+    "pygithub",
+    "pyyaml",
+    "semver",
+]
+
+[project.scripts]
+new-cookie = "cookie_python.new:main"
+manage-cookie = "cookie_python.manage.main:main"
+
+[tool.poetry]
 packages = [
     { include = "{{cookiecutter.project_name}}" }
 ]
+requires-poetry = ">=2.0"
+version = "0.0.0"
 
-[tool.poetry.dependencies]
-python = "^3.8"
-loguru = "*"
-poetry-dynamic-versioning = "*"
-pygithub = "*"
-pyyaml = "*"
-semver = "*"
+[tool.poetry.requires-plugins]
+poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 bandit = {extras = ["toml"], version = "*"}
 black = "*"
 build = "*"
@@ -51,8 +61,6 @@ pytest-sugar = "*"
 types-PyYAML = "*"
 
 [tool.poetry.scripts]
-new-cookie = "cookie_python.new:main"
-manage-cookie = "cookie_python.manage.main:main"
 
 [tool.poetry-dynamic-versioning]
 enable = true
