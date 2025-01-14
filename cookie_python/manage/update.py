@@ -134,3 +134,4 @@ def update_action(repo: RepoSandbox) -> None:
     repo.logger.info(f"Updated {actions_str}")
     repo.commit_changes(message)
     repo.open_pr(message)
+    repo.run(["poetry", "env", "remove", "--all"], check=False)
