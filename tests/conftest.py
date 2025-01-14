@@ -1,8 +1,17 @@
 import os
 from tempfile import TemporaryDirectory
 from typing import Iterator
+from unittest.mock import patch
 
 import pytest
+
+
+@pytest.fixture(scope="session", autouse=True)
+def subprocess_environment() -> Iterator[None]:
+    with patch.dict(os.environ, {}) as patched_env:
+        if "VIRTUAL_ENV" in patched_env:
+            del patched_env["VIRTUAL_ENV"]
+        yield
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
