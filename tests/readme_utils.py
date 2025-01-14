@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Any, Iterable, List
+from typing import Any
+from collections.abc import Iterable
 
 
 @dataclass
@@ -36,8 +37,8 @@ class ReadmeCases:
             "enable_container_publish",
             "expected_content_file",
         ]
-        ids: List[str] = []
-        argvalues: List[Any] = []
+        ids: list[str] = []
+        argvalues: list[Any] = []
         for case in [
             ReadmeCaseParams(
                 id="no_github_user",

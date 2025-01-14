@@ -3,12 +3,11 @@ import os
 import subprocess
 import time
 from pathlib import Path
-from typing import List, Tuple
 
 TEMPLATE_REPOSITORY_URL = "https://github.com/smkent/cookie-python"
 
 
-def parse_args() -> Tuple[argparse.Namespace, List[str]]:
+def parse_args() -> tuple[argparse.Namespace, list[str]]:
     ap = argparse.ArgumentParser()
     ap.add_argument(
         "project_dir", help="New project parent directory", type=str

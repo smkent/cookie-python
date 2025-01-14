@@ -1,55 +1,28 @@
-import json
 import os
 import subprocess
-import sys
-from unittest import mock
-
-from cookie_python.new import main
+from pathlib import Path
 
 
-def test_new_cookie_create(temp_dir: str) -> None:
-    testargs = [
-        "new-cookie",
-        "--local",
-        temp_dir,
-        "--",
-        "-d",
-        "-y",
-        "--extra-context",
-        json.dumps(
-            {
-                "author_email": "ness@onett.example",
-                "author_name": "Ness",
-                "github_user": "ness.unittest.example",
-                "project_description": "Unit test project",
-                "project_name": "unit-test-1",
-                "enable_container_publish": "yes",
-            }
-        ),
-    ]
-    with mock.patch.object(sys, "argv", testargs):
-        main()
-    project_dir = os.path.join(temp_dir, "unit-test-1")
-    assert os.path.isdir(project_dir)
+def test_new_cookie_create(new_cookie: Path, temp_dir: Path) -> None:
+    assert os.path.isdir(new_cookie)
     assert not (
         subprocess.check_output(
-            ["git", "status", "--porcelain=v1"], cwd=project_dir
+            ["git", "status", "--porcelain=v1"], cwd=new_cookie
         )
         .decode("utf-8")
         .strip()
     ), "Untracked files present in template-rendered project"
 
     # Verify cruft is up to date
-    subprocess.check_call(["poetry", "run", "pip", "install", "toml"])
     subprocess.check_call(
-        ["poetry", "run", "cruft", "diff", "--exit-code"], cwd=project_dir
+        ["poetry", "run", "cruft", "diff", "--exit-code"], cwd=new_cookie
     )
 
     # Install rendered project
-    subprocess.check_call(["poetry", "install"], cwd=project_dir)
+    subprocess.check_call(["poetry", "sync"], cwd=new_cookie)
     # Run rendered project's tests
-    subprocess.check_call(["poetry", "run", "poe", "test"], cwd=project_dir)
+    subprocess.check_call(["poetry", "run", "poe", "test"], cwd=new_cookie)
     # Build container for rendered project
     subprocess.check_call(
-        ["docker", "build", ".", "--no-cache"], cwd=project_dir
+        ["docker", "build", ".", "--no-cache"], cwd=new_cookie
     )

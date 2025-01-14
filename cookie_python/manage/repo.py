@@ -117,7 +117,7 @@ class RepoSandbox:
         return subprocess.run(*popenargs, check=check, **kwargs)
 
     def shell(self) -> None:
-        if sys.__stdin__.isatty():
+        if sys.__stdin__ and sys.__stdin__.isatty():
             self.logger.info('Starting shell. Run "exit 1" to abort.')
             self.run([os.environ.get("SHELL", "/bin/bash")])
 
