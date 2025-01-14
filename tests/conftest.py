@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -86,4 +87,7 @@ def new_cookie(
     ]
     with patch.object(sys, "argv", testargs):
         new_cookie_main()
-    yield temp_dir / PROJECT_NAME
+    project_dir = temp_dir / PROJECT_NAME
+    yield project_dir
+    if (project_dir / "pyproject.toml").is_file():
+        subprocess.run(["poetry", "env", "remove", "--all"], cwd=project_dir)
