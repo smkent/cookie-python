@@ -15,9 +15,6 @@ def test_new_cookie_create(new_cookie: Path, temp_dir: Path) -> None:
 
     # Verify cruft is up to date
     subprocess.check_call(
-        ["poetry", "run", "pip", "install", "toml"], cwd=new_cookie
-    )
-    subprocess.check_call(
         ["poetry", "run", "cruft", "diff", "--exit-code"], cwd=new_cookie
     )
 

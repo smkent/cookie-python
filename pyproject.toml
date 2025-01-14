@@ -23,6 +23,7 @@ dependencies = [
     "pygithub",
     "pyyaml",
     "semver",
+    "toml ; python_version < '3.11'",
 ]
 
 [project.scripts]
