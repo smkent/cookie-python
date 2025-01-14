@@ -132,7 +132,7 @@ def test_rendered_project(
         cd_data = yaml.safe_load(f.read())
     assert ci_data["env"]["ENABLE_COVERAGE"] == enable_coverage
     assert cd_data["env"]["ENABLE_PYPI_PUBLISH"] == enable_pypi_publish
-    assert cd_data["env"]["ENABLE_TEST_PYPI_PUBLISH"] == enable_pypi_publish
+    assert cd_data["env"]["ENABLE_TEST_PYPI_PUBLISH"] is False
 
     assert not (
         subprocess.check_output(
