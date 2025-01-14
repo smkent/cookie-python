@@ -2,7 +2,7 @@ import subprocess
 import sys
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Iterable, Iterator
+from collections.abc import Iterable, Iterator
 from unittest.mock import MagicMock, patch
 
 import github

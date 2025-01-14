@@ -4,7 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Iterator
+from collections.abc import Iterator
 from unittest.mock import patch
 
 import pytest

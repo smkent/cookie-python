@@ -1,7 +1,7 @@
 import datetime
 import os
 import subprocess
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 import yaml
@@ -11,7 +11,7 @@ from .readme_utils import ReadmeCases
 TEMPLATE_ONLY_DATA = "cookiecutter_template_data"
 
 
-def _bake(cookies: Any, extra_context: Dict[str, Any]) -> Any:
+def _bake(cookies: Any, extra_context: dict[str, Any]) -> Any:
     result = cookies.bake(extra_context=extra_context)
 
     assert not result.exception

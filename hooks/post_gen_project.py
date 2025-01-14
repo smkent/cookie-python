@@ -2,14 +2,13 @@ import itertools
 import os
 import shutil
 import subprocess
-from typing import Dict, List
 
 import yaml
 
 TEMPLATE_ONLY_DATA = "cookiecutter_template_data"
 
 
-def _run(call: List[str], env: Dict[str, str]) -> None:
+def _run(call: list[str], env: dict[str, str]) -> None:
     subprocess.run(call, env=env).check_returncode()
 
 
