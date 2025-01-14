@@ -20,28 +20,25 @@ PROJECT_NAME = "unit-test-1"
 
 @pytest.fixture
 def environ() -> Iterator[None]:
-    env = os.environ.copy()
-    env.update(
-        dict(
-            GIT_AUTHOR_NAME=AUTHOR_NAME,
-            GIT_AUTHOR_EMAIL=AUTHOR_EMAIL,
-            GIT_COMMITTER_NAME=AUTHOR_NAME,
-            GIT_COMMITTER_EMAIL=AUTHOR_EMAIL,
-            GITHUB_API_TOKEN="unittest_token",
-        )
+    add_values = dict(
+        GIT_AUTHOR_NAME=AUTHOR_NAME,
+        GIT_AUTHOR_EMAIL=AUTHOR_EMAIL,
+        GIT_COMMITTER_NAME=AUTHOR_NAME,
+        GIT_COMMITTER_EMAIL=AUTHOR_EMAIL,
+        GITHUB_API_TOKEN="unittest_token",
     )
-    with patch.dict(os.environ, env):
+    with patch.dict(os.environ, add_values):
         yield
 
 
 @pytest.fixture(params=["@"])
 def new_cookie(
-    request: pytest.FixtureRequest, environ: None, temp_dir: str
+    request: pytest.FixtureRequest, environ: None, temp_dir: Path
 ) -> Iterator[Path]:
     testargs = [
         "new-cookie",
         "--local",
-        temp_dir,
+        str(temp_dir),
         "--",
         "-d",
         "-y",
@@ -60,7 +57,7 @@ def new_cookie(
     ]
     with patch.object(sys, "argv", testargs):
         new_cookie_main()
-    yield Path(temp_dir) / PROJECT_NAME
+    yield temp_dir / PROJECT_NAME
 
 
 @pytest.fixture(autouse=True)
@@ -86,7 +83,7 @@ def mock_pygithub(new_cookie: Path) -> Iterator[MagicMock]:
 
 
 @pytest.fixture
-def new_cookie_with_lock(new_cookie: Path, temp_dir: str) -> Iterator[Path]:
+def new_cookie_with_lock(new_cookie: Path, temp_dir: Path) -> Iterator[Path]:
     for cmd in (
         ["poetry", "sync"],
         ["git", "add", "poetry.lock"],

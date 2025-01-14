@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Iterator
 from unittest.mock import patch
@@ -32,6 +33,6 @@ def opt_update_expected_outputs(request: pytest.FixtureRequest) -> bool:
 
 
 @pytest.fixture
-def temp_dir() -> Iterator[str]:
+def temp_dir() -> Iterator[Path]:
     with TemporaryDirectory(prefix="cookie-python.unittest.") as td:
-        yield os.path.join(td)
+        yield Path(td)

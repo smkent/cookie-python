@@ -2,16 +2,17 @@ import json
 import os
 import subprocess
 import sys
+from pathlib import Path
 from unittest import mock
 
 from cookie_python.new import main
 
 
-def test_new_cookie_create(temp_dir: str) -> None:
+def test_new_cookie_create(temp_dir: Path) -> None:
     testargs = [
         "new-cookie",
         "--local",
-        temp_dir,
+        str(temp_dir),
         "--",
         "-d",
         "-y",
@@ -29,7 +30,7 @@ def test_new_cookie_create(temp_dir: str) -> None:
     ]
     with mock.patch.object(sys, "argv", testargs):
         main()
-    project_dir = os.path.join(temp_dir, "unit-test-1")
+    project_dir = temp_dir / "unit-test-1"
     assert os.path.isdir(project_dir)
     assert not (
         subprocess.check_output(
