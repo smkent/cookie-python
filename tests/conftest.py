@@ -1,10 +1,31 @@
+import json
 import os
+import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Iterator
 from unittest.mock import patch
 
 import pytest
+
+from cookie_python.new import main as new_cookie_main
+
+AUTHOR_NAME = "Ness"
+AUTHOR_EMAIL = "ness@onett.example"
+PROJECT_NAME = "unit-test-1"
+
+
+@pytest.fixture
+def project_environment() -> Iterator[None]:
+    add_values = dict(
+        GIT_AUTHOR_NAME=AUTHOR_NAME,
+        GIT_AUTHOR_EMAIL=AUTHOR_EMAIL,
+        GIT_COMMITTER_NAME=AUTHOR_NAME,
+        GIT_COMMITTER_EMAIL=AUTHOR_EMAIL,
+        GITHUB_API_TOKEN="unittest_token",
+    )
+    with patch.dict(os.environ, add_values):
+        yield
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -36,3 +57,33 @@ def opt_update_expected_outputs(request: pytest.FixtureRequest) -> bool:
 def temp_dir() -> Iterator[Path]:
     with TemporaryDirectory(prefix="cookie-python.unittest.") as td:
         yield Path(td)
+
+
+@pytest.fixture(params=["@"])
+def new_cookie(
+    request: pytest.FixtureRequest, project_environment: None, temp_dir: Path
+) -> Iterator[Path]:
+    testargs = [
+        "new-cookie",
+        "--local",
+        str(temp_dir),
+        "--",
+        "-d",
+        "-y",
+        "--extra-context",
+        json.dumps(
+            {
+                "author_email": AUTHOR_EMAIL,
+                "author_name": AUTHOR_NAME,
+                "github_user": "ness.unittest.example",
+                "project_description": "Unit test project",
+                "project_name": PROJECT_NAME,
+                "enable_container_publish": "yes",
+            }
+        ),
+        "-c",
+        request.param,
+    ]
+    with patch.object(sys, "argv", testargs):
+        new_cookie_main()
+    yield temp_dir / PROJECT_NAME
