@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "cookie-python"
-description = ""
+description = "Cookiecutter template for new Python projects"
 license = "MIT"
 authors = [ { name = "Stephen Kent", email = "smkent@smkent.net" } ]
 readme = "README.md"

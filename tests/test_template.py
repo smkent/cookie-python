@@ -133,6 +133,10 @@ def test_rendered_project(
     assert ci_data["env"]["ENABLE_COVERAGE"] == enable_coverage
     assert cd_data["env"]["ENABLE_PYPI_PUBLISH"] == enable_pypi_publish
     assert cd_data["env"]["ENABLE_TEST_PYPI_PUBLISH"] is False
+    assert cd_data["jobs"]["Publish"]["environment"] == {
+        "name": "pypi",
+        "url": "https://pypi.org/p/test-baked-cookie",
+    }
 
     assert not (
         subprocess.check_output(
