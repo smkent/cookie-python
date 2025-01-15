@@ -3,9 +3,9 @@
   "commit": "45a5e60428dab6cb6f6382505d8591a050f1a7ba",
   "context": {
     "cookiecutter": {
-      "project_name": "Cookiecutter template for new Python projects",
+      "project_name": "cookie-python",
       "project_slug": "cookie_python",
-      "project_description": "A template for new Python projects",
+      "project_description": "Cookiecutter template for new Python projects",
       "project_license": "MIT",
       "enable_coverage": "yes",
       "enable_pypi_publish": "no",

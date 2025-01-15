@@ -3,7 +3,7 @@ name: Release
 
 env:
   ENABLE_PYPI_PUBLISH: true
-  ENABLE_TEST_PYPI_PUBLISH: true
+  ENABLE_TEST_PYPI_PUBLISH: false
   RELEASE_PYTHON_VERSION: "3.12"
   RELEASE_POETRY_VERSION: "2.0"
 
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/Cookiecutter template for new Python projects
+      url: https://pypi.org/p/cookie-python
     permissions:
       id-token: write
 
