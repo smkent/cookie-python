@@ -1,6 +1,6 @@
 {
   "template": ".",
-  "commit": "2921bf15f3cf22e8e5c9ae04a5f7e8f52daffbc6",
+  "commit": "45a5e60428dab6cb6f6382505d8591a050f1a7ba",
   "context": {
     "cookiecutter": {
       "project_name": "Cookiecutter template for new Python projects",
@@ -13,7 +13,8 @@
       "author_name": "Stephen Kent",
       "author_email": "smkent@smkent.net",
       "github_user": "smkent",
-      "_template": "."
+      "_template": ".",
+      "_commit": "45a5e60428dab6cb6f6382505d8591a050f1a7ba"
     }
   },
   "directory": null,
