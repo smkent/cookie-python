@@ -2,9 +2,9 @@ import json
 import os
 import subprocess
 import sys
+from collections.abc import Iterator
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from collections.abc import Iterator
 from unittest.mock import patch
 
 import pytest

@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from typing import Optional
 
 from .repo import RepoSandbox
 
@@ -13,7 +12,7 @@ def reset_cruft_json(repo: RepoSandbox) -> None:
     )
 
 
-def update_cruft(repo: RepoSandbox) -> Optional[str]:
+def update_cruft(repo: RepoSandbox) -> str | None:
     before_ref = repo.cruft_attr("commit")
     repo.run(["poetry", "env", "remove", "--all"], check=False)
     repo.run(["poetry", "env", "use", "/usr/bin/python3"])
@@ -87,7 +86,7 @@ def update_cruft(repo: RepoSandbox) -> Optional[str]:
     )
 
 
-def update_dependencies(repo: RepoSandbox) -> Optional[str]:
+def update_dependencies(repo: RepoSandbox) -> str | None:
     repo.run(["poetry", "run", "pre-commit", "autoupdate"])
     updates = repo.run(
         ["poetry", "update", "--no-cache"], capture_output=True

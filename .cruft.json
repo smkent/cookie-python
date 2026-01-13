@@ -1,6 +1,6 @@
 {
   "template": ".",
-  "commit": "7025e55adab820dd8e63d8be0e0ec0cabad0d830",
+  "commit": "9a783dd51cc0195a994c510e5f0eeb2d730a7e49",
   "context": {
     "cookiecutter": {
       "project_name": "cookie-python",
@@ -14,7 +14,7 @@
       "author_email": "smkent@smkent.net",
       "github_user": "smkent",
       "_template": ".",
-      "_commit": "7025e55adab820dd8e63d8be0e0ec0cabad0d830"
+      "_commit": "9a783dd51cc0195a994c510e5f0eeb2d730a7e49"
     }
   },
   "directory": null,

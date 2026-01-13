@@ -16,7 +16,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
-requires-python = ">=3.9,<4.0"
+requires-python = ">=3.10,<4.0"
 dynamic = [ "version" ]
 dependencies = [
     "loguru",
@@ -42,16 +42,9 @@ poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
 
 [tool.poetry.group.dev.dependencies]
 bandit = {extras = ["toml"], version = "*"}
-black = "*"
 build = "*"
 cruft = "*"
-flake8 = "*"
-flake8-bugbear = "*"
-flake8-pyproject = "*"
-flake8-simplify = "*"
-isort = "*"
 mypy = "*"
-pep8-naming = "*"
 poethepoet = "*"
 pre-commit = "*"
 pytest = "*"
@@ -59,6 +52,7 @@ pytest-cookies = "*"
 pytest-cov = "*"
 pytest-github-actions-annotate-failures = "*"
 pytest-sugar = "*"
+ruff = "*"
 types-PyYAML = "*"
 
 [tool.poetry.scripts]
@@ -97,9 +91,6 @@ skips = [
     "B607",  # start_process_with_partial_path
 ]
 
-[tool.black]
-line-length = 79
-
 [tool.coverage.run]
 source = ["cookie_python"]
 omit = ["/etc/*", "/tmp/*"]
@@ -111,14 +102,6 @@ omit = ["/etc/*", "/tmp/*"]
 
 [tool.cruft]
 skip = [".git"]
-
-[tool.flake8]
-exclude = "./.*,./{{cookiecutter.project_name}}"
-
-[tool.isort]
-atomic = true
-profile = "black"
-line_length = 79
 
 [tool.mypy]
 files = ["tests"]
@@ -139,5 +122,32 @@ addopts = """\
     --cov-report xml:.pytest_coverage.xml \
     --junitxml=.pytest_results.xml \
 """
+
+[tool.ruff]
+target-version = "py310"
+line-length = 79
+fix = true
+
+exclude = [
+  ".git",
+  ".venv",
+  "__pycache__",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.ruff.lint]
+select = [
+  "E", "W",     # pycodestyle
+  "F",          # pyflakes
+  "I",          # isort
+  "B",          # bugbear
+  "SIM",        # flake8-simplify
+  "N",          # pep8-naming
+  "UP",         # pyupgrade
+]
 
 # vim: ft=cfg
