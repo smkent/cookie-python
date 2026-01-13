@@ -14,11 +14,7 @@ A template for new Python projects, with:
 * [pytest][pytest]
 * [pre-commit][pre-commit]
 * [mypy][mypy]
-* [black][black]
-* [flake8][flake8] (with [bugbear][flake8-bugbear], [simplify][flake8-simplify],
-  and [pep8-naming][pep8-naming])
-* [autoflake][autoflake]
-* [pyupgrade][pyupgrade]
+* [ruff][ruff]
 * [bandit][bandit]
 * [cruft][cruft]
 * GitHub Actions support
@@ -66,20 +62,14 @@ cookiecutter https://github.com/smkent/cookie-python
 * Update test expected output files from test results:
   `poetry run poe updatetests`
 
-[autoflake]: https://github.com/PyCQA/autoflake
 [bandit]: https://github.com/PyCQA/bandit
-[black]: https://github.com/psf/black
 [codecov]: https://codecov.io/gh/smkent/cookie-python
 [codecovio]: https://codecov.io
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 [cruft]: https://github.com/cruft/cruft
-[flake8-bugbear]: https://github.com/PyCQA/flake8-bugbear
-[flake8-simplify]: https://github.com/MartinThoma/flake8-simplify
-[flake8]: https://github.com/pycqa/flake8
 [gh-actions]: https://github.com/smkent/cookie-python/actions?query=branch%3Amain
 [logo]: https://raw.github.com/smkent/cookie-python/main/img/cookie-python.png
 [mypy]: https://github.com/python/mypy
-[pep8-naming]: https://github.com/PyCQA/pep8-naming
 [pipx]: https://pypa.github.io/pipx/
 [poetry-dynamic-versioning]: https://github.com/mtkennerly/poetry-dynamic-versioning
 [poetry-installation]: https://python-poetry.org/docs/#installation
@@ -87,5 +77,5 @@ cookiecutter https://github.com/smkent/cookie-python
 [pre-commit]: https://pre-commit.com/
 [pypi]: https://pypi.org/project/cookie-python/
 [pytest]: https://docs.pytest.org
-[pyupgrade]: https://github.com/asottile/pyupgrade
 [repo]: https://github.com/smkent/cookie-python
+[ruff]: https://github.com/astral-sh/ruff
