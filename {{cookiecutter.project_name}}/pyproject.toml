@@ -31,21 +31,15 @@ poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
 
 [tool.poetry.group.dev.dependencies]
 bandit = {extras = ["toml"], version = "*"}
-black = "*"
 cruft = "*"
-flake8 = "*"
-flake8-bugbear = "*"
-flake8-pyproject = "*"
-flake8-simplify = "*"
-isort = "*"
 mypy = "*"
-pep8-naming = "*"
 poethepoet = "*"
 pre-commit = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-github-actions-annotate-failures = "*"
 pytest-sugar = "*"
+ruff = "*"
 
 [tool.poetry-dynamic-versioning]
 enable = true
@@ -67,9 +61,6 @@ help = "Run all tests"
 [tool.bandit]
 skips = ["B101"]  # assert_used
 
-[tool.black]
-line-length = 79
-
 [tool.coverage.run]
 source = ["{{ cookiecutter.project_slug }}"]
 
@@ -79,14 +70,6 @@ show_missing = true
 
 [tool.cruft]
 skip = [".git"]
-
-[tool.flake8]
-exclude = "./.*"
-
-[tool.isort]
-atomic = true
-profile = "black"
-line_length = 79
 
 [tool.mypy]
 files = [ "tests", "{{ cookiecutter.project_slug }}" ]
@@ -106,5 +89,31 @@ addopts = """\
     --cov-report xml:.pytest_coverage.xml \
     --junitxml=.pytest_results.xml \
 """
+
+[tool.ruff]
+target-version = "py310"
+line-length = 79
+fix = true
+
+select = [
+  "E", "W",     # pycodestyle
+  "F",          # pyflakes
+  "I",          # isort
+  "B",          # bugbear
+  "SIM",        # flake8-simplify
+  "N",          # pep8-naming
+  "UP",         # pyupgrade
+]
+
+exclude = [
+  ".git",
+  ".venv",
+  "__pycache__",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
 
 # vim: ft=cfg
