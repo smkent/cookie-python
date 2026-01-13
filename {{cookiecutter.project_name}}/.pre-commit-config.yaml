@@ -1,51 +1,29 @@
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
-    - id: check-yaml
-    - id: check-merge-conflict
-    - id: debug-statements
-    - id: end-of-file-fixer
-    - id: trailing-whitespace
-  - repo: https://github.com/psf/black
-    rev: 23.1.0
-    hooks:
-    - id: black
-      args: ["--config", "pyproject.toml"]
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
-    hooks:
-    - id: isort
-      args: ["--show-config"]
-  - repo: https://github.com/pycqa/bandit
-    rev: 1.7.4
-    hooks:
-    - id: bandit
-      additional_dependencies: ['.[toml]']
-      args: ["--configfile", "pyproject.toml"]
-      exclude: '^tests/'
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
-    hooks:
-    - id: flake8
-      additional_dependencies:
-      - flake8-bugbear
-      - flake8-pyproject
-      - flake8-simplify
-      - pep8-naming
-  - repo: https://github.com/pycqa/autoflake
-    rev: v2.0.1
-    hooks:
-    - id: autoflake
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
-    hooks:
-    - id: pyupgrade
-      args: ["--py39-plus", "--keep-runtime-typing"]
-  - repo: local
-    hooks:
-    - id: mypy
-      name: mypy
-      language: python
-      types_or: [python, pyi]
-      entry: env -u VIRTUAL_ENV poetry run mypy
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+  - id: check-yaml
+  - id: check-merge-conflict
+  - id: debug-statements
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.14.11
+  hooks:
+  - id: ruff
+    args: ["--fix"]
+  - id: ruff-format
+- repo: https://github.com/pycqa/bandit
+  rev: 1.9.2
+  hooks:
+  - id: bandit
+    additional_dependencies: ['.[toml]']
+    args: ["--configfile", "pyproject.toml"]
+    exclude: '^tests/'
+- repo: local
+  hooks:
+  - id: mypy
+    name: mypy
+    language: python
+    types_or: [python, pyi]
+    entry: env -u VIRTUAL_ENV poetry run mypy

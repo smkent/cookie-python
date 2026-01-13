@@ -4,8 +4,8 @@ name: Build
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ "{{" }} github.repository }}
-  RELEASE_PYTHON_VERSION: "3.12"
-  RELEASE_POETRY_VERSION: "2.0"
+  RELEASE_PYTHON_VERSION: "3.14"
+  RELEASE_POETRY_VERSION: "2.2"
 
 on:
   pull_request:
