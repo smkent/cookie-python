@@ -54,9 +54,10 @@ def locate_new_project(parent_dir: str) -> str:
                 .strip()
                 == "?? .cruft.json"
             ), f"Detected project directory {sub_dir} has unexpected contents"
-            assert (
-                time.time() - os.stat(sub_dir).st_ctime < 60
-            ), f"Detected project directory {sub_dir} was not created just now"
+            assert time.time() - os.stat(sub_dir).st_ctime < 60, (
+                f"Detected project directory {sub_dir}"
+                " was not created just now"
+            )
             return sub_dir
     raise Exception("Unable to locate newly-created project directory")
 

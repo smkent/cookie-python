@@ -68,12 +68,12 @@ def test_project_license(cookies: Any, project_license: str) -> None:
     if project_license in ("MIT", "BSD-3-Clause"):
         # Compare copyright line separately
         if project_license == "MIT":
-            expected_copyright = "Copyright (c) {} Ness".format(
-                datetime.date.today().year
+            expected_copyright = (
+                f"Copyright (c) {datetime.date.today().year} Ness"
             )
         elif project_license == "BSD-3-Clause":
-            expected_copyright = "Copyright (c) {}, Ness".format(
-                datetime.date.today().year
+            expected_copyright = (
+                f"Copyright (c) {datetime.date.today().year}, Ness"
             )
         assert license_data.splitlines()[0] == expected_copyright
         license_data = os.linesep.join(license_data.split(os.linesep)[1:])

@@ -1,7 +1,6 @@
 import contextlib
 import os
 from functools import cached_property, lru_cache
-from typing import Optional
 
 import github
 from github.PullRequest import PullRequest
@@ -27,11 +26,12 @@ class GithubRepo:
 
     def find_pr(
         self, repo: Repository, head: str, base: str = "main"
-    ) -> Optional[PullRequest]:
+    ) -> PullRequest | None:
         pulls = [
             pr
             for pr in repo.get_pulls(
-                head=f"{self.username}:{head}", base=base  # noqa: E231
+                head=f"{self.username}:{head}",
+                base=base,  # noqa: E231
             )
         ]
         if not pulls:
