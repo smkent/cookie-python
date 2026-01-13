@@ -1,29 +1,29 @@
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
-    - id: check-yaml
-    - id: check-merge-conflict
-    - id: debug-statements
-    - id: end-of-file-fixer
-    - id: trailing-whitespace
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.14
-    hooks:
-    - id: ruff
-      args: ["--fix"]
-    - id: ruff-format
-  - repo: https://github.com/pycqa/bandit
-    rev: 1.7.4
-    hooks:
-    - id: bandit
-      additional_dependencies: ['.[toml]']
-      args: ["--configfile", "pyproject.toml"]
-      exclude: '^tests/'
-  - repo: local
-    hooks:
-    - id: mypy
-      name: mypy
-      language: python
-      types_or: [python, pyi]
-      entry: env -u VIRTUAL_ENV poetry run mypy
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+  - id: check-yaml
+  - id: check-merge-conflict
+  - id: debug-statements
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.1.14
+  hooks:
+  - id: ruff
+    args: ["--fix"]
+  - id: ruff-format
+- repo: https://github.com/pycqa/bandit
+  rev: 1.7.4
+  hooks:
+  - id: bandit
+    additional_dependencies: ['.[toml]']
+    args: ["--configfile", "pyproject.toml"]
+    exclude: '^tests/'
+- repo: local
+  hooks:
+  - id: mypy
+    name: mypy
+    language: python
+    types_or: [python, pyi]
+    entry: env -u VIRTUAL_ENV poetry run mypy
