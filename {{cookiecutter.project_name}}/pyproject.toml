@@ -81,14 +81,15 @@ warn_return_any = true
 show_error_codes = true
 warn_unused_ignores = true
 
-[tool.pytest.ini_options]
-addopts = """\
-    --cov \
-    --cov-append \
-    --cov-report term \
-    --cov-report xml:.pytest_coverage.xml \
-    --junitxml=.pytest_results.xml \
-"""
+[tool.pytest]
+testpaths = ['tests']
+addopts = [
+    "--cov",
+    "--cov-append",
+    "--cov-report=term",
+    "--cov-report=xml:.pytest_coverage.xml",
+    "--junitxml=.pytest_results.xml",
+]
 
 [tool.ruff]
 target-version = "py310"
