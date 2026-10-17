@@ -1,4 +1,10 @@
-# [Cookiecutter][cookiecutter] template for new Python projects
+> [!WARNING]
+>
+> **cookie-python is deprecated!** Consider **[copier-python](https://github.com/smkent/copier-python)** instead, which is my newer Python project template.
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
+# DEPRECATED: [Cookiecutter][cookiecutter] template for new Python projects
 
 [![PyPI](https://img.shields.io/pypi/v/cookie-python)][pypi]
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/cookie-python)][pypi]
